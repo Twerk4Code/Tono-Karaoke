@@ -1,0 +1,4 @@
+module Soundpipe {
+    umbrella header "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/Soundpipe/include/Soundpipe.h"
+    export *
+}

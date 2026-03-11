@@ -1,0 +1,51 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="bg" x1="120" y1="90" x2="900" y2="930" gradientUnits="userSpaceOnUse">
+<stop stop-color="#12122B"/>
+<stop offset="0.52" stop-color="#090914"/>
+<stop offset="1" stop-color="#03030A"/>
+</linearGradient>
+<radialGradient id="cyanGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(384 430) rotate(49.2) scale(436 308)">
+<stop stop-color="#00E5FF" stop-opacity="0.85"/>
+<stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="purpleGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(652 592) rotate(123.4) scale(418 296)">
+<stop stop-color="#A000FF" stop-opacity="0.82"/>
+<stop offset="1" stop-color="#A000FF" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="leftStroke" x1="300" y1="300" x2="470" y2="760" gradientUnits="userSpaceOnUse">
+<stop stop-color="#8FF4FF"/>
+<stop offset="1" stop-color="#00C8FF"/>
+</linearGradient>
+<linearGradient id="rightStroke" x1="730" y1="300" x2="558" y2="760" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D28DFF"/>
+<stop offset="1" stop-color="#8C32FF"/>
+</linearGradient>
+<filter id="softBlur" x="102" y="102" width="820" height="820" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="46"/>
+</filter>
+<filter id="barGlow" x="218" y="194" width="590" height="636" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="14"/>
+</filter>
+</defs>
+<rect x="48" y="48" width="928" height="928" rx="224" fill="url(#bg)"/>
+<rect x="48" y="48" width="928" height="928" rx="224" stroke="white" stroke-opacity="0.08"/>
+<g filter="url(#softBlur)">
+<circle cx="360" cy="410" r="192" fill="url(#cyanGlow)"/>
+<circle cx="660" cy="612" r="190" fill="url(#purpleGlow)"/>
+</g>
+<path d="M214 254C311 171 442 154 563 182C683 209 780 274 826 374" stroke="white" stroke-opacity="0.09" stroke-width="28" stroke-linecap="round"/>
+<path d="M194 780C298 851 440 873 573 844C706 816 807 732 844 624" stroke="white" stroke-opacity="0.08" stroke-width="24" stroke-linecap="round"/>
+<g filter="url(#barGlow)" opacity="0.9">
+<path d="M349 274V748" stroke="#00E5FF" stroke-opacity="0.38" stroke-width="34" stroke-linecap="round"/>
+<path d="M431 226V796" stroke="#2AEEFF" stroke-opacity="0.48" stroke-width="42" stroke-linecap="round"/>
+<path d="M593 226V796" stroke="#B163FF" stroke-opacity="0.45" stroke-width="42" stroke-linecap="round"/>
+<path d="M675 274V748" stroke="#A000FF" stroke-opacity="0.34" stroke-width="34" stroke-linecap="round"/>
+</g>
+<path d="M334 296V726" stroke="url(#leftStroke)" stroke-width="26" stroke-linecap="round"/>
+<path d="M418 220V804" stroke="url(#leftStroke)" stroke-width="42" stroke-linecap="round"/>
+<path d="M512 166V858" stroke="white" stroke-opacity="0.92" stroke-width="20" stroke-linecap="round"/>
+<path d="M606 220V804" stroke="url(#rightStroke)" stroke-width="42" stroke-linecap="round"/>
+<path d="M690 296V726" stroke="url(#rightStroke)" stroke-width="26" stroke-linecap="round"/>
+<rect x="230" y="180" width="564" height="664" rx="220" stroke="white" stroke-opacity="0.06" stroke-width="2"/>
+</svg>

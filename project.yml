@@ -1,0 +1,111 @@
+name: Tono
+
+options:
+  bundleIdPrefix: com.tono
+  createIntermediateGroups: true
+  defaultConfig: Debug
+
+packages:
+  AudioKit:
+    url: https://github.com/AudioKit/AudioKit.git
+    from: "5.6.2"
+  SoundpipeAudioKit:
+    url: https://github.com/AudioKit/SoundpipeAudioKit.git
+    from: "5.6.2"
+
+targets:
+  Tono:
+    type: application
+    platform: macOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: Tono
+        excludes:
+          - "Info.plist"
+          - "Tono.entitlements"
+    dependencies:
+      - package: AudioKit
+        product: AudioKit
+      - package: SoundpipeAudioKit
+        product: SoundpipeAudioKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tono.karaoke
+        INFOPLIST_FILE: Tono/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_ENTITLEMENTS: Tono/Tono.entitlements
+        CODE_SIGN_STYLE: Automatic
+        MACOSX_DEPLOYMENT_TARGET: "26.0"
+        SWIFT_VERSION: "6.0"
+        PRODUCT_NAME: Tono
+        SWIFT_STRICT_CONCURRENCY: complete
+        ALWAYS_SEARCH_USER_PATHS: NO
+        # libtorch C++ integration
+        SWIFT_OBJC_BRIDGING_HEADER: Tono/Tono-Bridging-Header.h
+        HEADER_SEARCH_PATHS:
+          - "$(SRCROOT)/libtorch/include"
+          - "$(SRCROOT)/libtorch/include/torch/csrc/api/include"
+        LIBRARY_SEARCH_PATHS:
+          - "$(SRCROOT)/libtorch/lib"
+        LD_RUNPATH_SEARCH_PATHS:
+          - "@executable_path/../Frameworks"
+        OTHER_LDFLAGS:
+          - "-lc10"
+          - "-ltorch_cpu"
+          - "-ltorch"
+          - "-all_load"
+        CLANG_CXX_LANGUAGE_STANDARD: "c++17"
+    postBuildScripts:
+      - name: Embed and Sign LibTorch
+        basedOnDependencyAnalysis: false
+        script: |
+          set -euo pipefail
+
+          FRAMEWORKS_DIR="${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+          EXECUTABLE_PATH_FULL="${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}"
+          LIBTORCH_LIB="${SRCROOT}/libtorch/lib"
+          LIBOMP_SRC="/opt/homebrew/opt/libomp/lib/libomp.dylib"
+          SIGN_IDENTITY="${EXPANDED_CODE_SIGN_IDENTITY:-}"
+          if [ -z "${SIGN_IDENTITY}" ]; then
+            SIGN_IDENTITY="-"
+          fi
+
+          DYLIBS=(libc10.dylib libtorch_cpu.dylib libtorch.dylib libtorch_global_deps.dylib)
+          ALL_DYLIBS=(libc10.dylib libtorch_cpu.dylib libtorch.dylib libtorch_global_deps.dylib libomp.dylib)
+
+          mkdir -p "${FRAMEWORKS_DIR}"
+
+          for dylib in "${DYLIBS[@]}"; do
+            cp -f "${LIBTORCH_LIB}/${dylib}" "${FRAMEWORKS_DIR}/${dylib}"
+            chmod 755 "${FRAMEWORKS_DIR}/${dylib}"
+          done
+
+          if [ -f "${LIBOMP_SRC}" ]; then
+            cp -f "${LIBOMP_SRC}" "${FRAMEWORKS_DIR}/libomp.dylib"
+            chmod 755 "${FRAMEWORKS_DIR}/libomp.dylib"
+          fi
+
+          for dylib in "${ALL_DYLIBS[@]}"; do
+            target="${FRAMEWORKS_DIR}/${dylib}"
+            if [ ! -f "${target}" ]; then
+              continue
+            fi
+            /usr/bin/codesign --remove-signature "${target}" 2>/dev/null || true
+            install_name_tool -id "@rpath/${dylib}" "${target}" || true
+            if otool -L "${target}" | grep -q "/opt/homebrew/opt/libomp/lib/libomp.dylib"; then
+              install_name_tool -change "/opt/homebrew/opt/libomp/lib/libomp.dylib" "@rpath/libomp.dylib" "${target}" || true
+            fi
+          done
+
+          if [ -f "${EXECUTABLE_PATH_FULL}" ] && otool -L "${EXECUTABLE_PATH_FULL}" | grep -q "/opt/homebrew/opt/libomp/lib/libomp.dylib"; then
+            /usr/bin/codesign --remove-signature "${EXECUTABLE_PATH_FULL}" 2>/dev/null || true
+            install_name_tool -change "/opt/homebrew/opt/libomp/lib/libomp.dylib" "@rpath/libomp.dylib" "${EXECUTABLE_PATH_FULL}" || true
+          fi
+
+          for dylib in "${ALL_DYLIBS[@]}"; do
+            target="${FRAMEWORKS_DIR}/${dylib}"
+            if [ -f "${target}" ]; then
+              /usr/bin/codesign --force --sign "${SIGN_IDENTITY}" --timestamp=none "${target}"
+            fi
+          done

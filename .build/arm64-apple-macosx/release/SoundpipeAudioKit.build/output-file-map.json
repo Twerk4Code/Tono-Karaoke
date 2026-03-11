@@ -1,0 +1,355 @@
+{
+  "": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/SoundpipeAudioKit.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/SoundpipeAudioKit.o",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/master.swiftdeps"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/AmplitudeEnvelope.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AmplitudeEnvelope.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AmplitudeEnvelope~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AmplitudeEnvelope.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AmplitudeEnvelope.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/AutoPanner.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoPanner.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoPanner~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoPanner.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoPanner.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/AutoWah.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoWah.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoWah~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoWah.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/AutoWah.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Balancer.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Balancer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Balancer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Balancer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Balancer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/BandPassButterworthFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandPassButterworthFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandPassButterworthFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandPassButterworthFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandPassButterworthFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/BandRejectButterworthFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandRejectButterworthFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandRejectButterworthFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandRejectButterworthFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BandRejectButterworthFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/BitCrusher.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BitCrusher.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BitCrusher~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BitCrusher.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BitCrusher.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/ChowningReverb.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ChowningReverb.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ChowningReverb~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ChowningReverb.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ChowningReverb.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Clipper.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Clipper.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Clipper~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Clipper.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Clipper.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/CombFilterReverb.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CombFilterReverb.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CombFilterReverb~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CombFilterReverb.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CombFilterReverb.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Convolution.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Convolution.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Convolution~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Convolution.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Convolution.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/CostelloReverb.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CostelloReverb.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CostelloReverb~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CostelloReverb.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/CostelloReverb.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/DCBlock.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DCBlock.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DCBlock~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DCBlock.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DCBlock.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/DiodeLadderFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DiodeLadderFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DiodeLadderFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DiodeLadderFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DiodeLadderFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/DynamicRangeCompressor.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicRangeCompressor.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicRangeCompressor~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicRangeCompressor.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicRangeCompressor.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Ensemble.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Ensemble.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Ensemble~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Ensemble.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Ensemble.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/EqualizerFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/EqualizerFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/EqualizerFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/EqualizerFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/EqualizerFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/FlatFrequencyResponseReverb.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FlatFrequencyResponseReverb.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FlatFrequencyResponseReverb~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FlatFrequencyResponseReverb.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FlatFrequencyResponseReverb.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/FormantFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FormantFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FormantFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FormantFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FormantFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/HighPassButterworthFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighPassButterworthFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighPassButterworthFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighPassButterworthFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighPassButterworthFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/HighShelfParametricEqualizerFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighShelfParametricEqualizerFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighShelfParametricEqualizerFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighShelfParametricEqualizerFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/HighShelfParametricEqualizerFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/KorgLowPassFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/KorgLowPassFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/KorgLowPassFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/KorgLowPassFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/KorgLowPassFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/LowPassButterworthFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowPassButterworthFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowPassButterworthFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowPassButterworthFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowPassButterworthFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/LowShelfParametricEqualizerFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowShelfParametricEqualizerFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowShelfParametricEqualizerFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowShelfParametricEqualizerFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/LowShelfParametricEqualizerFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/ModalResonanceFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ModalResonanceFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ModalResonanceFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ModalResonanceFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ModalResonanceFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/MoogLadder.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MoogLadder.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MoogLadder~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MoogLadder.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MoogLadder.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Panner.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Panner.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Panner~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Panner.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Panner.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/PeakingParametricEqualizerFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PeakingParametricEqualizerFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PeakingParametricEqualizerFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PeakingParametricEqualizerFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PeakingParametricEqualizerFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Phaser.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Phaser.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Phaser~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Phaser.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Phaser.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/PitchCorrect.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchCorrect.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchCorrect~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchCorrect.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchCorrect.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/PitchShifter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchShifter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchShifter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchShifter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchShifter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/ResonantFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ResonantFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ResonantFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ResonantFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ResonantFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/RolandTB303Filter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/RolandTB303Filter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/RolandTB303Filter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/RolandTB303Filter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/RolandTB303Filter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/StringResonator.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/StringResonator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/StringResonator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/StringResonator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/StringResonator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Talkbox.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Talkbox.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Talkbox~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Talkbox.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Talkbox.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/TanhDistortion.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/TanhDistortion.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/TanhDistortion~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/TanhDistortion.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/TanhDistortion.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/ThreePoleLowpassFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ThreePoleLowpassFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ThreePoleLowpassFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ThreePoleLowpassFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ThreePoleLowpassFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/ToneComplementFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneComplementFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneComplementFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneComplementFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneComplementFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/ToneFilter.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ToneFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Tremolo.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Tremolo.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Tremolo~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Tremolo.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Tremolo.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/VariableDelay.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VariableDelay.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VariableDelay~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VariableDelay.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VariableDelay.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Vibrato.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vibrato.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vibrato~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vibrato.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vibrato.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/Vocoder.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vocoder.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vocoder~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vocoder.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Vocoder.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Effects/ZitaReverb.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ZitaReverb.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ZitaReverb~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ZitaReverb.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/ZitaReverb.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/BrownianNoise.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BrownianNoise.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BrownianNoise~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BrownianNoise.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/BrownianNoise.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/DynamicOscillator.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicOscillator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicOscillator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicOscillator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/DynamicOscillator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/FMOscillator.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FMOscillator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FMOscillator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FMOscillator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/FMOscillator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/MetalBar.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MetalBar.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MetalBar~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MetalBar.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MetalBar.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/MorphingOscillator.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MorphingOscillator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MorphingOscillator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MorphingOscillator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/MorphingOscillator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/Oscillator.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Oscillator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Oscillator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Oscillator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/Oscillator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/PWMOscillator.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PWMOscillator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PWMOscillator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PWMOscillator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PWMOscillator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/PhaseDistortionOscillator.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseDistortionOscillator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseDistortionOscillator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseDistortionOscillator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseDistortionOscillator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/PhaseLockedVocoder.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseLockedVocoder.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseLockedVocoder~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseLockedVocoder.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PhaseLockedVocoder.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/PinkNoise.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PinkNoise.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PinkNoise~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PinkNoise.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PinkNoise.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/PluckedString.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PluckedString.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PluckedString~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PluckedString.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PluckedString.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/VocalTract.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VocalTract.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VocalTract~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VocalTract.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/VocalTract.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/Generators/WhiteNoise.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/WhiteNoise.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/WhiteNoise~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/WhiteNoise.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/WhiteNoise.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/SoundpipeAudioKit/PitchTap.swift": {
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchTap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchTap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/release/SoundpipeAudioKit.build/PitchTap.dia"
+  }
+}

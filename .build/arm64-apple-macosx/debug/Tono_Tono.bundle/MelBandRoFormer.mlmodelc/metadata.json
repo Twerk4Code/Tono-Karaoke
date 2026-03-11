@@ -1,0 +1,93 @@
+[
+  {
+    "shortDescription" : "Mel-Band RoFormer vocal separation model (no-STFT). Input: mel-band selected STFT spectrogram. Output: separation masks.",
+    "metadataOutputVersion" : "3.0",
+    "outputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 1 × 3958 × 258 × 2)",
+        "shortDescription" : "",
+        "shape" : "[1, 1, 3958, 258, 2]",
+        "name" : "masks_output",
+        "type" : "MultiArray"
+      }
+    ],
+    "version" : "1.0",
+    "modelParameters" : [
+
+    ],
+    "author" : "Tono App (converted from ZFTurbo\/Music-Source-Separation-Training)",
+    "specificationVersion" : 9,
+    "storagePrecision" : "Mixed (Float16, Int32)",
+    "mlProgramOperationTypeHistogram" : {
+      "Ios18.expandDims" : 25,
+      "Ios18.mul" : 540,
+      "Ios18.realDiv" : 132,
+      "Ios18.sigmoid" : 84,
+      "Ios18.scaledDotProductAttention" : 24,
+      "Split" : 62,
+      "Tile" : 132,
+      "Ios18.add" : 96,
+      "Ios18.reshape" : 98,
+      "Ios18.maximum" : 132,
+      "Ios18.linear" : 360,
+      "Ios18.gelu" : 24,
+      "Ios18.concat" : 49,
+      "Ios18.sub" : 48,
+      "Ios18.tanh" : 120,
+      "Stack" : 1,
+      "Ios18.transpose" : 98,
+      "Ios18.sliceByIndex" : 168,
+      "Ios18.squeeze" : 60,
+      "Ios16.reduceL2Norm" : 132
+    },
+    "computePrecision" : "Mixed (Float16, Int32)",
+    "stateSchema" : [
+
+    ],
+    "isUpdatable" : "0",
+    "availability" : {
+      "macOS" : "15.0",
+      "tvOS" : "18.0",
+      "visionOS" : "2.0",
+      "watchOS" : "11.0",
+      "iOS" : "18.0",
+      "macCatalyst" : "18.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_mlProgram"
+    },
+    "inputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 3958 × 258 × 2)",
+        "shortDescription" : "",
+        "shape" : "[1, 3958, 258, 2]",
+        "name" : "spectrogram_input",
+        "type" : "MultiArray"
+      }
+    ],
+    "userDefinedMetadata" : {
+      "num_bands" : "60",
+      "model_name" : "mel_band_roformer_ep_3005_sdr_11.4360",
+      "stft_win_length" : "2048",
+      "num_freq_indices" : "3958",
+      "com.github.apple.coremltools.version" : "9.0",
+      "sample_rate" : "44100",
+      "stft_hop_length" : "512",
+      "com.github.apple.coremltools.conversion_date" : "2026-03-05",
+      "stft_n_fft" : "2048",
+      "time_frames" : "258",
+      "com.github.apple.coremltools.source_dialect" : "TorchScript",
+      "com.github.apple.coremltools.source" : "torch==2.7.0",
+      "stereo" : "True",
+      "chunk_size" : "131584"
+    },
+    "generatedClassName" : "MelBandRoFormer",
+    "method" : "predict"
+  }
+]

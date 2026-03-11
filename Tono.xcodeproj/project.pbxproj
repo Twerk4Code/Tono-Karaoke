@@ -1,0 +1,663 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04032E21230977B9C83DC124 /* ThreeBandEQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE1F60A29C5175AA5C92803 /* ThreeBandEQ.swift */; };
+		043E2B61A71ED7A3C58C2284 /* PitchDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A249450A4323DE948FF250DD /* PitchDisplay.swift */; };
+		11864E64EE39E1469CAAD001 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4BE125C05FB59E9D2D4520 /* LibraryViewModel.swift */; };
+		136AA04EAC3EC53A49FC1321 /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2604637CB9828C448416835E /* AudioEngineManager.swift */; };
+		15A47D5C795EE741973E96BD /* TransportControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4430F34863E6C4643A19E354 /* TransportControls.swift */; };
+		17A9FA930CC5676DB688B4D7 /* PerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AB0DFDC59373F7E3F15A50 /* PerformanceView.swift */; };
+		252F161B1D091406951A7661 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CDEAD7ABA4C7414B91581D /* ContentView.swift */; };
+		2B9763E3B5D1514E42A35726 /* LyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAF5B9C498844273B82AAD6 /* LyricsViewModel.swift */; };
+		2D22006F874BA5C968E1A333 /* EffectsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320A5A4B58B98C194482C47D /* EffectsViewModel.swift */; };
+		35560C57DF25038B0BD4B06C /* STFTProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7CB6D1D1C83CA006326B3 /* STFTProcessor.swift */; };
+		4275A818C77E502267A179E7 /* MetadataExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC4EC54F30F1251C6B671E /* MetadataExtractor.swift */; };
+		4FCFCA79D730CF8F42312484 /* PlaybackVisualizerFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BECB72A58E4942CF4085D25 /* PlaybackVisualizerFeatures.swift */; };
+		54987723A8D7DD453EF93BF4 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EACD6CB16670B9C4E28C44 /* WaveformView.swift */; };
+		56203025BB16B71833331398 /* PitchTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868313F8CD5EA8C307B2D639 /* PitchTracker.swift */; };
+		56B739C32413698661532931 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235E828C83EA8A0F5B0AC44 /* SettingsView.swift */; };
+		5950FE3B1837279BB3C9F8D1 /* SongCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA05943A0CD9EC11C95AC6C7 /* SongCard.swift */; };
+		735CAA6FF074DDDF429375AE /* MelBandRoFormer.mlmodelc in Resources */ = {isa = PBXBuildFile; fileRef = 22E1A666340CE5FA7A12C768 /* MelBandRoFormer.mlmodelc */; };
+		75EC21577C83DAD9723DA198 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951A5C6CA31C1D06F2075554 /* Color+Hex.swift */; };
+		809CF123EF0FAC1F6AD57CCE /* TonoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F24D9AFA399D9078B546D /* TonoApp.swift */; };
+		80B382D39DED2A3824D74AF5 /* TorchModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86AD8AAB0E45E45F1D6EE913 /* TorchModule.mm */; };
+		8147C18882FF85B7A49213D7 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F58193DF694099DA349406 /* AppSettings.swift */; };
+		831941DFCB1F1A033E1051D6 /* LyricsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0B972C1150CB6C204F4B82 /* LyricsDisplay.swift */; };
+		8493356A2F62131B009893F4 /* libtorch_cpu.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 849335642F62131B009893F4 /* libtorch_cpu.dylib */; };
+		8493356B2F62131B009893F4 /* libtorch_cpu.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 849335642F62131B009893F4 /* libtorch_cpu.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		8493356C2F62131B009893F4 /* libtorch_global_deps.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 849335652F62131B009893F4 /* libtorch_global_deps.dylib */; };
+		8493356D2F62131B009893F4 /* libtorch_global_deps.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 849335652F62131B009893F4 /* libtorch_global_deps.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		8493356E2F62131B009893F4 /* libshm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 849335662F62131B009893F4 /* libshm.dylib */; };
+		8493356F2F62131B009893F4 /* libshm.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 849335662F62131B009893F4 /* libshm.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		849335702F62131B009893F4 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 849335672F62131B009893F4 /* libomp.dylib */; };
+		849335712F62131B009893F4 /* libomp.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 849335672F62131B009893F4 /* libomp.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		849335722F62131B009893F4 /* libc10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 849335682F62131B009893F4 /* libc10.dylib */; };
+		849335732F62131B009893F4 /* libc10.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 849335682F62131B009893F4 /* libc10.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		849335742F62131B009893F4 /* libtorch.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 849335692F62131B009893F4 /* libtorch.dylib */; };
+		849335752F62131B009893F4 /* libtorch.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 849335692F62131B009893F4 /* libtorch.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		862E2E36D89D7F8E094E7B04 /* UploadFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528B4902B5B6B48F8DA1EA4A /* UploadFileStore.swift */; };
+		8771AC7F75E647D8D25BEACC /* AudioDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC8D235FADF08EDC242BD07 /* AudioDeviceManager.swift */; };
+		8FC6CA9DD3DA7605BE52780D /* MixerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48FEA99F0CED54163895F1E /* MixerPanel.swift */; };
+		93CA2F18E079330B73E03BB2 /* NoteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF13D93B2EE78E5775FD00F /* NoteHelper.swift */; };
+		980018211020272B5CB78C08 /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5614372EE373A706107DE5AE /* AudioKit */; };
+		9B948D4CA74B20D15DCADEE5 /* PitchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246CBF7095F16622B97E00D5 /* PitchViewModel.swift */; };
+		9BC192ABA8C5328F149CEEF0 /* TimeInterval+Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4705C0ED0C3669B535DA22FC /* TimeInterval+Format.swift */; };
+		9CE6A21468A65311B3E7743D /* WaveformGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956E20175996DB887D9762D6 /* WaveformGenerator.swift */; };
+		9DBCDC18E93A1CDE68DFDC35 /* Lyric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F035CCA13071D16C5C72237 /* Lyric.swift */; };
+		9F76CF5885D370CB7F7C6F9E /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0C89AFB63F94819797F98A /* Song.swift */; };
+		A135A9073C21D9658C9DB516 /* MelBandRoformer.pt in Resources */ = {isa = PBXBuildFile; fileRef = 96F4BE2FD395F6CBC11E8A74 /* MelBandRoformer.pt */; };
+		A7843FDEE45257595A89C63B /* VisualizerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D46837371CB4E48D10B4D /* VisualizerSettings.swift */; };
+		AF01B04328D6967A6C31AADF /* StemFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254846AA62B05180FF7EDE2 /* StemFileStore.swift */; };
+		B722485EF4D61F89C882D068 /* MetalAudioProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965D9877EA2A394051CE3DA /* MetalAudioProcessor.swift */; };
+		BAB71A4A0D907F8759F6056C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E43F4F73467F0D5FC05F51BD /* Assets.xcassets */; };
+		BCAD560B0952A0B4B4C7B7A9 /* EffectsProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFAA94BE2118743C6C2FD18 /* EffectsProcessor.swift */; };
+		C05CB9298BD0F8037BD6D192 /* SongLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62198ED3B0F553E628626549 /* SongLibrary.swift */; };
+		C16E0C2140B08486104F2282 /* EffectsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE669C261671B9558E90F69 /* EffectsPanel.swift */; };
+		C78E64229ECDB9CBD3F3B9F8 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C26FBE8168AFA1749169D /* PlayerViewModel.swift */; };
+		C9AA9621608B3F996BD7DF7D /* LibraryFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42FC227877E33678D60964F /* LibraryFolder.swift */; };
+		D4786963A0F448B781BF9C3D /* PitchReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63F8F0F530D8B2147828F3B /* PitchReading.swift */; };
+		D6832ED6BAA225367EE00FF3 /* SoundpipeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = E828039040C02BA132BCBD6E /* SoundpipeAudioKit */; };
+		DB5887F5CA6790E0320A93E7 /* VocalSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABA3D5BA381050CBCFE17A5 /* VocalSeparator.swift */; };
+		E00C5CBEED3ACA4C5C5D8D9A /* MenuBarExtraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60AA443FF14E89B608EC51 /* MenuBarExtraView.swift */; };
+		E9DB1880C90C79845738E6F5 /* AudioSeparation.metal in Sources */ = {isa = PBXBuildFile; fileRef = 688298B9E96A7366A7439F7D /* AudioSeparation.metal */; };
+		EA257982A29DF697707E9C0F /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54FB570ADF8C125E2951A67 /* LibraryView.swift */; };
+		EBC30C95142E6A01383CC907 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EE2C8D3D99112F8FABB1AE /* UIConstants.swift */; };
+		F16A5D0F6E6C8C95FA6CA335 /* LyricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549B904BFC6D7B2BCC2B3EB3 /* LyricsService.swift */; };
+		F349947B939AAC9B0089632D /* PlaybackVisualizerAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8032F8C89D61BDE272DEF /* PlaybackVisualizerAnalyzer.swift */; };
+		F41C3346D17C6CF331FDDBA5 /* LyricsCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C623E58485DB7C96458DB261 /* LyricsCache.swift */; };
+		F8E4B587C2ADB0BE26135042 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143491B830DE951D72A9A6E9 /* AppState.swift */; };
+		F9E0E50C2A06E319CC9430BE /* ImportProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A40603F2E439EF0D81A193 /* ImportProgressView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		849335762F62131B009893F4 /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8493356D2F62131B009893F4 /* libtorch_global_deps.dylib in Embed Libraries */,
+				849335712F62131B009893F4 /* libomp.dylib in Embed Libraries */,
+				849335732F62131B009893F4 /* libc10.dylib in Embed Libraries */,
+				8493356B2F62131B009893F4 /* libtorch_cpu.dylib in Embed Libraries */,
+				8493356F2F62131B009893F4 /* libshm.dylib in Embed Libraries */,
+				849335752F62131B009893F4 /* libtorch.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0EAF5B9C498844273B82AAD6 /* LyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsViewModel.swift; sourceTree = "<group>"; };
+		11A40603F2E439EF0D81A193 /* ImportProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportProgressView.swift; sourceTree = "<group>"; };
+		143491B830DE951D72A9A6E9 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		17EACD6CB16670B9C4E28C44 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
+		2254846AA62B05180FF7EDE2 /* StemFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StemFileStore.swift; sourceTree = "<group>"; };
+		22E1A666340CE5FA7A12C768 /* MelBandRoFormer.mlmodelc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MelBandRoFormer.mlmodelc; sourceTree = "<group>"; };
+		246CBF7095F16622B97E00D5 /* PitchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchViewModel.swift; sourceTree = "<group>"; };
+		2604637CB9828C448416835E /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
+		2BB8032F8C89D61BDE272DEF /* PlaybackVisualizerAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackVisualizerAnalyzer.swift; sourceTree = "<group>"; };
+		320A5A4B58B98C194482C47D /* EffectsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsViewModel.swift; sourceTree = "<group>"; };
+		3ABA3D5BA381050CBCFE17A5 /* VocalSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocalSeparator.swift; sourceTree = "<group>"; };
+		3BF13D93B2EE78E5775FD00F /* NoteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteHelper.swift; sourceTree = "<group>"; };
+		4430F34863E6C4643A19E354 /* TransportControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportControls.swift; sourceTree = "<group>"; };
+		4705C0ED0C3669B535DA22FC /* TimeInterval+Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Format.swift"; sourceTree = "<group>"; };
+		5235E828C83EA8A0F5B0AC44 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		528B4902B5B6B48F8DA1EA4A /* UploadFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileStore.swift; sourceTree = "<group>"; };
+		549B904BFC6D7B2BCC2B3EB3 /* LyricsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsService.swift; sourceTree = "<group>"; };
+		5965D9877EA2A394051CE3DA /* MetalAudioProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalAudioProcessor.swift; sourceTree = "<group>"; };
+		5B60AA443FF14E89B608EC51 /* MenuBarExtraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarExtraView.swift; sourceTree = "<group>"; };
+		5DFAA94BE2118743C6C2FD18 /* EffectsProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsProcessor.swift; sourceTree = "<group>"; };
+		615535B90FA419108794EA6D /* Tono-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tono-Bridging-Header.h"; sourceTree = "<group>"; };
+		62198ED3B0F553E628626549 /* SongLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLibrary.swift; sourceTree = "<group>"; };
+		65F58193DF694099DA349406 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		688298B9E96A7366A7439F7D /* AudioSeparation.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = AudioSeparation.metal; sourceTree = "<group>"; };
+		6A7D46837371CB4E48D10B4D /* VisualizerSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerSettings.swift; sourceTree = "<group>"; };
+		7B2F24D9AFA399D9078B546D /* TonoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TonoApp.swift; sourceTree = "<group>"; };
+		7BECB72A58E4942CF4085D25 /* PlaybackVisualizerFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackVisualizerFeatures.swift; sourceTree = "<group>"; };
+		849335642F62131B009893F4 /* libtorch_cpu.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtorch_cpu.dylib; path = libtorch/lib/libtorch_cpu.dylib; sourceTree = "<group>"; };
+		849335652F62131B009893F4 /* libtorch_global_deps.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtorch_global_deps.dylib; path = libtorch/lib/libtorch_global_deps.dylib; sourceTree = "<group>"; };
+		849335662F62131B009893F4 /* libshm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libshm.dylib; path = libtorch/lib/libshm.dylib; sourceTree = "<group>"; };
+		849335672F62131B009893F4 /* libomp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libomp.dylib; path = libtorch/lib/libomp.dylib; sourceTree = "<group>"; };
+		849335682F62131B009893F4 /* libc10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libc10.dylib; path = libtorch/lib/libc10.dylib; sourceTree = "<group>"; };
+		849335692F62131B009893F4 /* libtorch.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtorch.dylib; path = libtorch/lib/libtorch.dylib; sourceTree = "<group>"; };
+		868313F8CD5EA8C307B2D639 /* PitchTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchTracker.swift; sourceTree = "<group>"; };
+		86AD8AAB0E45E45F1D6EE913 /* TorchModule.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TorchModule.mm; sourceTree = "<group>"; };
+		8E4BE125C05FB59E9D2D4520 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		951A5C6CA31C1D06F2075554 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		956E20175996DB887D9762D6 /* WaveformGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformGenerator.swift; sourceTree = "<group>"; };
+		96F4BE2FD395F6CBC11E8A74 /* MelBandRoformer.pt */ = {isa = PBXFileReference; lastKnownFileType = file; path = MelBandRoformer.pt; sourceTree = "<group>"; };
+		987C26FBE8168AFA1749169D /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		994E42BE40506204ABDFCF26 /* TorchModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TorchModule.h; sourceTree = "<group>"; };
+		9AEC4EC54F30F1251C6B671E /* MetadataExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataExtractor.swift; sourceTree = "<group>"; };
+		9CE1F60A29C5175AA5C92803 /* ThreeBandEQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeBandEQ.swift; sourceTree = "<group>"; };
+		9D0C89AFB63F94819797F98A /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		9F035CCA13071D16C5C72237 /* Lyric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lyric.swift; sourceTree = "<group>"; };
+		A249450A4323DE948FF250DD /* PitchDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchDisplay.swift; sourceTree = "<group>"; };
+		A54FB570ADF8C125E2951A67 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		AA05943A0CD9EC11C95AC6C7 /* SongCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCard.swift; sourceTree = "<group>"; };
+		B63F8F0F530D8B2147828F3B /* PitchReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchReading.swift; sourceTree = "<group>"; };
+		BEC8D235FADF08EDC242BD07 /* AudioDeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceManager.swift; sourceTree = "<group>"; };
+		BEE669C261671B9558E90F69 /* EffectsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsPanel.swift; sourceTree = "<group>"; };
+		C48FEA99F0CED54163895F1E /* MixerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixerPanel.swift; sourceTree = "<group>"; };
+		C623E58485DB7C96458DB261 /* LyricsCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsCache.swift; sourceTree = "<group>"; };
+		D4B7CB6D1D1C83CA006326B3 /* STFTProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STFTProcessor.swift; sourceTree = "<group>"; };
+		D5AB0DFDC59373F7E3F15A50 /* PerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceView.swift; sourceTree = "<group>"; };
+		E3EE2C8D3D99112F8FABB1AE /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
+		E42FC227877E33678D60964F /* LibraryFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryFolder.swift; sourceTree = "<group>"; };
+		E43F4F73467F0D5FC05F51BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EA0B972C1150CB6C204F4B82 /* LyricsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsDisplay.swift; sourceTree = "<group>"; };
+		F56F7614BF83D1438A50A811 /* Tono.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tono.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5CDEAD7ABA4C7414B91581D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		245F6FAD3161D9B468CDD3F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8493356A2F62131B009893F4 /* libtorch_cpu.dylib in Frameworks */,
+				980018211020272B5CB78C08 /* AudioKit in Frameworks */,
+				849335722F62131B009893F4 /* libc10.dylib in Frameworks */,
+				8493356E2F62131B009893F4 /* libshm.dylib in Frameworks */,
+				8493356C2F62131B009893F4 /* libtorch_global_deps.dylib in Frameworks */,
+				D6832ED6BAA225367EE00FF3 /* SoundpipeAudioKit in Frameworks */,
+				849335702F62131B009893F4 /* libomp.dylib in Frameworks */,
+				849335742F62131B009893F4 /* libtorch.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		07D73E4314712D26AEFA24BB /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3BF13D93B2EE78E5775FD00F /* NoteHelper.swift */,
+				E3EE2C8D3D99112F8FABB1AE /* UIConstants.swift */,
+				AD32BD7725105D6780BC9B71 /* Extensions */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1695C09C2CD6889D3D2D7133 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5235E828C83EA8A0F5B0AC44 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		2A0F74D9D32761218A53CAE4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F5CDEAD7ABA4C7414B91581D /* ContentView.swift */,
+				A54FB570ADF8C125E2951A67 /* LibraryView.swift */,
+				D5AB0DFDC59373F7E3F15A50 /* PerformanceView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		4B76BD4A6342CDEFBFEB14F5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BEC8D235FADF08EDC242BD07 /* AudioDeviceManager.swift */,
+				2604637CB9828C448416835E /* AudioEngineManager.swift */,
+				688298B9E96A7366A7439F7D /* AudioSeparation.metal */,
+				5DFAA94BE2118743C6C2FD18 /* EffectsProcessor.swift */,
+				C623E58485DB7C96458DB261 /* LyricsCache.swift */,
+				549B904BFC6D7B2BCC2B3EB3 /* LyricsService.swift */,
+				9AEC4EC54F30F1251C6B671E /* MetadataExtractor.swift */,
+				5965D9877EA2A394051CE3DA /* MetalAudioProcessor.swift */,
+				868313F8CD5EA8C307B2D639 /* PitchTracker.swift */,
+				2BB8032F8C89D61BDE272DEF /* PlaybackVisualizerAnalyzer.swift */,
+				62198ED3B0F553E628626549 /* SongLibrary.swift */,
+				2254846AA62B05180FF7EDE2 /* StemFileStore.swift */,
+				D4B7CB6D1D1C83CA006326B3 /* STFTProcessor.swift */,
+				9CE1F60A29C5175AA5C92803 /* ThreeBandEQ.swift */,
+				994E42BE40506204ABDFCF26 /* TorchModule.h */,
+				86AD8AAB0E45E45F1D6EE913 /* TorchModule.mm */,
+				528B4902B5B6B48F8DA1EA4A /* UploadFileStore.swift */,
+				3ABA3D5BA381050CBCFE17A5 /* VocalSeparator.swift */,
+				956E20175996DB887D9762D6 /* WaveformGenerator.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		849335632F62131B009893F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				849335682F62131B009893F4 /* libc10.dylib */,
+				849335672F62131B009893F4 /* libomp.dylib */,
+				849335662F62131B009893F4 /* libshm.dylib */,
+				849335692F62131B009893F4 /* libtorch.dylib */,
+				849335642F62131B009893F4 /* libtorch_cpu.dylib */,
+				849335652F62131B009893F4 /* libtorch_global_deps.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		85162E95710B256C36998CB0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F56F7614BF83D1438A50A811 /* Tono.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9E49006F3866610734CF47E = {
+			isa = PBXGroup;
+			children = (
+				D6636C4D128EA65D4A91590C /* Tono */,
+				849335632F62131B009893F4 /* Frameworks */,
+				85162E95710B256C36998CB0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AD32BD7725105D6780BC9B71 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				951A5C6CA31C1D06F2075554 /* Color+Hex.swift */,
+				4705C0ED0C3669B535DA22FC /* TimeInterval+Format.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B272668183F3D5AE3FEE4E0D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				65F58193DF694099DA349406 /* AppSettings.swift */,
+				E42FC227877E33678D60964F /* LibraryFolder.swift */,
+				9F035CCA13071D16C5C72237 /* Lyric.swift */,
+				B63F8F0F530D8B2147828F3B /* PitchReading.swift */,
+				7BECB72A58E4942CF4085D25 /* PlaybackVisualizerFeatures.swift */,
+				9D0C89AFB63F94819797F98A /* Song.swift */,
+				6A7D46837371CB4E48D10B4D /* VisualizerSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C36E0A08A5215B6D6E810446 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				143491B830DE951D72A9A6E9 /* AppState.swift */,
+				320A5A4B58B98C194482C47D /* EffectsViewModel.swift */,
+				8E4BE125C05FB59E9D2D4520 /* LibraryViewModel.swift */,
+				0EAF5B9C498844273B82AAD6 /* LyricsViewModel.swift */,
+				246CBF7095F16622B97E00D5 /* PitchViewModel.swift */,
+				987C26FBE8168AFA1749169D /* PlayerViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		D4256573C94BF0C40B709116 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BEE669C261671B9558E90F69 /* EffectsPanel.swift */,
+				11A40603F2E439EF0D81A193 /* ImportProgressView.swift */,
+				EA0B972C1150CB6C204F4B82 /* LyricsDisplay.swift */,
+				C48FEA99F0CED54163895F1E /* MixerPanel.swift */,
+				A249450A4323DE948FF250DD /* PitchDisplay.swift */,
+				AA05943A0CD9EC11C95AC6C7 /* SongCard.swift */,
+				4430F34863E6C4643A19E354 /* TransportControls.swift */,
+				17EACD6CB16670B9C4E28C44 /* WaveformView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		D6636C4D128EA65D4A91590C /* Tono */ = {
+			isa = PBXGroup;
+			children = (
+				E43F4F73467F0D5FC05F51BD /* Assets.xcassets */,
+				5B60AA443FF14E89B608EC51 /* MenuBarExtraView.swift */,
+				615535B90FA419108794EA6D /* Tono-Bridging-Header.h */,
+				7B2F24D9AFA399D9078B546D /* TonoApp.swift */,
+				B272668183F3D5AE3FEE4E0D /* Models */,
+				F4169AFD28C377E95A69D98A /* Resources */,
+				4B76BD4A6342CDEFBFEB14F5 /* Services */,
+				07D73E4314712D26AEFA24BB /* Utilities */,
+				C36E0A08A5215B6D6E810446 /* ViewModels */,
+				F93C83A484DDCE4265F646D0 /* Views */,
+			);
+			path = Tono;
+			sourceTree = "<group>";
+		};
+		F4169AFD28C377E95A69D98A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				22E1A666340CE5FA7A12C768 /* MelBandRoFormer.mlmodelc */,
+				96F4BE2FD395F6CBC11E8A74 /* MelBandRoformer.pt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F93C83A484DDCE4265F646D0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D4256573C94BF0C40B709116 /* Components */,
+				2A0F74D9D32761218A53CAE4 /* Main */,
+				1695C09C2CD6889D3D2D7133 /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EBE86B011C11AB11A09CEBA7 /* Tono */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 715A8CF082BA07B995045773 /* Build configuration list for PBXNativeTarget "Tono" */;
+			buildPhases = (
+				D2CE6844E9064DDAEFE492B7 /* Sources */,
+				F81029E3912AE8AF7C3D8EBF /* Resources */,
+				245F6FAD3161D9B468CDD3F7 /* Frameworks */,
+				9DCAEA95F0CDBCED003637EC /* Embed and Sign LibTorch */,
+				849335762F62131B009893F4 /* Embed Libraries */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tono;
+			packageProductDependencies = (
+				5614372EE373A706107DE5AE /* AudioKit */,
+				E828039040C02BA132BCBD6E /* SoundpipeAudioKit */,
+			);
+			productName = Tono;
+			productReference = F56F7614BF83D1438A50A811 /* Tono.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1121AB054D8122B413A4D902 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					EBE86B011C11AB11A09CEBA7 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = BFD2AB0D0932FE828387F141 /* Build configuration list for PBXProject "Tono" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = A9E49006F3866610734CF47E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2B1E439A5EBAEB37069E6549 /* XCRemoteSwiftPackageReference "AudioKit" */,
+				D25E2A100AB51459FE7AEBA8 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 85162E95710B256C36998CB0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EBE86B011C11AB11A09CEBA7 /* Tono */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F81029E3912AE8AF7C3D8EBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAB71A4A0D907F8759F6056C /* Assets.xcassets in Resources */,
+				735CAA6FF074DDDF429375AE /* MelBandRoFormer.mlmodelc in Resources */,
+				A135A9073C21D9658C9DB516 /* MelBandRoformer.pt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9DCAEA95F0CDBCED003637EC /* Embed and Sign LibTorch */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed and Sign LibTorch";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -euo pipefail\n\nFRAMEWORKS_DIR=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nEXECUTABLE_PATH_FULL=\"${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}\"\nLIBTORCH_LIB=\"${SRCROOT}/libtorch/lib\"\nLIBOMP_SRC=\"/opt/homebrew/opt/libomp/lib/libomp.dylib\"\nSIGN_IDENTITY=\"${EXPANDED_CODE_SIGN_IDENTITY:-}\"\nif [ -z \"${SIGN_IDENTITY}\" ]; then\n  SIGN_IDENTITY=\"-\"\nfi\n\nDYLIBS=(libc10.dylib libtorch_cpu.dylib libtorch.dylib libtorch_global_deps.dylib)\nALL_DYLIBS=(libc10.dylib libtorch_cpu.dylib libtorch.dylib libtorch_global_deps.dylib libomp.dylib)\n\nmkdir -p \"${FRAMEWORKS_DIR}\"\n\nfor dylib in \"${DYLIBS[@]}\"; do\n  cp -f \"${LIBTORCH_LIB}/${dylib}\" \"${FRAMEWORKS_DIR}/${dylib}\"\n  chmod 755 \"${FRAMEWORKS_DIR}/${dylib}\"\ndone\n\nif [ -f \"${LIBOMP_SRC}\" ]; then\n  cp -f \"${LIBOMP_SRC}\" \"${FRAMEWORKS_DIR}/libomp.dylib\"\n  chmod 755 \"${FRAMEWORKS_DIR}/libomp.dylib\"\nfi\n\nfor dylib in \"${ALL_DYLIBS[@]}\"; do\n  target=\"${FRAMEWORKS_DIR}/${dylib}\"\n  if [ ! -f \"${target}\" ]; then\n    continue\n  fi\n  /usr/bin/codesign --remove-signature \"${target}\" 2>/dev/null || true\n  install_name_tool -id \"@rpath/${dylib}\" \"${target}\" || true\n  if otool -L \"${target}\" | grep -q \"/opt/homebrew/opt/libomp/lib/libomp.dylib\"; then\n    install_name_tool -change \"/opt/homebrew/opt/libomp/lib/libomp.dylib\" \"@rpath/libomp.dylib\" \"${target}\" || true\n  fi\ndone\n\nif [ -f \"${EXECUTABLE_PATH_FULL}\" ] && otool -L \"${EXECUTABLE_PATH_FULL}\" | grep -q \"/opt/homebrew/opt/libomp/lib/libomp.dylib\"; then\n  /usr/bin/codesign --remove-signature \"${EXECUTABLE_PATH_FULL}\" 2>/dev/null || true\n  install_name_tool -change \"/opt/homebrew/opt/libomp/lib/libomp.dylib\" \"@rpath/libomp.dylib\" \"${EXECUTABLE_PATH_FULL}\" || true\nfi\n\nfor dylib in \"${ALL_DYLIBS[@]}\"; do\n  target=\"${FRAMEWORKS_DIR}/${dylib}\"\n  if [ -f \"${target}\" ]; then\n    /usr/bin/codesign --force --sign \"${SIGN_IDENTITY}\" --timestamp=none \"${target}\"\n  fi\ndone\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D2CE6844E9064DDAEFE492B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8147C18882FF85B7A49213D7 /* AppSettings.swift in Sources */,
+				F8E4B587C2ADB0BE26135042 /* AppState.swift in Sources */,
+				8771AC7F75E647D8D25BEACC /* AudioDeviceManager.swift in Sources */,
+				136AA04EAC3EC53A49FC1321 /* AudioEngineManager.swift in Sources */,
+				E9DB1880C90C79845738E6F5 /* AudioSeparation.metal in Sources */,
+				75EC21577C83DAD9723DA198 /* Color+Hex.swift in Sources */,
+				252F161B1D091406951A7661 /* ContentView.swift in Sources */,
+				C16E0C2140B08486104F2282 /* EffectsPanel.swift in Sources */,
+				BCAD560B0952A0B4B4C7B7A9 /* EffectsProcessor.swift in Sources */,
+				2D22006F874BA5C968E1A333 /* EffectsViewModel.swift in Sources */,
+				F9E0E50C2A06E319CC9430BE /* ImportProgressView.swift in Sources */,
+				C9AA9621608B3F996BD7DF7D /* LibraryFolder.swift in Sources */,
+				EA257982A29DF697707E9C0F /* LibraryView.swift in Sources */,
+				11864E64EE39E1469CAAD001 /* LibraryViewModel.swift in Sources */,
+				9DBCDC18E93A1CDE68DFDC35 /* Lyric.swift in Sources */,
+				F41C3346D17C6CF331FDDBA5 /* LyricsCache.swift in Sources */,
+				831941DFCB1F1A033E1051D6 /* LyricsDisplay.swift in Sources */,
+				F16A5D0F6E6C8C95FA6CA335 /* LyricsService.swift in Sources */,
+				2B9763E3B5D1514E42A35726 /* LyricsViewModel.swift in Sources */,
+				E00C5CBEED3ACA4C5C5D8D9A /* MenuBarExtraView.swift in Sources */,
+				4275A818C77E502267A179E7 /* MetadataExtractor.swift in Sources */,
+				B722485EF4D61F89C882D068 /* MetalAudioProcessor.swift in Sources */,
+				8FC6CA9DD3DA7605BE52780D /* MixerPanel.swift in Sources */,
+				93CA2F18E079330B73E03BB2 /* NoteHelper.swift in Sources */,
+				17A9FA930CC5676DB688B4D7 /* PerformanceView.swift in Sources */,
+				043E2B61A71ED7A3C58C2284 /* PitchDisplay.swift in Sources */,
+				D4786963A0F448B781BF9C3D /* PitchReading.swift in Sources */,
+				56203025BB16B71833331398 /* PitchTracker.swift in Sources */,
+				9B948D4CA74B20D15DCADEE5 /* PitchViewModel.swift in Sources */,
+				F349947B939AAC9B0089632D /* PlaybackVisualizerAnalyzer.swift in Sources */,
+				4FCFCA79D730CF8F42312484 /* PlaybackVisualizerFeatures.swift in Sources */,
+				C78E64229ECDB9CBD3F3B9F8 /* PlayerViewModel.swift in Sources */,
+				35560C57DF25038B0BD4B06C /* STFTProcessor.swift in Sources */,
+				56B739C32413698661532931 /* SettingsView.swift in Sources */,
+				9F76CF5885D370CB7F7C6F9E /* Song.swift in Sources */,
+				5950FE3B1837279BB3C9F8D1 /* SongCard.swift in Sources */,
+				C05CB9298BD0F8037BD6D192 /* SongLibrary.swift in Sources */,
+				AF01B04328D6967A6C31AADF /* StemFileStore.swift in Sources */,
+				04032E21230977B9C83DC124 /* ThreeBandEQ.swift in Sources */,
+				9BC192ABA8C5328F149CEEF0 /* TimeInterval+Format.swift in Sources */,
+				809CF123EF0FAC1F6AD57CCE /* TonoApp.swift in Sources */,
+				80B382D39DED2A3824D74AF5 /* TorchModule.mm in Sources */,
+				15A47D5C795EE741973E96BD /* TransportControls.swift in Sources */,
+				EBC30C95142E6A01383CC907 /* UIConstants.swift in Sources */,
+				862E2E36D89D7F8E094E7B04 /* UploadFileStore.swift in Sources */,
+				A7843FDEE45257595A89C63B /* VisualizerSettings.swift in Sources */,
+				DB5887F5CA6790E0320A93E7 /* VocalSeparator.swift in Sources */,
+				9CE6A21468A65311B3E7743D /* WaveformGenerator.swift in Sources */,
+				54987723A8D7DD453EF93BF4 /* WaveformView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		02C72DAC7E6C8A5FA6AE6CC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_ENTITLEMENTS = Tono/Tono.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F5DCMN89YM;
+				EXCLUDED_ARCHS = x86_64;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/libtorch/include",
+					"$(SRCROOT)/libtorch/include/torch/csrc/api/include",
+				);
+				INFOPLIST_FILE = Tono/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tono;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/libtorch/lib",
+					"$(PROJECT_DIR)/libtorch/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_LDFLAGS = (
+					"-lc10",
+					"-ltorch_cpu",
+					"-ltorch",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tono.karaoke;
+				PRODUCT_NAME = Tono;
+				SWIFT_OBJC_BRIDGING_HEADER = "Tono/Tono-Bridging-Header.h";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		16D41841B8E1319F33542AC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2C4F2D0CEEB7264840C1C637 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3DA85A919D93CC55CE51DCAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_ENTITLEMENTS = Tono/Tono.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F5DCMN89YM;
+				EXCLUDED_ARCHS = x86_64;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/libtorch/include",
+					"$(SRCROOT)/libtorch/include/torch/csrc/api/include",
+				);
+				INFOPLIST_FILE = Tono/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tono;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/libtorch/lib",
+					"$(PROJECT_DIR)/libtorch/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_LDFLAGS = (
+					"-lc10",
+					"-ltorch_cpu",
+					"-ltorch",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tono.karaoke;
+				PRODUCT_NAME = Tono;
+				SWIFT_OBJC_BRIDGING_HEADER = "Tono/Tono-Bridging-Header.h";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		715A8CF082BA07B995045773 /* Build configuration list for PBXNativeTarget "Tono" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02C72DAC7E6C8A5FA6AE6CC3 /* Debug */,
+				3DA85A919D93CC55CE51DCAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BFD2AB0D0932FE828387F141 /* Build configuration list for PBXProject "Tono" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16D41841B8E1319F33542AC4 /* Debug */,
+				2C4F2D0CEEB7264840C1C637 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2B1E439A5EBAEB37069E6549 /* XCRemoteSwiftPackageReference "AudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.2;
+			};
+		};
+		D25E2A100AB51459FE7AEBA8 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/SoundpipeAudioKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5614372EE373A706107DE5AE /* AudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B1E439A5EBAEB37069E6549 /* XCRemoteSwiftPackageReference "AudioKit" */;
+			productName = AudioKit;
+		};
+		E828039040C02BA132BCBD6E /* SoundpipeAudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D25E2A100AB51459FE7AEBA8 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */;
+			productName = SoundpipeAudioKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 1121AB054D8122B413A4D902 /* Project object */;
+}

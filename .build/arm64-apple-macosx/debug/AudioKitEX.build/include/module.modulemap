@@ -1,0 +1,3 @@
+module AudioKitEX {
+    header "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKitEX.build/include/AudioKitEX-Swift.h"
+}

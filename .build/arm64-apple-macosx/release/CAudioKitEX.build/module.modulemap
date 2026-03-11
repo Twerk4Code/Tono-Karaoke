@@ -1,0 +1,4 @@
+module CAudioKitEX {
+    umbrella "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKitEX/Sources/CAudioKitEX/include"
+    export *
+}

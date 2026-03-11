@@ -1,0 +1,37 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="bg3" x1="134" y1="112" x2="886" y2="928" gradientUnits="userSpaceOnUse">
+<stop stop-color="#101022"/>
+<stop offset="0.5" stop-color="#060610"/>
+<stop offset="1" stop-color="#020206"/>
+</linearGradient>
+<radialGradient id="orbLeft" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(446 514) rotate(180) scale(166 166)">
+<stop stop-color="#6CF6FF"/>
+<stop offset="1" stop-color="#00B9FF"/>
+</radialGradient>
+<radialGradient id="orbRight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(578 514) scale(166)">
+<stop stop-color="#D087FF"/>
+<stop offset="1" stop-color="#882BFF"/>
+</radialGradient>
+<filter id="orbGlow" x="248" y="212" width="532" height="604" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="30"/>
+</filter>
+</defs>
+<rect x="48" y="48" width="928" height="928" rx="224" fill="url(#bg3)"/>
+<rect x="48" y="48" width="928" height="928" rx="224" stroke="white" stroke-opacity="0.08"/>
+<g opacity="0.2">
+<circle cx="512" cy="512" r="284" stroke="white" stroke-width="2"/>
+<circle cx="512" cy="512" r="224" stroke="white" stroke-width="1.5"/>
+</g>
+<g filter="url(#orbGlow)" opacity="0.68">
+<ellipse cx="432" cy="514" rx="124" ry="164" fill="#00D9FF"/>
+<ellipse cx="592" cy="514" rx="124" ry="164" fill="#9D00FF"/>
+</g>
+<path d="M314 352V676" stroke="#00E5FF" stroke-width="20" stroke-linecap="round" opacity="0.85"/>
+<path d="M392 276V752" stroke="#00E5FF" stroke-width="36" stroke-linecap="round" opacity="0.95"/>
+<path d="M472 226V802" stroke="url(#orbLeft)" stroke-width="54" stroke-linecap="round"/>
+<path d="M512 194V834" stroke="white" stroke-width="14" stroke-linecap="round"/>
+<path d="M552 226V802" stroke="url(#orbRight)" stroke-width="54" stroke-linecap="round"/>
+<path d="M632 276V752" stroke="#A950FF" stroke-width="36" stroke-linecap="round" opacity="0.95"/>
+<path d="M710 352V676" stroke="#A000FF" stroke-width="20" stroke-linecap="round" opacity="0.85"/>
+</svg>

@@ -1,0 +1,971 @@
+{
+  "": {
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/master.swiftdeps"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/AVAudioFile+Utilities.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioFile+Utilities.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioFile+Utilities.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioFile+Utilities~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioFile+Utilities.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioFile+Utilities.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/AVAudioPCMBuffer+Processing.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Processing.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Processing.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Processing~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Processing.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Processing.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/AVAudioPCMBuffer+Utilities.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Utilities.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Utilities.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Utilities~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Utilities.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+Utilities.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/Format Converter/FormatConverter+Compressed.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Compressed.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Compressed.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Compressed~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Compressed.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Compressed.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/Format Converter/FormatConverter+PCM.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+PCM.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+PCM.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+PCM~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+PCM.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+PCM.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/Format Converter/FormatConverter+Utilities.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Utilities.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Utilities.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Utilities~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Utilities.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter+Utilities.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/Format Converter/FormatConverter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FormatConverter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Audio Files/WaveformDataRequest.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/WaveformDataRequest.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/WaveformDataRequest.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/WaveformDataRequest~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/WaveformDataRequest.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/WaveformDataRequest.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Audio Unit/AVAudioUnit+Helpers.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnit+Helpers.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnit+Helpers.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnit+Helpers~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnit+Helpers.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnit+Helpers.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Audio Unit/AudioComponentDescription+Helpers.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioComponentDescription+Helpers.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioComponentDescription+Helpers.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioComponentDescription+Helpers~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioComponentDescription+Helpers.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioComponentDescription+Helpers.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Audio Unit/AudioUnit+Helpers.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioUnit+Helpers.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioUnit+Helpers.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioUnit+Helpers~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioUnit+Helpers.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioUnit+Helpers.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Engine/AVAudioEngine+Extensions.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Extensions.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Extensions.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Extensions~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Extensions.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Extensions.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Engine/AudioEngine+connectionTreeDescription.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine+connectionTreeDescription.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine+connectionTreeDescription.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine+connectionTreeDescription~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine+connectionTreeDescription.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine+connectionTreeDescription.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Engine/AudioEngine.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioEngine.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Error Handling/CheckError.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CheckError.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CheckError.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CheckError~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CheckError.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CheckError.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Error Handling/CommonError.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CommonError.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CommonError.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CommonError~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CommonError.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/CommonError.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Hardware/AVAudioEngine+Devices.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Devices.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Devices.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Devices~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Devices.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioEngine+Devices.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Hardware/Device.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Device.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Device.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Device~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Device.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Device.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Hardware/DeviceUtils.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DeviceUtils.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DeviceUtils.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DeviceUtils~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DeviceUtils.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DeviceUtils.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Settings/Settings+iOSVariants.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+iOSVariants.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+iOSVariants.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+iOSVariants~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+iOSVariants.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+iOSVariants.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Settings/Settings+macOS.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+macOS.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+macOS.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+macOS~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+macOS.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings+macOS.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Settings/Settings.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Settings.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Table/Table+AdditiveSynthesis.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table+AdditiveSynthesis.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table+AdditiveSynthesis.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table+AdditiveSynthesis~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table+AdditiveSynthesis.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table+AdditiveSynthesis.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Table/Table.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Table.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Utilities/AVAudioPCMBuffer+audition.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+audition.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+audition.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+audition~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+audition.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioPCMBuffer+audition.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Utilities/AVAudioTimeShim.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioTimeShim.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioTimeShim.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioTimeShim~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioTimeShim.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioTimeShim.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Utilities/AudioKitHelpers.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioKitHelpers.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioKitHelpers.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioKitHelpers~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioKitHelpers.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioKitHelpers.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Utilities/Log.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Log.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Log.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Log~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Log.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Log.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Utilities/MemoryAddress.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MemoryAddress.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MemoryAddress.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MemoryAddress~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MemoryAddress.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MemoryAddress.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Utilities/MusicalDuration.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicalDuration.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicalDuration.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicalDuration~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicalDuration.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicalDuration.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Internals/Utilities/ThreadLockedAccessor.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ThreadLockedAccessor.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ThreadLockedAccessor.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ThreadLockedAccessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ThreadLockedAccessor.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ThreadLockedAccessor.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/BluetoothMIDIButton.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BluetoothMIDIButton.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BluetoothMIDIButton.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BluetoothMIDIButton~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BluetoothMIDIButton.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BluetoothMIDIButton.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Enums/MIDIControl.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIControl.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIControl.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIControl~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIControl.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIControl.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Enums/MIDICustomMetaEvent.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICustomMetaEvent.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICustomMetaEvent.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICustomMetaEvent~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICustomMetaEvent.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICustomMetaEvent.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Enums/MIDIMessage.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMessage.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMessage.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMessage~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMessage.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMessage.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Enums/MIDIStatus.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIStatus.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIStatus.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIStatus~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIStatus.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIStatus.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Enums/MIDISystemCommand.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemCommand.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemCommand.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemCommand~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemCommand.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemCommand.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDIBeatObserver.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIBeatObserver.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIBeatObserver.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIBeatObserver~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIBeatObserver.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIBeatObserver.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDIClockListener.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIClockListener.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIClockListener.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIClockListener~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIClockListener.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIClockListener.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDIMonoPolyListener.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMonoPolyListener.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMonoPolyListener.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMonoPolyListener~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMonoPolyListener.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMonoPolyListener.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDIObserverMaster.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIObserverMaster.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIObserverMaster.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIObserverMaster~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIObserverMaster.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIObserverMaster.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDIOmniListener.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIOmniListener.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIOmniListener.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIOmniListener~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIOmniListener.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIOmniListener.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDISystemRealTimeListener.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeListener.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeListener.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeListener~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeListener.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeListener.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDISystemRealTimeObserver.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeObserver.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeObserver.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeObserver~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeObserver.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISystemRealTimeObserver.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDITempoListener.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoListener.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoListener.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoListener~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoListener.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoListener.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Listeners/MIDITempoObserver.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoObserver.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoObserver.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoObserver~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoObserver.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITempoObserver.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDI+Extensions.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Extensions.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Extensions.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Extensions~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Extensions.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Extensions.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDI+Receiving.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Receiving.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Receiving.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Receiving~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Receiving.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Receiving.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDI+Sending.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Sending.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Sending.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Sending~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Sending.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+Sending.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDI+VirtualPorts.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+VirtualPorts.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+VirtualPorts.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+VirtualPorts~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+VirtualPorts.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI+VirtualPorts.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDI.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDI.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDICallbackInstrument.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICallbackInstrument.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICallbackInstrument.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICallbackInstrument~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICallbackInstrument.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDICallbackInstrument.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIEndpointInfo.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEndpointInfo.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEndpointInfo.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEndpointInfo~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEndpointInfo.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEndpointInfo.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIEvent.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEvent.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEvent.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEvent~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEvent.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIEvent.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFile.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFile.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFile.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFile~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFile.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFile.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFileChunk.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunk.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunk.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunk~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunk.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunk.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFileChunkEvent.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunkEvent.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunkEvent.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunkEvent~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunkEvent.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileChunkEvent.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFileHeaderChunk.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileHeaderChunk.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileHeaderChunk.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileHeaderChunk~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileHeaderChunk.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileHeaderChunk.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFileTempoTrack.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTempoTrack.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTempoTrack.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTempoTrack~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTempoTrack.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTempoTrack.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFileTrack.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrack.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrack.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrack~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrack.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrack.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFileTrackChunk.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackChunk.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackChunk.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackChunk~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackChunk.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackChunk.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIFile/MIDIFileTrackMap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackMap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackMap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackMap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackMap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIFileTrackMap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIInstrument.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIInstrument.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIInstrument.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIInstrument~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIInstrument.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIInstrument.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIListener.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIListener.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIListener.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIListener~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIListener.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIListener.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDINoteData.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDINoteData.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDINoteData.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDINoteData~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDINoteData.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDINoteData.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDIPlayer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPlayer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPlayer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPlayer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPlayer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPlayer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDISampler.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISampler.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISampler.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISampler~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISampler.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISampler.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/MIDITransformer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITransformer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITransformer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITransformer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITransformer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITransformer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Packets/MIDIPacket+Extensions.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+Extensions.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+Extensions.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+Extensions~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+Extensions.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+Extensions.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Packets/MIDIPacket+SequenceType.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+SequenceType.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+SequenceType.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+SequenceType~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+SequenceType.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacket+SequenceType.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Packets/MIDIPacketList+SequenceType.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacketList+SequenceType.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacketList+SequenceType.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacketList+SequenceType~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacketList+SequenceType.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIPacketList+SequenceType.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Utilities/BPM+StatisticalTools.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BPM+StatisticalTools.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BPM+StatisticalTools.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BPM+StatisticalTools~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BPM+StatisticalTools.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BPM+StatisticalTools.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Utilities/MIDIHelper.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIHelper.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIHelper.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIHelper~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIHelper.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIHelper.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Utilities/MIDISysexMessage.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISysexMessage.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISysexMessage.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISysexMessage~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISysexMessage.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDISysexMessage.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Utilities/MIDITimeout.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITimeout.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITimeout.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITimeout~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITimeout.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDITimeout.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/MIDI/Utilities/MIDIVariableLengthQuantity.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIVariableLengthQuantity.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIVariableLengthQuantity.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIVariableLengthQuantity~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIVariableLengthQuantity.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIVariableLengthQuantity.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/AVAudioUnitEffect+Apple.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnitEffect+Apple.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnitEffect+Apple.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnitEffect+Apple~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnitEffect+Apple.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AVAudioUnitEffect+Apple.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Delay.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Delay.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Delay.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Delay~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Delay.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Delay.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Distortion/AppleDistortion.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleDistortion.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleDistortion.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleDistortion~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleDistortion.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleDistortion.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Distortion/Decimator.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Decimator.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Decimator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Decimator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Decimator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Decimator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Distortion/Distortion.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Distortion.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Distortion.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Distortion~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Distortion.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Distortion.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Distortion/RingModulator.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RingModulator.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RingModulator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RingModulator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RingModulator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RingModulator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Dynamics/Compressor.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Compressor.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Compressor.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Compressor~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Compressor.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Compressor.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Dynamics/DynamicsProcessor.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DynamicsProcessor.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DynamicsProcessor.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DynamicsProcessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DynamicsProcessor.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DynamicsProcessor.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Dynamics/Expander.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Expander.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Expander.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Expander~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Expander.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Expander.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Dynamics/PeakLimiter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PeakLimiter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PeakLimiter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PeakLimiter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PeakLimiter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PeakLimiter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Filters/BandPassFilter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BandPassFilter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BandPassFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BandPassFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BandPassFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BandPassFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Filters/HighPassFilter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighPassFilter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighPassFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighPassFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighPassFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighPassFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Filters/HighShelfFilter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighShelfFilter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighShelfFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighShelfFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighShelfFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/HighShelfFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Filters/LowPassFilter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowPassFilter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowPassFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowPassFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowPassFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowPassFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Filters/LowShelfFilter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowShelfFilter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowShelfFilter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowShelfFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowShelfFilter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/LowShelfFilter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Filters/ParametricEQ.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ParametricEQ.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ParametricEQ.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ParametricEQ~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ParametricEQ.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/ParametricEQ.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/NewPitch.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NewPitch.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NewPitch.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NewPitch~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NewPitch.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NewPitch.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Effects/Reverb.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Reverb.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Reverb.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Reverb~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Reverb.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Reverb.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Generators/PlaygroundNoiseGenerator.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundNoiseGenerator.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundNoiseGenerator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundNoiseGenerator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundNoiseGenerator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundNoiseGenerator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Generators/PlaygroundOscillator.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundOscillator.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundOscillator.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundOscillator~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundOscillator.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PlaygroundOscillator.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Mixing/EnvironmentalNode.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/EnvironmentalNode.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/EnvironmentalNode.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/EnvironmentalNode~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/EnvironmentalNode.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/EnvironmentalNode.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Mixing/MatrixMixer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MatrixMixer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MatrixMixer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MatrixMixer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MatrixMixer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MatrixMixer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Mixing/Mixer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Mixing/Mixer3D.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer3D.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer3D.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer3D~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer3D.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Mixer3D.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/NamedNode.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NamedNode.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NamedNode.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NamedNode~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NamedNode.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NamedNode.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Node+ConnectStrategy.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+ConnectStrategy.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+ConnectStrategy.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+ConnectStrategy~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+ConnectStrategy.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+ConnectStrategy.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Node+Graphviz.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+Graphviz.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+Graphviz.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+Graphviz~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+Graphviz.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+Graphviz.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Node+connectionTreeDescription.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+connectionTreeDescription.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+connectionTreeDescription.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+connectionTreeDescription~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+connectionTreeDescription.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+connectionTreeDescription.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Node+disconnectStrategy.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+disconnectStrategy.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+disconnectStrategy.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+disconnectStrategy~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+disconnectStrategy.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node+disconnectStrategy.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Node.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Node.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/NodeParameter.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeParameter.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeParameter.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeParameter~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeParameter.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeParameter.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/NodeStatus.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeStatus.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeStatus.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeStatus~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeStatus.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeStatus.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/Apple Sampler/AppleSampler+SoundFonts.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+SoundFonts.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+SoundFonts.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+SoundFonts~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+SoundFonts.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+SoundFonts.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/Apple Sampler/AppleSampler+getAUPresetXML.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+getAUPresetXML.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+getAUPresetXML.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+getAUPresetXML~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+getAUPresetXML.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler+getAUPresetXML.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/Apple Sampler/AppleSampler.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSampler.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/Apple Sampler/PresetBuilder.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PresetBuilder.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PresetBuilder.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PresetBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PresetBuilder.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/PresetBuilder.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/AudioPlayer/AudioPlayer+Buffering.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Buffering.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Buffering.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Buffering~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Buffering.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Buffering.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/AudioPlayer/AudioPlayer+Legacy.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Legacy.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Legacy.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Legacy~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Legacy.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Legacy.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/AudioPlayer/AudioPlayer+Playback.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Playback.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Playback.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Playback~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Playback.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Playback.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/AudioPlayer/AudioPlayer+Scheduling.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Scheduling.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Scheduling.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Scheduling~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Scheduling.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer+Scheduling.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/AudioPlayer/AudioPlayer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AudioPlayer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/MultiSegmentAudioPlayer/MultiSegmentAudioPlayer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiSegmentAudioPlayer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiSegmentAudioPlayer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiSegmentAudioPlayer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiSegmentAudioPlayer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiSegmentAudioPlayer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/TimePitch.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimePitch.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimePitch.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimePitch~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimePitch.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimePitch.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Nodes/Playback/VariSpeed.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/VariSpeed.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/VariSpeed.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/VariSpeed~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/VariSpeed.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/VariSpeed.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Apple Sequencer/AppleSequencer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSequencer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSequencer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSequencer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSequencer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AppleSequencer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Apple Sequencer/MIDIMetaEvent+allocate.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMetaEvent+allocate.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMetaEvent+allocate.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMetaEvent+allocate~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMetaEvent+allocate.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MIDIMetaEvent+allocate.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Apple Sequencer/MusicTrack+Events.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Events.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Events.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Events~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Events.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Events.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Apple Sequencer/MusicTrack+Load.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Load.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Load.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Load~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Load.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack+Load.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Apple Sequencer/MusicTrack.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MusicTrack.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Apple Sequencer/TimeSignature.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimeSignature.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimeSignature.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimeSignature~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimeSignature.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/TimeSignature.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Apple Sequencer/UnsafeMIDIMetaEventPointer.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/UnsafeMIDIMetaEventPointer.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/UnsafeMIDIMetaEventPointer.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/UnsafeMIDIMetaEventPointer~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/UnsafeMIDIMetaEventPointer.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/UnsafeMIDIMetaEventPointer.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Sequencing/Duration.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Duration.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Duration.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Duration~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Duration.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Duration.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/AmplitudeTap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AmplitudeTap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AmplitudeTap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AmplitudeTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AmplitudeTap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/AmplitudeTap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/BaseTap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BaseTap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BaseTap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BaseTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BaseTap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/BaseTap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/FFTTap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FFTTap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FFTTap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FFTTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FFTTap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/FFTTap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/MultiChannelInputNodeTap+WriteableFile.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap+WriteableFile.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap+WriteableFile.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap+WriteableFile~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap+WriteableFile.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap+WriteableFile.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/MultiChannelInputNodeTap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/MultiChannelInputNodeTap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/NodeRecorder.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeRecorder.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeRecorder.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeRecorder~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeRecorder.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/NodeRecorder.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/RawBufferTap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawBufferTap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawBufferTap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawBufferTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawBufferTap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawBufferTap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/RawDataTap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawDataTap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawDataTap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawDataTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawDataTap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/RawDataTap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/AudioKit/Sources/AudioKit/Taps/Tap.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Tap.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Tap.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Tap~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Tap.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/Tap.dia"
+  },
+  "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/DerivedSources/resource_bundle_accessor.swift": {
+    "dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/resource_bundle_accessor.d",
+    "object": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/resource_bundle_accessor.swift.o",
+    "swiftmodule": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/resource_bundle_accessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/resource_bundle_accessor.swiftdeps",
+    "diagnostics": "/Users/admin/Documents/Claude Code/Apps/Tono/.build/arm64-apple-macosx/debug/AudioKit.build/resource_bundle_accessor.dia"
+  }
+}

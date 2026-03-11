@@ -1,0 +1,21 @@
+<svg width="1760" height="1160" viewBox="0 0 1760 1160" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1760" height="1160" fill="#0A0A12"/>
+<text x="88" y="104" fill="white" font-family="SF Pro Display, Inter, Arial" font-size="42" font-weight="700">Tono Concept 1: Split Wave</text>
+<text x="88" y="146" fill="#9AA0AE" font-family="SF Pro Display, Inter, Arial" font-size="22">Three app icon explorations plus a reduced menu bar mark.</text>
+<rect x="88" y="210" width="460" height="460" rx="36" fill="#12121D" stroke="white" stroke-opacity="0.08"/>
+<image href="tono-split-wave-primary.svg" x="116" y="238" width="404" height="404"/>
+<text x="88" y="724" fill="white" font-family="SF Pro Display, Inter, Arial" font-size="26" font-weight="600">Primary</text>
+<text x="88" y="758" fill="#97A0B5" font-family="SF Pro Display, Inter, Arial" font-size="20">Closest to the product UI: glassy, split-stem, performance-focused.</text>
+<rect x="650" y="210" width="460" height="460" rx="36" fill="#12121D" stroke="white" stroke-opacity="0.08"/>
+<image href="tono-split-wave-aurora.svg" x="678" y="238" width="404" height="404"/>
+<text x="650" y="724" fill="white" font-family="SF Pro Display, Inter, Arial" font-size="26" font-weight="600">Aurora</text>
+<text x="650" y="758" fill="#97A0B5" font-family="SF Pro Display, Inter, Arial" font-size="20">Softer and more premium; the glow reads well on dark surfaces.</text>
+<rect x="1212" y="210" width="460" height="460" rx="36" fill="#12121D" stroke="white" stroke-opacity="0.08"/>
+<image href="tono-split-wave-orb.svg" x="1240" y="238" width="404" height="404"/>
+<text x="1212" y="724" fill="white" font-family="SF Pro Display, Inter, Arial" font-size="26" font-weight="600">Orb</text>
+<text x="1212" y="758" fill="#97A0B5" font-family="SF Pro Display, Inter, Arial" font-size="20">The most abstract option; stronger brand shape, less literal audio UI.</text>
+<rect x="88" y="854" width="1584" height="212" rx="36" fill="#12121D" stroke="white" stroke-opacity="0.08"/>
+<text x="128" y="914" fill="white" font-family="SF Pro Display, Inter, Arial" font-size="26" font-weight="600">Menu Bar Adaptation</text>
+<text x="128" y="950" fill="#97A0B5" font-family="SF Pro Display, Inter, Arial" font-size="20">Monochrome vertical split-wave built for tiny sizes and quick recognition.</text>
+<image href="tono-menubar-split-wave.svg" x="124" y="972" width="256" height="128"/>
+</svg>

@@ -1,0 +1,16 @@
+# Xcode build artifacts
+DerivedData/
+build/
+Tono/Products/
+*.xcarchive
+*.dSYM
+
+# macOS
+.DS_Store
+
+# Large ML/runtime binaries
+libtorch/lib/*.dylib
+Tono/Resources/MelBandRoFormer.mlmodelc/
+Tono/Resources/MelBandRoformer.pt
+scripts/Mel-Band-Roformer-Vocal-Model/*.ckpt
+scripts/Mel-Band-Roformer-Vocal-Model/*.pt

@@ -1,0 +1,56 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="bg2" x1="96" y1="92" x2="944" y2="952" gradientUnits="userSpaceOnUse">
+<stop stop-color="#151530"/>
+<stop offset="0.45" stop-color="#080812"/>
+<stop offset="1" stop-color="#020208"/>
+</linearGradient>
+<linearGradient id="sheen" x1="188" y1="144" x2="738" y2="652" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.18"/>
+<stop offset="0.5" stop-color="white" stop-opacity="0.04"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<radialGradient id="leftAura" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(352 512) rotate(90) scale(340 250)">
+<stop stop-color="#00E5FF" stop-opacity="0.9"/>
+<stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="rightAura" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(674 512) rotate(90) scale(340 250)">
+<stop stop-color="#A000FF" stop-opacity="0.85"/>
+<stop offset="1" stop-color="#A000FF" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="cyanBar2" x1="308" y1="240" x2="500" y2="790" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ACF9FF"/>
+<stop offset="0.6" stop-color="#00DAFF"/>
+<stop offset="1" stop-color="#00B4FF"/>
+</linearGradient>
+<linearGradient id="purpleBar2" x1="714" y1="238" x2="524" y2="790" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E5B7FF"/>
+<stop offset="0.58" stop-color="#A44BFF"/>
+<stop offset="1" stop-color="#7A22FF"/>
+</linearGradient>
+<filter id="glow2" x="136" y="172" width="752" height="684" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="24"/>
+</filter>
+</defs>
+<rect x="48" y="48" width="928" height="928" rx="224" fill="url(#bg2)"/>
+<rect x="48" y="48" width="928" height="928" rx="224" stroke="white" stroke-opacity="0.08"/>
+<rect x="86" y="86" width="852" height="852" rx="188" fill="url(#sheen)"/>
+<circle cx="356" cy="512" r="188" fill="url(#leftAura)"/>
+<circle cx="668" cy="512" r="188" fill="url(#rightAura)"/>
+<g opacity="0.18">
+<path d="M226 556C330 482 405 463 512 463C619 463 691 484 794 556" stroke="white" stroke-width="16" stroke-linecap="round"/>
+<path d="M250 636C346 578 414 557 512 557C610 557 676 578 774 636" stroke="white" stroke-width="10" stroke-linecap="round"/>
+</g>
+<g filter="url(#glow2)" opacity="0.7">
+<path d="M324 316V708" stroke="#00E5FF" stroke-width="30" stroke-linecap="round"/>
+<path d="M412 238V786" stroke="#00E5FF" stroke-width="48" stroke-linecap="round"/>
+<path d="M512 178V846" stroke="white" stroke-width="22" stroke-linecap="round"/>
+<path d="M612 238V786" stroke="#A000FF" stroke-width="48" stroke-linecap="round"/>
+<path d="M700 316V708" stroke="#A000FF" stroke-width="30" stroke-linecap="round"/>
+</g>
+<path d="M324 316V708" stroke="url(#cyanBar2)" stroke-width="22" stroke-linecap="round"/>
+<path d="M412 238V786" stroke="url(#cyanBar2)" stroke-width="40" stroke-linecap="round"/>
+<path d="M512 178V846" stroke="white" stroke-width="18" stroke-linecap="round"/>
+<path d="M612 238V786" stroke="url(#purpleBar2)" stroke-width="40" stroke-linecap="round"/>
+<path d="M700 316V708" stroke="url(#purpleBar2)" stroke-width="22" stroke-linecap="round"/>
+</svg>
