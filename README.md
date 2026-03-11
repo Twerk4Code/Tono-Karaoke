@@ -8,65 +8,66 @@ Built entirely in Swift and Metal, Tono leverages state-of-the-art machine learn
 
 🚀 Key Features
 
-Neural Audio Separation
+- Neural Audio Separation
 
-MelBand-RoFormer (Kimberly Jensen Ed.): High-fidelity AI vocal isolation.
+- MelBand-RoFormer (Kimberly Jensen Ed.): High-fidelity AI vocal isolation.
 
-Dual-Track Mixer: Independent gain control for AI-split stems (Vocals/Instrumentals).
+- Dual-Track Mixer: Independent gain control for AI-split stems (Vocals/Instrumentals).
 
-Raw-Import Fallback: Support for standard playback without separation processing.
+- Raw-Import Fallback: Support for standard playback without separation processing.
 
-Live Monitoring & FX Engine
+- Live Monitoring & FX Engine
 
-Low-Latency Pipeline: Real-time microphone monitoring with optimized buffer control.
+- Low-Latency Pipeline: Real-time microphone monitoring with optimized buffer control.
 
-Professional FX Chain: Integrated Gate, 3-Band EQ, Compressor, Delay, and Reverb.
+- Professional FX Chain: Integrated Gate, 3-Band EQ, Compressor, Delay, and Reverb.
 
-Presets & Fine Control: Toggle between curated FX presets or manual parameter adjustment.
+- Presets & Fine Control: Toggle between curated FX presets or manual parameter adjustment.
 
-Performance Analysis & UI
+- Performance Analysis & UI
 
-Real-Time Pitch Detection: Live tracking with note and cents precision.
+- Real-Time Pitch Detection: Live tracking with note and cents precision.
 
-Reactive Visualizer: Metal-accelerated visuals with lyrics-panel and full-background modes.
+- Reactive Visualizer: Metal-accelerated visuals with lyrics-panel and full-background modes.
 
-Synced Lyrics: Auto-fetch via LRCLIB with local JSON caching and manual search.
+- Synced Lyrics: Auto-fetch via LRCLIB with local JSON caching and manual search.
 
-Library Management: Drag-and-drop import, folder organization, and "Reveal in Finder" actions.
+- Library Management: Drag-and-drop import, folder organization, and "Reveal in Finder" actions.
 
 🛠️ Technology Stack
 
-Tono is engineered for the macOS ecosystem, utilizing low-level frameworks for maximum performance:
+- Tono is engineered for the macOS ecosystem, utilizing low-level frameworks for maximum performance:
 
-Swift & SwiftUI: Core application logic and @Observable state architecture.
+- Swift & SwiftUI: Core application logic and @Observable state architecture.
 
-AVFoundation & CoreAudio: Audio I/O routing and device/buffer management.
+- AVFoundation & CoreAudio: Audio I/O routing and device/buffer management.
 
-AudioKit & SoundpipeAudioKit: Signal playback graphs and pitch-tap integration.
+- AudioKit & SoundpipeAudioKit: Signal playback graphs and pitch-tap integration.
 
-Metal: Custom .metal shaders for GPU-accelerated audio post-processing.
+- Metal: Custom .metal shaders for GPU-accelerated audio post-processing.
 
-Accelerate / vDSP: High-performance FFT/STFT math and waveform analysis.
+- Accelerate / vDSP: High-performance FFT/STFT math and waveform analysis.
 
-Machine Learning: PyTorch model integration via Objective-C++ bridge (TorchModule) and Core ML compiled .mlmodelc assets for on-device inference.
+- Machine Learning: PyTorch model integration via Objective-C++ bridge (TorchModule) and Core ML compiled .mlmodelc     assets for on-device inference.
 
-Networking: URLSession integration with LRCLIB API for synced lyrics.
+- Networking: URLSession integration with LRCLIB API for synced lyrics.
 
 💾 Installation
 
-Download the latest release from the Releases page.
+1. Download the latest release from the Releases page.
 
-Open the .dmg and drag Tono.app to Applications.
+2. Open the .zip and drag Tono.app to Applications.
 
-Launch Tono.app.
+3. Launch Tono.app.
 
 Note: On first launch, you may need to grant Microphone and File System permissions for the app to process audio correctly.
+If the app gives you a malware warning (it's not), go to Settings > Privacy and Settings > Select "allow anyway" for the app, and the app should open correctly upon future starts.
 
 ⚙️ Requirements
 
-OS: macOS 26+
+- OS: macOS 26+
 
-Architecture: Optimized for Apple Silicon (M4+). Does not support Intel Macs.
+- Architecture: Optimized for Apple Silicon (M4+). Does not support Intel Macs.
 
 🤝 Contributing
 
@@ -76,11 +77,11 @@ Disclaimer: This app was entirely written by AI with human assistance.
 
 AI Agents Involved in Project:
 
-Gemini 3.1 (UI/UX Design, Aesthetics)
+- Gemini 3.1 (UI/UX Design, Aesthetics)
 
-Claude Haiku 4.5 + Sonnet + Opus 4.6 (Architecture, Optimization)
+- Claude Haiku 4.5 + Sonnet + Opus 4.6 (Architecture, Optimization)
 
-Codex 5.3 (Bug review)
+- Codex 5.3 (Bug review)
 
 Special thanks to Kimberly Jensen for their amazing vocal separation model!!~
 You can check out the model itself here: https://github.com/KimberleyJensen/Mel-Band-Roformer-Vocal-Model
