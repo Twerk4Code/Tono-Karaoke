@@ -1,4 +1,6 @@
-# Xcode build artifacts
+# Swift build artifacts (CRITICAL - large files)
+.build/
+.swiftpm/
 DerivedData/
 build/
 Tono/Products/
@@ -7,10 +9,26 @@ Tono/Products/
 
 # macOS
 .DS_Store
+.AppleDouble
+.LSOverride
 
-# Large ML/runtime binaries
-libtorch/lib/*.dylib
+# LibTorch & ML models (CRITICAL - large files)
+libtorch/
+libtorch-*.zip
 Tono/Resources/MelBandRoFormer.mlmodelc/
 Tono/Resources/MelBandRoformer.pt
 scripts/Mel-Band-Roformer-Vocal-Model/*.ckpt
 scripts/Mel-Band-Roformer-Vocal-Model/*.pt
+
+# Python virtual environments (CRITICAL - large packages)
+scripts/.venv*/
+scripts/venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# IDE & Editor
+.vscode/
+*.swp
+*.swo
+*~

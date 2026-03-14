@@ -76,6 +76,14 @@ final class LibraryViewModel {
         return folder
     }
 
+    func deleteFolder(_ folder: LibraryFolder) {
+        appState.library.deleteFolder(folder.id)
+        // Deselect if we deleted the currently selected folder
+        if selectedFolderID == folder.id {
+            selectedFolderID = nil
+        }
+    }
+
     func moveSong(_ song: Song, to folderID: UUID?) {
         appState.library.assignSong(song.id, to: folderID)
         if appState.selectedSong?.id == song.id {

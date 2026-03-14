@@ -2,6 +2,7 @@ import AVFoundation
 import AudioKit
 import CoreAudio
 import AudioToolbox
+import AppKit
 
 /// Manages dual-stem playback with truly independent vocal and instrumental volume.
 ///
@@ -106,8 +107,14 @@ final class AudioEngineManager: ObservableObject {
 
     // NotificationCenter observer token — retained so the listener stays alive.
     private var configChangeObserver: NSObjectProtocol?
+    private var systemWillSleepObserver: NSObjectProtocol?
+    private var systemDidWakeObserver: NSObjectProtocol?
     /// Prevent concurrent AVAudioEngineConfigurationChange recovery loops.
     private var isRecoveringFromConfigurationChange = false
+    /// Prevent concurrent wake-recovery loops.
+    private var isRecoveringFromSystemWake = false
+    private var wasPlayingBeforeSystemSleep = false
+    private var hadMicPathBeforeSystemSleep = false
 
     // MARK: - Visualizer Analysis Tap
     private weak var visualizerAnalyzer: PlaybackVisualizerAnalyzer?
@@ -138,6 +145,7 @@ final class AudioEngineManager: ObservableObject {
 
         visualizerTapMixer.addInput(mainMixer)
         engine.output = visualizerTapMixer
+        installPowerStateObservers()
     }
 
     // MARK: - Visualizer
@@ -237,6 +245,7 @@ final class AudioEngineManager: ObservableObject {
             // Sync mMaxFramesPerSlice BEFORE starting so the graph is consistent.
             syncMaxFramesPerSlice()
             try ensureValidOutputRouteBeforeStart()
+            try ensureValidInputRouteBeforeStart()
             debugLogRenderConfig("start(pre)")
             try engine.start()
             engineIsRunning = true
@@ -307,7 +316,7 @@ final class AudioEngineManager: ObservableObject {
     ///
     /// avEngine.reset() is critical: without it, AVAudioEngine's internal AU
     /// nodes retain stale mMaxFramesPerSlice values from the previous session.
-    private func safeRestartEngine() throws {
+    private func safeRestartEngine(preferringOutputDevice preferredDeviceID: AudioDeviceID? = nil) throws {
         let avEngine = engine.avEngine
         beginTransitionMuteIfNeeded()
         do {
@@ -318,7 +327,28 @@ final class AudioEngineManager: ObservableObject {
             engineIsRunning = false
             avEngine.reset()
             syncMaxFramesPerSlice()
+            // After reset the AUHAL clears its device pointer. Restore a known-good
+            // previous device so ensureValidOutputRouteBeforeStart() sees a real device
+            // rather than device=0 / SR=0 — which would cause -10875 on engine.start().
+            if let preferredID = preferredDeviceID,
+               preferredID != AudioDeviceID(kAudioObjectUnknown),
+               let outputUnit = avEngine.outputNode.audioUnit {
+                var devID = preferredID
+                let err = AudioUnitSetProperty(
+                    outputUnit,
+                    kAudioOutputUnitProperty_CurrentDevice,
+                    kAudioUnitScope_Global,
+                    0,
+                    &devID,
+                    UInt32(MemoryLayout<AudioDeviceID>.size))
+                if err == noErr {
+                    print("[AudioEngineManager] safeRestartEngine: restored preferred output device \(preferredID)")
+                } else {
+                    print("[AudioEngineManager] safeRestartEngine: could not restore preferred output device \(preferredID) (\(err)); falling through to ensureValidOutputRouteBeforeStart")
+                }
+            }
             try ensureValidOutputRouteBeforeStart()
+            try ensureValidInputRouteBeforeStart()
             debugLogRenderConfig("safeRestart(pre)")
             try engine.start()
             engineIsRunning = true
@@ -334,6 +364,52 @@ final class AudioEngineManager: ObservableObject {
             endTransitionMuteIfNeeded()
             throw error
         }
+    }
+
+    /// Start the engine, retrying on `kAudioUnitErr_FailedInitialization` (-10875).
+    ///
+    /// -10875 fires when `engine.start()` is called while the CoreAudio HAL is still
+    /// transitioning (common after sleep/wake or device plug/unplug). The graph and
+    /// device routes are assumed to be valid; only the HAL readiness can be the issue.
+    ///
+    /// On each retry the engine is reset so stale render-resource allocations are flushed
+    /// before the HAL is asked to reinitialize. Non-retryable errors propagate immediately.
+    ///
+    /// - Parameters:
+    ///   - maxAttempts: Total start attempts before giving up (default 5).
+    ///   - initialDelayMs: First retry delay in ms; each subsequent retry doubles (default 300).
+    private func startEngineWithRetry(
+        maxAttempts: Int = 5,
+        initialDelayMs: Int = 300
+    ) async throws {
+        let failedInitDomain = "com.apple.coreaudio.avfaudio"
+        let failedInitCode = -10875  // kAudioUnitErr_FailedInitialization
+        var lastError: Error?
+        for attempt in 1...maxAttempts {
+            do {
+                if attempt > 1 {
+                    // Flush stale HAL render state before retrying.
+                    engine.avEngine.reset()
+                    syncMaxFramesPerSlice()
+                }
+                try engine.start()
+                if attempt > 1 {
+                    print("[AudioEngineManager] engine.start() succeeded on attempt \(attempt)/\(maxAttempts)")
+                }
+                return
+            } catch let error as NSError
+                  where error.domain == failedInitDomain && error.code == failedInitCode {
+                lastError = error
+                let delayMs = initialDelayMs * attempt  // progressive back-off: 300, 600, 900…
+                print("[AudioEngineManager] engine.start() attempt \(attempt)/\(maxAttempts) failed with FailedInitialization (-10875); retrying in \(delayMs)ms")
+                if attempt < maxAttempts {
+                    try? await Task.sleep(for: .milliseconds(delayMs))
+                }
+            } catch {
+                throw error  // non-retryable error — propagate immediately
+            }
+        }
+        throw lastError!
     }
 
     private func debugLogRenderConfig(_ context: String) {
@@ -369,6 +445,84 @@ final class AudioEngineManager: ObservableObject {
         ) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.handleConfigurationChange()
+            }
+        }
+    }
+
+    private func installPowerStateObservers() {
+        guard systemWillSleepObserver == nil, systemDidWakeObserver == nil else { return }
+        let center = NSWorkspace.shared.notificationCenter
+
+        systemWillSleepObserver = center.addObserver(
+            forName: NSWorkspace.willSleepNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.handleSystemWillSleep()
+            }
+        }
+
+        systemDidWakeObserver = center.addObserver(
+            forName: NSWorkspace.didWakeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.handleSystemDidWake()
+            }
+        }
+    }
+
+    private func handleSystemWillSleep() {
+        wasPlayingBeforeSystemSleep = isPlaying
+        hadMicPathBeforeSystemSleep = (mic != nil)
+        if wasPlayingBeforeSystemSleep {
+            pause()
+        }
+        if engineIsRunning {
+            stopEngineForGraphMutation()
+        }
+    }
+
+    private func handleSystemDidWake() {
+        guard !isRecoveringFromSystemWake else { return }
+        isRecoveringFromSystemWake = true
+
+        Task { @MainActor in
+            defer { self.isRecoveringFromSystemWake = false }
+            // Give the HAL adequate time to reinitialize after wake.
+            // 350 ms proved too short on some hardware; 600 ms avoids premature -10875.
+            try? await Task.sleep(for: .milliseconds(600))
+
+            let shouldRestorePlayback = self.wasPlayingBeforeSystemSleep
+            let shouldRebuildMic = self.hadMicPathBeforeSystemSleep || self.mic != nil
+            self.wasPlayingBeforeSystemSleep = false
+            self.hadMicPathBeforeSystemSleep = false
+
+            do {
+                if shouldRebuildMic {
+                    self.mic = nil
+                    self.micMonoMixer = nil
+                    self.micEffects = nil
+                    self.micMonitorMixer = nil
+                    self.mainMixer.removeAllInputs()
+                    self.mainMixer.addInput(self.vocalMixer)
+                    self.mainMixer.addInput(self.instrumentalMixer)
+                    let avEngine = self.engine.avEngine
+                    avEngine.reset()
+                    self.syncMaxFramesPerSlice()
+                    self.initializeMicInput {
+                        self.onEngineRestarted?()
+                        if shouldRestorePlayback { self.play() }
+                    }
+                } else {
+                    try self.safeRestartEngine()
+                    self.onEngineRestarted?()
+                    if shouldRestorePlayback { self.play() }
+                }
+            } catch {
+                print("[AudioEngineManager] Recovery after system wake failed: \(error)")
             }
         }
     }
@@ -444,7 +598,10 @@ final class AudioEngineManager: ObservableObject {
                 } else {
                     var recovered = false
                     var lastError: Error?
-                    for attempt in 1...3 {
+                    // Up to 5 attempts, 400 ms apart (total ~1.6 s window).
+                    // safeRestartEngine() already calls avEngine.reset() each time so
+                    // stale HAL state is flushed on every attempt.
+                    for attempt in 1...5 {
                         do {
                             try self.safeRestartEngine()
                             self.onEngineRestarted?()
@@ -453,7 +610,7 @@ final class AudioEngineManager: ObservableObject {
                         } catch {
                             lastError = error
                             print("[AudioEngineManager] Restart attempt \(attempt) failed: \(error)")
-                            try? await Task.sleep(for: .milliseconds(250))
+                            try? await Task.sleep(for: .milliseconds(400))
                         }
                     }
                     if !recovered, let lastError {
@@ -502,6 +659,34 @@ final class AudioEngineManager: ObservableObject {
         )
         guard err == noErr, deviceID != kAudioObjectUnknown else { return nil }
         return deviceID
+    }
+
+    /// Returns true if two CoreAudio device IDs represent the same physical hardware
+    /// or if one is a sub-device of an aggregate containing the other.
+    ///
+    /// When the mic is active AVAudioEngine creates a full-duplex aggregate device
+    /// (e.g. device 108) that wraps the standalone output device (e.g. device 74,
+    /// "MacBook Speakers") and input device (e.g. device 81, "MacBook Microphone").
+    /// CoreAudio lists all members of an aggregate as "related devices" on both the
+    /// aggregate and each sub-device, so this bidirectional check catches the case
+    /// where the user has "MacBook Speakers" saved as their preferred output but the
+    /// engine is actually running on the AVAudioEngine-created aggregate.
+    private func deviceIsRelated(_ a: AudioDeviceID, _ b: AudioDeviceID) -> Bool {
+        guard a != b else { return true }
+        func relatedIDs(of id: AudioDeviceID) -> [AudioDeviceID] {
+            var addr = AudioObjectPropertyAddress(
+                mSelector: kAudioDevicePropertyRelatedDevices,
+                mScope: kAudioObjectPropertyScopeGlobal,
+                mElement: kAudioObjectPropertyElementMain)
+            var size: UInt32 = 0
+            guard AudioObjectGetPropertyDataSize(id, &addr, 0, nil, &size) == noErr,
+                  size > 0 else { return [] }
+            let count = Int(size) / MemoryLayout<AudioDeviceID>.size
+            var ids = [AudioDeviceID](repeating: AudioDeviceID(kAudioObjectUnknown), count: count)
+            guard AudioObjectGetPropertyData(id, &addr, 0, nil, &size, &ids) == noErr else { return [] }
+            return ids
+        }
+        return relatedIDs(of: a).contains(b) || relatedIDs(of: b).contains(a)
     }
 
     /// Change the hardware I/O buffer size.
@@ -571,15 +756,27 @@ final class AudioEngineManager: ObservableObject {
             return
         }
 
-        // Skip if the requested device is already the current output device.
-        // Prevents redundant engine cycling when onEngineRestarted re-applies
-        // the saved device after a configuration change.
-        if let currentOutputID = getCurrentOutputDeviceID(), currentOutputID == resolvedID {
+        // Skip if the requested device is already the current output device, OR if
+        // it is a related device (e.g. a sub-device of the AVAudioEngine-created
+        // full-duplex aggregate that is already routing audio to the same hardware).
+        //
+        // Example: user saves "MacBook Speakers" (device 74) as their preferred output.
+        // When the mic is active, AVAudioEngine wraps device 74 + device 81 into an
+        // aggregate (device 108). Setting device 74 explicitly on the AUHAL that is
+        // already running on aggregate 108 fails with -10851. Since 74 is a sub-device
+        // of 108, the aggregate already covers the requested output — skip the switch.
+        if let currentOutputID = getCurrentOutputDeviceID(),
+           currentOutputID == resolvedID || deviceIsRelated(currentOutputID, resolvedID) {
             return
         }
 
         let wasPlaying = isPlaying
         if wasPlaying { pause() }
+
+        // Capture the current device BEFORE stopping — engine.stop() clears the
+        // AUHAL device pointer to 0. We use this to restore a known-good state
+        // if the switch to the new device fails entirely.
+        let savedOutputDeviceID = getCurrentOutputDeviceID()
 
         // Stop engine before changing the output device so the render thread
         // isn't pulling through nodes during the transition.
@@ -588,9 +785,17 @@ final class AudioEngineManager: ObservableObject {
         }
 
         let avEngine = engine.avEngine
+        // Reset to fully release the HAL device association before setting a new device.
+        // Without this, the AUHAL retains the previous device's format expectations
+        // (e.g. MOTU M2 at 48 kHz) and rejects the new device with -10851
+        // (kAudioUnitErr_InvalidPropertyValue). setInputDevice() already does this;
+        // setOutputDevice() must be consistent.
+        avEngine.reset()
+        syncMaxFramesPerSlice()
+
         guard let outputUnit = avEngine.outputNode.audioUnit else {
             print("[AudioEngineManager] Cannot get output AudioUnit")
-            recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying)
+            recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
             return
         }
 
@@ -611,12 +816,12 @@ final class AudioEngineManager: ObservableObject {
             let fallbackID = getDefaultOutputDevice()
             guard fallbackID != AudioDeviceID(kAudioObjectUnknown) else {
                 print("[AudioEngineManager] setOutputDevice: no valid fallback output device")
-                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying)
+                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
                 return
             }
             if fallbackID == resolvedID {
                 print("[AudioEngineManager] setOutputDevice fallback skipped: resolved device is already the system default (\(fallbackID))")
-                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying)
+                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
                 return
             }
             var fallbackDevID = fallbackID
@@ -630,7 +835,7 @@ final class AudioEngineManager: ObservableObject {
             )
             guard fallbackErr == noErr else {
                 print("[AudioEngineManager] setOutputDevice fallback failed: \(fallbackErr)")
-                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying)
+                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
                 return
             }
         }
@@ -642,7 +847,7 @@ final class AudioEngineManager: ObservableObject {
             if wasPlaying { play() }
         } catch {
             print("[AudioEngineManager] Restart after setOutputDevice failed: \(error)")
-            recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying)
+            recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
         }
     }
 
@@ -816,25 +1021,29 @@ final class AudioEngineManager: ObservableObject {
 
     /// Best-effort recovery so a failed output-route change does not leave
     /// the app silent with a stopped engine.
-    private func recoverAfterOutputRoutingFailure(wasRunning: Bool, wasPlaying: Bool) {
+    ///
+    /// Uses `safeRestartEngine()` (which calls `ensureValidOutputRouteBeforeStart`)
+    /// rather than `engine.start()` directly, so we never try to restart with
+    /// device=0 / SR=0 / ch=0 — the state the output node lands in after a failed
+    /// device-property set.
+    private func recoverAfterOutputRoutingFailure(
+        wasRunning: Bool,
+        wasPlaying: Bool,
+        preferringOutputDevice preferredDeviceID: AudioDeviceID? = nil
+    ) {
         guard wasRunning else { return }
-        beginTransitionMuteIfNeeded()
-        do {
-            syncMaxFramesPerSlice()
-            debugLogRenderConfig("setOutputDevice(recover, pre)")
-            try engine.start()
-            engineIsRunning = true
-            if let deviceID = getCurrentOutputDeviceID(),
-               let frames = AudioDeviceManager.currentBufferFrameSize(for: deviceID) {
-                currentBufferSize = frames
+        // Brief delay: give the HAL a moment to finish any in-progress device
+        // transition before we re-query and restart.
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(200))
+            do {
+                // Pass the previous device so safeRestartEngine can restore it
+                // after avEngine.reset() clears the AUHAL device pointer.
+                try self.safeRestartEngine(preferringOutputDevice: preferredDeviceID)
+                if wasPlaying { self.play() }
+            } catch {
+                print("[AudioEngineManager] setOutputDevice recovery failed: \(error)")
             }
-            debugLogRenderConfig("setOutputDevice(recover, post)")
-            updateVisualizerTapState()
-            endTransitionMuteIfNeeded()
-            if wasPlaying { play() }
-        } catch {
-            endTransitionMuteIfNeeded()
-            print("[AudioEngineManager] setOutputDevice recovery failed: \(error)")
         }
     }
 
@@ -894,8 +1103,29 @@ final class AudioEngineManager: ObservableObject {
                 return
             }
             if setErr == kAudioUnitErr_InvalidPropertyValue {
-                print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback output device=\(fallbackID); continuing with AVAudioEngine-selected route")
-                return
+                // Verify the current (AVAudioEngine-selected) route is actually valid
+                // before silently continuing. If the output device is device=0/SR=0/ch=0
+                // (common after a failed device switch), starting the engine will produce
+                // -10875 (IsFormatSampleRateAndChannelCountValid false). Throw instead
+                // so callers can retry rather than looping on a guaranteed failure.
+                var currentPostFailID: AudioDeviceID = kAudioObjectUnknown
+                var currentPostFailSize = UInt32(MemoryLayout<AudioDeviceID>.size)
+                let currentPostFailErr = AudioUnitGetProperty(
+                    outputUnit,
+                    kAudioOutputUnitProperty_CurrentDevice,
+                    kAudioUnitScope_Global,
+                    0,
+                    &currentPostFailID,
+                    &currentPostFailSize
+                )
+                if currentPostFailErr == noErr,
+                   currentPostFailID != AudioDeviceID(kAudioObjectUnknown),
+                   deviceHasOutputChannels(currentPostFailID) {
+                    print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route (\(currentPostFailID)) is valid, continuing")
+                    return
+                }
+                print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route is also invalid (device=\(currentPostFailID)), throwing")
+                throw AudioRoutingError.outputDeviceStillInvalid
             }
             throw AudioRoutingError.setOutputDeviceFailed(setErr)
         }
@@ -916,6 +1146,46 @@ final class AudioEngineManager: ObservableObject {
             throw AudioRoutingError.outputDeviceStillInvalid
         }
         print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart applied fallback output device=\(verifiedID)")
+    }
+
+    /// Ensure input AudioUnit is bound to a valid concrete input device before engine.start().
+    private func ensureValidInputRouteBeforeStart() throws {
+        guard mic != nil else { return }
+
+        let avEngine = engine.avEngine
+        guard let inputUnit = avEngine.inputNode.audioUnit else { return }
+
+        var currentID: AudioDeviceID = kAudioObjectUnknown
+        var size = UInt32(MemoryLayout<AudioDeviceID>.size)
+        let getErr = AudioUnitGetProperty(
+            inputUnit,
+            kAudioOutputUnitProperty_CurrentDevice,
+            kAudioUnitScope_Global,
+            0,
+            &currentID,
+            &size
+        )
+        if getErr == noErr, currentID != AudioDeviceID(kAudioObjectUnknown), deviceHasInputChannels(currentID) {
+            return
+        }
+
+        let fallbackID = getDefaultInputDevice()
+        guard fallbackID != AudioDeviceID(kAudioObjectUnknown) else { return }
+
+        var devID = fallbackID
+        let setErr = AudioUnitSetProperty(
+            inputUnit,
+            kAudioOutputUnitProperty_CurrentDevice,
+            kAudioUnitScope_Global,
+            0,
+            &devID,
+            UInt32(MemoryLayout<AudioDeviceID>.size)
+        )
+        guard setErr == noErr else {
+            print("[AudioEngineManager] ensureValidInputRouteBeforeStart set failed: \(setErr)")
+            return
+        }
+        print("[AudioEngineManager][DEBUG] ensureValidInputRouteBeforeStart applied fallback input device=\(devID)")
     }
 
     private func deviceHasOutputChannels(_ deviceID: AudioDeviceID) -> Bool {
@@ -973,8 +1243,14 @@ final class AudioEngineManager: ObservableObject {
     /// Request mic permission without initializing the audio graph.
     /// Call early (e.g. on app launch) so the system dialog appears before the user needs the mic.
     func requestMicrophonePermission() {
-        guard AVCaptureDevice.authorizationStatus(for: .audio) == .notDetermined else { return }
-        AVCaptureDevice.requestAccess(for: .audio) { _ in }
+        let status = AVCaptureDevice.authorizationStatus(for: .audio)
+        isMicrophoneAuthorized = (status == .authorized)
+        guard status == .notDetermined else { return }
+        AVCaptureDevice.requestAccess(for: .audio) { [weak self] granted in
+            Task { @MainActor in
+                self?.isMicrophoneAuthorized = granted
+            }
+        }
     }
 
     /// Set up the microphone input and call `onReady` once it is available.
@@ -1016,11 +1292,13 @@ final class AudioEngineManager: ObservableObject {
                         self.initializeMicInput(onReady: onReady)
                     } else {
                         self.isMicrophoneAuthorized = false
+                        onReady?()
                     }
                 }
             }
         default:
             isMicrophoneAuthorized = false
+            onReady?()
         }
     }
 
@@ -1139,10 +1417,12 @@ final class AudioEngineManager: ObservableObject {
                 try? await Task.sleep(for: .milliseconds(200))
                 self.beginTransitionMuteIfNeeded()
                 do {
-                    self.syncMaxFramesPerSlice()  // re-sync after hardware settles
                     self.debugLogRenderConfig("initializeMicInput(pre-start, pending device)")
                     self.micEffects?.debugDumpNodeFormats(context: "pending-path(pre-start, post-sync)")
-                    try self.engine.start()
+                    // startEngineWithRetry handles syncMaxFramesPerSlice on each attempt
+                    // and retries on kAudioUnitErr_FailedInitialization (-10875) so a
+                    // not-yet-ready HAL doesn't permanently silence playback.
+                    try await self.startEngineWithRetry()
                     self.engineIsRunning = true
                     if let deviceID = self.getCurrentOutputDeviceID(),
                        let frames = AudioDeviceManager.currentBufferFrameSize(for: deviceID) {
@@ -1154,7 +1434,7 @@ final class AudioEngineManager: ObservableObject {
                     if wasPlaying { self.play() }
                 } catch {
                     self.endTransitionMuteIfNeeded()
-                    print("[AudioEngineManager] Restart after applying pending input device failed: \(error)")
+                    print("[AudioEngineManager] Restart after applying pending input device failed after retries: \(error)")
                 }
                 try? await Task.sleep(for: .milliseconds(150))
                 onReady?()
@@ -1215,27 +1495,29 @@ final class AudioEngineManager: ObservableObject {
         // including the freshly created EffectsProcessor nodes.
         syncMaxFramesPerSlice()
 
+        // Merge the engine-start and onReady deferral into a single Task so we can
+        // await startEngineWithRetry() — which retries on kAudioUnitErr_FailedInitialization
+        // (-10875) that fires when the HAL isn't ready yet (e.g. post-wake, device change).
         beginTransitionMuteIfNeeded()
-        do {
-            debugLogRenderConfig("initializeMicInput(pre-start)")
-            try engine.start()
-            engineIsRunning = true
-            if let deviceID = getCurrentOutputDeviceID(),
-               let frames = AudioDeviceManager.currentBufferFrameSize(for: deviceID) {
-                currentBufferSize = frames
-            }
-            debugLogRenderConfig("initializeMicInput(post-start)")
-            updateVisualizerTapState()
-            endTransitionMuteIfNeeded()
-            if wasPlaying { play() }
-        } catch {
-            endTransitionMuteIfNeeded()
-            print("[AudioEngineManager] Failed to start engine with mic: \(error)")
-        }
-
-        // Defer onReady so AVAudioEngine finishes hardware reconfiguration
-        // before PitchTap.start() is called.
         Task { @MainActor in
+            do {
+                self.debugLogRenderConfig("initializeMicInput(pre-start)")
+                try await self.startEngineWithRetry()
+                self.engineIsRunning = true
+                if let deviceID = self.getCurrentOutputDeviceID(),
+                   let frames = AudioDeviceManager.currentBufferFrameSize(for: deviceID) {
+                    self.currentBufferSize = frames
+                }
+                self.debugLogRenderConfig("initializeMicInput(post-start)")
+                self.updateVisualizerTapState()
+                self.endTransitionMuteIfNeeded()
+                if wasPlaying { self.play() }
+            } catch {
+                self.endTransitionMuteIfNeeded()
+                print("[AudioEngineManager] Failed to start engine with mic after retries: \(error)")
+            }
+            // Defer onReady so AVAudioEngine finishes hardware reconfiguration
+            // before PitchTap.start() is called.
             try? await Task.sleep(for: .milliseconds(150))
             onReady?()
         }

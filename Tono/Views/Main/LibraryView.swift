@@ -179,7 +179,7 @@ struct LibraryView: View {
                     }
 
                     ForEach(vm.folders) { folder in
-                        folderFilterChip(title: folder.name, isSelected: vm.selectedFolderID == folder.id) {
+                        folderFilterChip(title: folder.name, isSelected: vm.selectedFolderID == folder.id, folder: folder) {
                             vm.selectedFolderID = folder.id
                         }
                     }
@@ -381,7 +381,7 @@ struct LibraryView: View {
     }
 
     @ViewBuilder
-    private func folderFilterChip(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+    private func folderFilterChip(title: String, isSelected: Bool, folder: LibraryFolder? = nil, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
                 .font(.system(.caption, design: .rounded, weight: .semibold))
@@ -399,5 +399,16 @@ struct LibraryView: View {
                 )
         }
         .buttonStyle(.plain)
+        .contextMenu {
+            if let folder {
+                Button(role: .destructive) {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        viewModel?.deleteFolder(folder)
+                    }
+                } label: {
+                    Label("Delete Folder", systemImage: "trash")
+                }
+            }
+        }
     }
 }

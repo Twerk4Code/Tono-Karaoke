@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import AVFoundation
 
 struct PerformanceView: View {
     @Environment(AppState.self) private var appState
@@ -159,7 +160,12 @@ struct PerformanceView: View {
                     Button("Enable Monitoring") {
                         audioEngine.setupMicrophone {
                             guard audioEngine.mic != nil else {
-                                appState.currentError = "Microphone not available. Select an input device in Settings."
+                                let permissionStatus = AVCaptureDevice.authorizationStatus(for: .audio)
+                                if permissionStatus == .denied || permissionStatus == .restricted {
+                                    appState.currentError = "Microphone access is disabled for Tono. Enable it in System Settings > Privacy & Security > Microphone."
+                                } else {
+                                    appState.currentError = "Microphone not available. Select an input device in Settings."
+                                }
                                 audioEngine.isMicMonitoring = false
                                 return
                             }
