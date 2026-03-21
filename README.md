@@ -77,6 +77,10 @@ git clone https://github.com/Twerk4Code/Tono-Karaoke.git
 6. Add songs to the Queue for a smoother rehearsal or set flow.
 7. Use Gig Mode when you want the big, stage-ready experience. 🎶
 
+## Saftey/Anti-Virus
+
+Virus Total collection link: https://www.virustotal.com/gui/collection/b2453bec43a909e08d69a059394e3f832218785aab0c3879213c949c2db28077/iocs
+
 ## License
 
 This repository is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE).
