@@ -328,6 +328,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 715A8CF082BA07B995045773 /* Build configuration list for PBXNativeTarget "Tono" */;
 			buildPhases = (
+				6F7A2C947A9B4D2E8C0A51F1 /* Bootstrap LibTorch Layout */,
 				D2CE6844E9064DDAEFE492B7 /* Sources */,
 				F81029E3912AE8AF7C3D8EBF /* Resources */,
 				245F6FAD3161D9B468CDD3F7 /* Frameworks */,
@@ -353,7 +354,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					EBE86B011C11AB11A09CEBA7 = {
 						ProvisioningStyle = Automatic;
@@ -397,6 +398,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6F7A2C947A9B4D2E8C0A51F1 /* Bootstrap LibTorch Layout */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bootstrap LibTorch Layout";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -euo pipefail\n\"${SRCROOT}/scripts/ensure_libtorch_layout.sh\"\n";
+		};
 		9DCAEA95F0CDBCED003637EC /* Embed and Sign LibTorch */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -497,10 +517,10 @@
 				CODE_SIGN_ENTITLEMENTS = Tono/Tono.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/libtorch/include",
-					"$(SRCROOT)/libtorch/include/torch/csrc/api/include",
-				);
+					SYSTEM_HEADER_SEARCH_PATHS = (
+						"$(SRCROOT)/libtorch/include",
+						"$(SRCROOT)/libtorch/include/torch/csrc/api/include",
+					);
 				INFOPLIST_FILE = Tono/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@executable_path/../Frameworks",
@@ -546,10 +566,10 @@
 				CODE_SIGN_ENTITLEMENTS = Tono/Tono.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/libtorch/include",
-					"$(SRCROOT)/libtorch/include/torch/csrc/api/include",
-				);
+					SYSTEM_HEADER_SEARCH_PATHS = (
+						"$(SRCROOT)/libtorch/include",
+						"$(SRCROOT)/libtorch/include/torch/csrc/api/include",
+					);
 				INFOPLIST_FILE = Tono/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@executable_path/../Frameworks",

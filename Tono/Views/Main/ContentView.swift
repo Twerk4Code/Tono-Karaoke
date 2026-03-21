@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(AppState.self) private var appState
+    @State private var currentErrorDismissTask: Task<Void, Never>?
+    @State private var importErrorDismissTask: Task<Void, Never>?
 
     var body: some View {
         NavigationSplitView {
@@ -55,18 +57,26 @@ struct ContentView: View {
         }
         // Auto-dismiss errors after 6 seconds
         .onChange(of: appState.currentError) { _, newVal in
+            currentErrorDismissTask?.cancel()
             guard newVal != nil else { return }
-            Task { @MainActor in
+            currentErrorDismissTask = Task { @MainActor in
                 try? await Task.sleep(for: .seconds(6))
+                guard !Task.isCancelled, appState.currentError == newVal else { return }
                 withAnimation { appState.currentError = nil }
             }
         }
         .onChange(of: appState.importError) { _, newVal in
+            importErrorDismissTask?.cancel()
             guard newVal != nil else { return }
-            Task { @MainActor in
+            importErrorDismissTask = Task { @MainActor in
                 try? await Task.sleep(for: .seconds(8))
+                guard !Task.isCancelled, appState.importError == newVal else { return }
                 withAnimation { appState.importError = nil }
             }
+        }
+        .onDisappear {
+            currentErrorDismissTask?.cancel()
+            importErrorDismissTask?.cancel()
         }
     }
 }

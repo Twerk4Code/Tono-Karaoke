@@ -118,6 +118,18 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .task {
+            refreshOutputDeviceMetadata()
+        }
+        .onChange(of: appState.deviceManager.outputDevices.map(\.id)) { _, _ in
+            refreshOutputDeviceMetadata()
+        }
+        .onChange(of: appState.settings.selectedOutputDeviceID) { _, _ in
+            refreshOutputDeviceMetadata()
+        }
+        .onChange(of: appState.audioEngine.currentBufferSize) { _, _ in
+            refreshOutputDeviceMetadata()
+        }
     }
 
     /// Refresh cached output-device metadata used by the buffer-size section.

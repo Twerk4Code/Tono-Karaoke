@@ -433,9 +433,12 @@ final class AudioEngineManager: ObservableObject {
         beginTransitionMuteIfNeeded()
         do {
             // Sync mMaxFramesPerSlice BEFORE starting so the graph is consistent.
-            syncMaxFramesPerSlice()
+            if syncMaxFramesPerSlice() {
+                markTransientDSPStateInvalidated()
+            }
             try ensureValidOutputRouteBeforeStart()
             try ensureValidInputRouteBeforeStart()
+            prepareTransientDSPStateForEngineStart()
             debugLogRenderConfig("start(pre)")
             try engine.start()
             engineIsRunning = true
@@ -480,9 +483,11 @@ final class AudioEngineManager: ObservableObject {
     /// subclasses and were previously skipped by the `as? AVAudioUnit` cast.
     ///
     /// MUST be called while the engine is stopped (before engine.start()).
-    private func syncMaxFramesPerSlice() {
+    @discardableResult
+    private func syncMaxFramesPerSlice() -> Bool {
         let avEngine = engine.avEngine
         let target = AUAudioFrameCount(maxFramesUpperBound)
+        var reallocatedRenderResources = false
 
         for node in avEngine.attachedNodes {
             let auAudioUnit = node.auAudioUnit
@@ -491,12 +496,25 @@ final class AudioEngineManager: ObservableObject {
             // The property cannot be changed while render resources are allocated.
             // Deallocate first, set, then re-allocate.
             let wasAllocated = auAudioUnit.renderResourcesAllocated
-            if wasAllocated { auAudioUnit.deallocateRenderResources() }
+            if wasAllocated {
+                reallocatedRenderResources = true
+                auAudioUnit.deallocateRenderResources()
+            }
             auAudioUnit.maximumFramesToRender = target
             if wasAllocated {
                 try? auAudioUnit.allocateRenderResources()
             }
         }
+
+        return reallocatedRenderResources
+    }
+
+    private func markTransientDSPStateInvalidated() {
+        micEffects?.markRenderResourcesInvalidated()
+    }
+
+    private func prepareTransientDSPStateForEngineStart() {
+        micEffects?.prepareForEngineStart()
     }
 
     /// Safely restart the engine with full resource deallocation.
@@ -517,7 +535,10 @@ final class AudioEngineManager: ObservableObject {
             }
             engineIsRunning = false
             avEngine.reset()
-            syncMaxFramesPerSlice()
+            markTransientDSPStateInvalidated()
+            if syncMaxFramesPerSlice() {
+                markTransientDSPStateInvalidated()
+            }
             // After reset the AUHAL clears its device pointer. Restore a known-good
             // previous device so ensureValidOutputRouteBeforeStart() sees a real device
             // rather than device=0 / SR=0 — which would cause -10875 on engine.start().
@@ -540,6 +561,7 @@ final class AudioEngineManager: ObservableObject {
             }
             try ensureValidOutputRouteBeforeStart()
             try ensureValidInputRouteBeforeStart()
+            prepareTransientDSPStateForEngineStart()
             debugLogRenderConfig("safeRestart(pre)")
             try engine.start()
             engineIsRunning = true
@@ -582,8 +604,12 @@ final class AudioEngineManager: ObservableObject {
                 if attempt > 1 {
                     // Flush stale HAL render state before retrying.
                     engine.avEngine.reset()
-                    syncMaxFramesPerSlice()
+                    markTransientDSPStateInvalidated()
                 }
+                if syncMaxFramesPerSlice() {
+                    markTransientDSPStateInvalidated()
+                }
+                prepareTransientDSPStateForEngineStart()
                 try engine.start()
                 if attempt > 1 {
                     print("[AudioEngineManager] engine.start() succeeded on attempt \(attempt)/\(maxAttempts)")
@@ -982,6 +1008,21 @@ final class AudioEngineManager: ObservableObject {
         // if the switch to the new device fails entirely.
         let savedOutputDeviceID = getCurrentOutputDeviceID()
 
+        if requestingSystemDefault {
+            do {
+                try safeRestartEngine()
+                if wasPlaying { play() }
+            } catch {
+                print("[AudioEngineManager] Restart after clearing output override failed: \(error)")
+                recoverAfterOutputRoutingFailure(
+                    wasRunning: wasRunning,
+                    wasPlaying: wasPlaying,
+                    preferringOutputDevice: nil
+                )
+            }
+            return
+        }
+
         // Stop engine before changing the output device so the render thread
         // isn't pulling through nodes during the transition.
         if engineIsRunning {
@@ -1348,29 +1389,11 @@ final class AudioEngineManager: ObservableObject {
                 return
             }
             if setErr == kAudioUnitErr_InvalidPropertyValue {
-                // Verify the current (AVAudioEngine-selected) route is actually valid
-                // before silently continuing. If the output device is device=0/SR=0/ch=0
-                // (common after a failed device switch), starting the engine will produce
-                // -10875 (IsFormatSampleRateAndChannelCountValid false). Throw instead
-                // so callers can retry rather than looping on a guaranteed failure.
-                var currentPostFailID: AudioDeviceID = kAudioObjectUnknown
-                var currentPostFailSize = UInt32(MemoryLayout<AudioDeviceID>.size)
-                let currentPostFailErr = AudioUnitGetProperty(
-                    outputUnit,
-                    kAudioOutputUnitProperty_CurrentDevice,
-                    kAudioUnitScope_Global,
-                    0,
-                    &currentPostFailID,
-                    &currentPostFailSize
-                )
-                if currentPostFailErr == noErr,
-                   currentPostFailID != AudioDeviceID(kAudioObjectUnknown),
-                   deviceHasOutputChannels(currentPostFailID) {
-                    logDebug("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route (\(currentPostFailID)) is valid, continuing")
-                    return
-                }
-                logDebug("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route is also invalid (device=\(currentPostFailID)), throwing")
-                throw AudioRoutingError.outputDeviceStillInvalid
+                // Built-in / default routes can reject an explicit re-bind even when the
+                // HAL can still attach them implicitly during engine.start().
+                // Continue and let start/retry logic re-negotiate the default route.
+                logDebug("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); continuing with implicit system-default binding")
+                return
             }
             throw AudioRoutingError.setOutputDeviceFailed(setErr)
         }
@@ -1431,6 +1454,32 @@ final class AudioEngineManager: ObservableObject {
             return
         }
         logDebug("[AudioEngineManager][DEBUG] ensureValidInputRouteBeforeStart applied fallback input device=\(devID)")
+    }
+
+    @discardableResult
+    private func applyInputDeviceBeforeStart(_ deviceID: AudioDeviceID) -> Bool {
+        guard deviceID != AudioDeviceID(kAudioObjectUnknown),
+              deviceHasInputChannels(deviceID),
+              let inputUnit = engine.avEngine.inputNode.audioUnit else {
+            return false
+        }
+
+        var devID = deviceID
+        let err = AudioUnitSetProperty(
+            inputUnit,
+            kAudioOutputUnitProperty_CurrentDevice,
+            kAudioUnitScope_Global,
+            0,
+            &devID,
+            UInt32(MemoryLayout<AudioDeviceID>.size)
+        )
+        guard err == noErr else {
+            logDebug("[AudioEngineManager][DEBUG] initializeMicInput pre-start input apply failed device=\(deviceID) err=\(err)")
+            return false
+        }
+
+        logDebug("[AudioEngineManager][DEBUG] initializeMicInput pre-start input applied device=\(deviceID)")
+        return true
     }
 
     private func deviceHasOutputChannels(_ deviceID: AudioDeviceID) -> Bool {
@@ -1615,6 +1664,10 @@ final class AudioEngineManager: ObservableObject {
         }
         mic = input
         isMicrophoneAuthorized = true
+
+        if let requestedPendingInputID {
+            _ = applyInputDeviceBeforeStart(requestedPendingInputID)
+        }
 
         // Route mic through mono downmix → effects → vocal bus → monitor → main output.
         let mono = createMonoMixer(for: input)

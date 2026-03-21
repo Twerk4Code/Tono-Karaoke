@@ -35,9 +35,14 @@ final class PitchViewModel {
             guard self.isEnabled, self.enableRequestToken == token else { return }
             guard let trackingNode = self.appState.audioEngine.pitchTrackingNode else {
                 self.isEnabled = false
+                self.appState.currentError = "Pitch tracking is unavailable. Select an input device and allow microphone access."
                 return
             }
-            self.appState.pitchTracker.start(inputNode: trackingNode)
+            let started = self.appState.pitchTracker.start(inputNode: trackingNode)
+            if !started {
+                self.isEnabled = false
+                self.appState.currentError = "Pitch tracking could not start on the current microphone route."
+            }
         }
     }
 

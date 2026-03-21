@@ -265,6 +265,13 @@ struct LibraryView: View {
                         SongCard(
                             song: song,
                             isSelected: appState.selectedSong?.id == song.id,
+                            folders: vm.folders,
+                            onAddToQueue: {
+                                appState.addToQueue(song)
+                            },
+                            onMoveToFolder: { folderID in
+                                vm.moveSong(song, to: folderID)
+                            },
                             onRevealFiles: {
                                 vm.revealSongFilesInFinder(song)
                             },
@@ -276,46 +283,6 @@ struct LibraryView: View {
                         )
                         .onTapGesture {
                             appState.selectSong(song)
-                        }
-                        .contextMenu {
-                            Button {
-                                appState.addToQueue(song)
-                            } label: {
-                                Label("Add to Queue", systemImage: "text.badge.plus")
-                            }
-                            Divider()
-                            Menu("Move to Folder") {
-                                Button {
-                                    vm.moveSong(song, to: nil)
-                                } label: {
-                                    Label("No Folder", systemImage: song.folderID == nil ? "checkmark" : "")
-                                }
-
-                                if vm.folders.isEmpty {
-                                    Button("Create a folder first") {}
-                                        .disabled(true)
-                                } else {
-                                    ForEach(vm.folders) { folder in
-                                        Button {
-                                            vm.moveSong(song, to: folder.id)
-                                        } label: {
-                                            Label(folder.name, systemImage: song.folderID == folder.id ? "checkmark" : "")
-                                        }
-                                    }
-                                }
-                            }
-                            Button {
-                                vm.revealSongFilesInFinder(song)
-                            } label: {
-                                Label("Show Stored Files in Finder", systemImage: "folder")
-                            }
-                            Button(role: .destructive) {
-                                withAnimation(.easeInOut(duration: 0.25)) {
-                                    vm.deleteSong(song)
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
                         }
                         .transition(.asymmetric(
                             insertion: .opacity.combined(with: .slide),

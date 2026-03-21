@@ -440,6 +440,10 @@ final class EffectsProcessor {
 
     private let minTunerFrequency: Float = 20
     private let maxTunerFrequency: Float = 3_000
+    /// SoundpipeAudioKit's PitchCorrect DSP frees its cached scale table when
+    /// render resources are deallocated, so the host must re-send it before
+    /// the next engine start.
+    private var tunerDSPStateNeedsRebuild = true
 
     // MARK: - 3-Band EQ (−12 ... +12 dB)
 
@@ -505,6 +509,22 @@ final class EffectsProcessor {
 
     private func applyTunerSpeed() {
         pitchCorrect.speed = clamp(tunerSpeed, 0, 1)
+    }
+
+    /// Mark transient tuner DSP state that must be restored before the next start.
+    func markRenderResourcesInvalidated() {
+        tunerDSPStateNeedsRebuild = true
+    }
+
+    /// Rehydrate transient tuner DSP state after AVAudioEngine tears down render resources.
+    func prepareForEngineStart() {
+        guard tunerDSPStateNeedsRebuild else { return }
+        tunerDSPStateNeedsRebuild = false
+        debugLog("rehydrating tuner DSP state before engine start")
+        applyTunerScaleFrequencies()
+        applyTunerAmount()
+        applyTunerSpeed()
+        refreshTunerState()
     }
 
     private static func ratioToHeadroom(_ ratio: Float) -> Float {

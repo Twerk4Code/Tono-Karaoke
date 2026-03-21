@@ -1,6 +1,19 @@
 #import "TorchModule.h"
 #include <torch/script.h>
 
+// The local libtorch dylibs in this workspace do not ship the Python-refcount
+// hooks declared by the newer headers we recovered from the local PyTorch install.
+// Tono uses TorchScript inference only, so no-op weak definitions are sufficient.
+namespace c10 {
+__attribute__((weak)) void TensorImpl::incref_pyobject() const noexcept {}
+__attribute__((weak)) void TensorImpl::decref_pyobject() const noexcept {}
+__attribute__((weak)) bool TensorImpl::try_incref_pyobject() const noexcept { return true; }
+
+__attribute__((weak)) void StorageImpl::incref_pyobject() const noexcept {}
+__attribute__((weak)) void StorageImpl::decref_pyobject() const noexcept {}
+__attribute__((weak)) bool StorageImpl::try_incref_pyobject() const noexcept { return true; }
+} // namespace c10
+
 @implementation TorchModule {
 @protected
     torch::jit::script::Module _impl;

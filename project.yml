@@ -43,7 +43,7 @@ targets:
         ALWAYS_SEARCH_USER_PATHS: NO
         # libtorch C++ integration
         SWIFT_OBJC_BRIDGING_HEADER: Tono/Tono-Bridging-Header.h
-        HEADER_SEARCH_PATHS:
+        SYSTEM_HEADER_SEARCH_PATHS:
           - "$(SRCROOT)/libtorch/include"
           - "$(SRCROOT)/libtorch/include/torch/csrc/api/include"
         LIBRARY_SEARCH_PATHS:
@@ -56,6 +56,12 @@ targets:
           - "-ltorch"
           - "-all_load"
         CLANG_CXX_LANGUAGE_STANDARD: "c++17"
+    preBuildScripts:
+      - name: Bootstrap LibTorch Layout
+        basedOnDependencyAnalysis: false
+        script: |
+          set -euo pipefail
+          "${SRCROOT}/scripts/ensure_libtorch_layout.sh"
     postBuildScripts:
       - name: Embed and Sign LibTorch
         basedOnDependencyAnalysis: false

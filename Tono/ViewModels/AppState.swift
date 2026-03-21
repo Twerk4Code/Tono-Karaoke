@@ -166,26 +166,34 @@ final class AppState {
     /// Apply an output device UID string (from Settings) to the audio engine.
     /// Passing nil or an unresolvable UID reverts to the system default.
     func applyOutputDevice(_ uid: String?) {
-        let deviceID: AudioDeviceID
         if let uid, !uid.isEmpty {
-            deviceID = deviceManager.deviceID(forUID: uid)
-        } else {
-            deviceID = AudioDeviceID(kAudioObjectUnknown)
+            let resolvedID = deviceManager.deviceID(forUID: uid)
+            if resolvedID != AudioDeviceID(kAudioObjectUnknown) {
+                audioEngine.setOutputDevice(resolvedID)
+                return
+            }
+            if settings.selectedOutputDeviceID == uid {
+                settings.selectedOutputDeviceID = nil
+            }
         }
-        audioEngine.setOutputDevice(deviceID)
+        audioEngine.setOutputDevice(AudioDeviceID(kAudioObjectUnknown))
     }
 
     /// Apply an input device UID string (from Settings) to the audio engine.
     /// Safe to call at any time — if the mic path is not yet live the device ID
     /// is queued inside AudioEngineManager and applied once setupMicrophone runs.
     func applyInputDevice(_ uid: String?) {
-        let deviceID: AudioDeviceID
         if let uid, !uid.isEmpty {
-            deviceID = deviceManager.deviceID(forUID: uid)
-        } else {
-            deviceID = AudioDeviceID(kAudioObjectUnknown)
+            let resolvedID = deviceManager.deviceID(forUID: uid)
+            if resolvedID != AudioDeviceID(kAudioObjectUnknown) {
+                audioEngine.setInputDevice(resolvedID)
+                return
+            }
+            if settings.selectedInputDeviceID == uid {
+                settings.selectedInputDeviceID = nil
+            }
         }
-        audioEngine.setInputDevice(deviceID)
+        audioEngine.setInputDevice(AudioDeviceID(kAudioObjectUnknown))
     }
 
     // MARK: - Pitch Tracking

@@ -74,7 +74,13 @@ final class LyricsViewModel {
     func beginSearch(songTitle: String, songArtist: String) {
         isSearching = true
         let cleaned = cleanSearchQuery(songTitle)
-        searchQuery = cleaned.isEmpty ? songTitle : cleaned
+        let titleQuery = cleaned.isEmpty ? songTitle : cleaned
+        let artistQuery = songArtist.trimmingCharacters(in: .whitespacesAndNewlines)
+        if artistQuery.isEmpty || artistQuery.localizedCaseInsensitiveCompare("Unknown Artist") == .orderedSame {
+            searchQuery = titleQuery
+        } else {
+            searchQuery = "\(artistQuery) \(titleQuery)"
+        }
         searchResults = []
         searchError = nil
         isLoadingSearch = false

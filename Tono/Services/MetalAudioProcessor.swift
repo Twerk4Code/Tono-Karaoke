@@ -49,10 +49,16 @@ final class MetalAudioProcessor: @unchecked Sendable {
 
         do {
             let library = try mtlDevice.makeDefaultLibrary(bundle: Bundle.main)
-
-            let overlapFn = library.makeFunction(name: "overlap_add")!
-            let normFn = library.makeFunction(name: "normalize_divide")!
-            let subFn = library.makeFunction(name: "subtract_signals")!
+            guard let overlapFn = library.makeFunction(name: "overlap_add"),
+                  let normFn = library.makeFunction(name: "normalize_divide"),
+                  let subFn = library.makeFunction(name: "subtract_signals") else {
+                print("[MetalAudioProcessor] Missing Metal shader entry points — using CPU fallback.")
+                self.overlapAddPipeline = nil
+                self.normalizePipeline = nil
+                self.subtractPipeline = nil
+                self.isGPUAvailable = false
+                return
+            }
 
             oaPipeline = try mtlDevice.makeComputePipelineState(function: overlapFn)
             normPipeline = try mtlDevice.makeComputePipelineState(function: normFn)

@@ -4,6 +4,9 @@ import AppKit
 struct SongCard: View {
     let song: Song
     let isSelected: Bool
+    let folders: [LibraryFolder]
+    let onAddToQueue: () -> Void
+    let onMoveToFolder: (UUID?) -> Void
     let onRevealFiles: () -> Void
     let onDelete: () -> Void
 
@@ -117,9 +120,45 @@ struct SongCard: View {
         .animation(.easeInOut(duration: 0.2), value: isSelected)
         .contextMenu {
             Button {
+                onAddToQueue()
+            } label: {
+                Label("Add to Queue", systemImage: "text.badge.plus")
+            }
+            Divider()
+            Button {
                 showEditSheet = true
             } label: {
                 Label("Edit Info...", systemImage: "pencil")
+            }
+            Menu("Move to Folder") {
+                Button {
+                    onMoveToFolder(nil)
+                } label: {
+                    Label("No Folder", systemImage: song.folderID == nil ? "checkmark" : "")
+                }
+
+                if folders.isEmpty {
+                    Button("Create a folder first") {}
+                        .disabled(true)
+                } else {
+                    ForEach(folders) { folder in
+                        Button {
+                            onMoveToFolder(folder.id)
+                        } label: {
+                            Label(folder.name, systemImage: song.folderID == folder.id ? "checkmark" : "")
+                        }
+                    }
+                }
+            }
+            Button {
+                onRevealFiles()
+            } label: {
+                Label("Show Stored Files in Finder", systemImage: "folder")
+            }
+            Button(role: .destructive) {
+                onDelete()
+            } label: {
+                Label("Delete", systemImage: "trash")
             }
         }
         .sheet(isPresented: $showEditSheet) {

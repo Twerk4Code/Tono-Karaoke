@@ -128,10 +128,19 @@ final class LyricsService: Sendable {
             }
         }
 
-        // 2. Fallback: free-text search using title only (handles YouTube filenames)
-        let results = try await search(query: title)
-        if let best = results.first(where: { $0.hasSyncedLyrics }), let synced = best.syncedLyrics {
-            return synced
+        // 2. Fallback: free-text search, preferring artist + title when we have both.
+        let trimmedArtist = artist.trimmingCharacters(in: .whitespacesAndNewlines)
+        let searchQueries = [
+            (trimmedArtist.isEmpty ? nil : "\(trimmedArtist) \(title)"),
+            title
+        ].compactMap { $0 }
+
+        for query in searchQueries {
+            let results = try await search(query: query)
+            if let best = results.first(where: { $0.hasSyncedLyrics }),
+               let synced = best.syncedLyrics {
+                return synced
+            }
         }
 
         return nil
