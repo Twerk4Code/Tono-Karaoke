@@ -1,4 +1,0 @@
-module CSoundpipeAudioKit {
-    umbrella header "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/SoundpipeAudioKit/Sources/CSoundpipeAudioKit/include/CSoundpipeAudioKit.h"
-    export *
-}

@@ -8,6 +8,9 @@ final class SongLibrary: @unchecked Sendable {
     private(set) var songs: [Song] = []
     private(set) var folders: [LibraryFolder] = []
     private let storageURL: URL
+    private static let persistenceKey = "com.tono.library"
+    private static let saveDebounceSeconds: TimeInterval = 0.4
+    private var pendingSaveWorkItem: DispatchWorkItem?
 
     init() {
         let appSupport = FileManager.default
@@ -16,6 +19,10 @@ final class SongLibrary: @unchecked Sendable {
         try? FileManager.default.createDirectory(at: tonoDir, withIntermediateDirectories: true)
         storageURL = tonoDir.appendingPathComponent("library.json")
         load()
+    }
+
+    deinit {
+        pendingSaveWorkItem?.cancel()
     }
 
     // MARK: - CRUD
@@ -82,6 +89,7 @@ final class SongLibrary: @unchecked Sendable {
 
     private func load() {
         guard let data = try? Data(contentsOf: storageURL) else { return }
+        FileWriteDeduper.shared.seedLastWrittenData(data, forKey: Self.persistenceKey)
         let decoder = JSONDecoder()
 
         if let decoded = try? decoder.decode(StoragePayload.self, from: data) {
@@ -99,9 +107,22 @@ final class SongLibrary: @unchecked Sendable {
     }
 
     private func save() {
+        pendingSaveWorkItem?.cancel()
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.persistSnapshot()
+        }
+        pendingSaveWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.saveDebounceSeconds, execute: workItem)
+    }
+
+    private func persistSnapshot() {
         let payload = StoragePayload(songs: songs, folders: folders)
         guard let data = try? JSONEncoder().encode(payload) else { return }
-        try? data.write(to: storageURL, options: .atomic)
+        FileWriteDeduper.shared.writeIfChanged(
+            data,
+            to: storageURL,
+            key: Self.persistenceKey
+        )
     }
 
     private func sanitizeFolderAssignments() {

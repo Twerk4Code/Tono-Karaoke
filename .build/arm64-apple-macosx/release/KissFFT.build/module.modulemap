@@ -1,4 +1,0 @@
-module KissFFT {
-    umbrella "/Users/admin/Documents/Claude Code/Apps/Tono/.build/checkouts/KissFFT/Sources/KissFFT/include"
-    export *
-}

@@ -49,6 +49,13 @@ final class AudioEngineManager: ObservableObject {
     nonisolated(unsafe) private let vocalPlayer = AudioPlayer()
     nonisolated(unsafe) private let instrumentalPlayer = AudioPlayer()
 
+    // MARK: - TimePitch Nodes (playback speed without pitch change)
+    // Inserted between players and mixers: player → timePitch → mixer.
+    // NOTE: Feature 2 (Key Transposition) will set the `pitch` parameter on these nodes.
+    // Initialized in init() after players are created.
+    private var vocalTimePitch: TimePitch!
+    private var instrumentalTimePitch: TimePitch!
+
     // MARK: - Dedicated Mixer Per Stem
     private let vocalMixer = Mixer()
     private let instrumentalMixer = Mixer()
@@ -61,6 +68,9 @@ final class AudioEngineManager: ObservableObject {
     /// De-click guard: temporarily mute around hard stop/reset/re-route transitions.
     private var transitionMuteDepth = 0
     private var transitionMainMixerVolume: AUValue = 1.0
+    /// Reserve one extra input bus on `mainMixer` for the mic monitor branch.
+    /// Avoids late bus-array growth after the engine has already run once.
+    private let mainMixerReservedInputBuses = 3
 
     // MARK: - Mic Path
     private(set) var mic: AudioEngine.InputNode?
@@ -69,15 +79,41 @@ final class AudioEngineManager: ObservableObject {
     private var micMonoMixer: Mixer?
     /// Effects chain applied to the live microphone signal.
     private(set) var micEffects: EffectsProcessor?
+    /// Preferred source node for pitch tracking taps.
+    /// Uses post-FX pre-tuner signal to avoid tap contention on micMonoMixer,
+    /// where the mic spectrum analyzer also installs a tap.
+    var pitchTrackingNode: Node? {
+        if let effects = micEffects { return effects.pitchTrackingOutput }
+        if let mono = micMonoMixer { return mono }
+        if let input = mic { return input }
+        return nil
+    }
     /// Called whenever a fresh mic effects chain is created.
     var onMicEffectsReady: (@MainActor (EffectsProcessor) -> Void)?
+
     /// Controls whether the processed mic signal reaches the speakers (monitoring).
     /// Volume 0 = silent (PitchTap still works); volume 1 = full monitor.
     private var micMonitorMixer: Mixer?
+    /// Post-FX vocal bus that provides explicit L/R channel control.
+    private var micVocalBusMixer: Mixer?
+    private var micVocalBusLeftMixer: Mixer?
+    private var micVocalBusRightMixer: Mixer?
+    /// Prevents concurrent mic graph builds (monitor + pitch can request setup together).
+    private var isInitializingMicInput = false
+    /// Coalesced setup callbacks executed once mic initialization finishes.
+    private var pendingMicReadyCallbacks: [(@MainActor @Sendable () -> Void)] = []
 
     /// Whether mic monitoring (live playback through effects) is active.
     @Published var isMicMonitoring = false {
         didSet { micMonitorMixer?.volume = isMicMonitoring ? 1 : 0 }
+    }
+    /// Vocal monitor bus left gain (0...1.5). 1.0 = unity.
+    @Published var micBusLeftGain: Double = 1.0 {
+        didSet { applyMicVocalBusGains() }
+    }
+    /// Vocal monitor bus right gain (0...1.5). 1.0 = unity.
+    @Published var micBusRightGain: Double = 1.0 {
+        didSet { applyMicVocalBusGains() }
     }
 
     // MARK: - Published State
@@ -92,6 +128,29 @@ final class AudioEngineManager: ObservableObject {
         didSet { instrumentalMixer.volume = AUValue(instrumentalVolume) }
     }
 
+    /// Playback speed multiplier (0.5–2.0). Adjusts rate without changing pitch.
+    var playbackRate: Double = 1.0 {
+        didSet {
+            let rate = AUValue(playbackRate)
+            vocalTimePitch.rate = rate
+            instrumentalTimePitch.rate = rate
+            // Reset internal spectral buffers on every rate change.
+            // AVAudioUnitTimePitch accumulates stale state when transitioning
+            // between rates (especially back to 1.0), causing persistent distortion.
+            (vocalTimePitch.avAudioNode as? AVAudioUnitTimePitch)?.reset()
+            (instrumentalTimePitch.avAudioNode as? AVAudioUnitTimePitch)?.reset()
+        }
+    }
+
+    /// Pitch shift in semitones (–6 to +6). Rate stays unchanged.
+    var pitchShiftSemitones: Int = 0 {
+        didSet {
+            let cents = AUValue(pitchShiftSemitones) * 100
+            vocalTimePitch.pitch = cents
+            instrumentalTimePitch.pitch = cents
+        }
+    }
+
     // MARK: - Audio Thread Queue
     // AVAudioPlayerNode operations (play/pause/stop/seek) synchronize internally
     // with the audio render thread. This queue is also awaited by main-actor UI
@@ -104,6 +163,15 @@ final class AudioEngineManager: ObservableObject {
     /// Called after the engine successfully recovers from an AVAudioEngineConfigurationChange.
     /// AppState sets this to re-attach mic-dependent objects (e.g. PitchTap) after a reset.
     var onEngineRestarted: (@MainActor () -> Void)?
+    /// Called after `setInputDevice` finishes rebuilding the mic path.
+    /// Use this to re-apply the saved output device without triggering the
+    /// full `onEngineRestarted` loop (which would call `setInputDevice` again).
+    var onInputDeviceApplied: (@MainActor @Sendable () -> Void)?
+
+    // MARK: - Playback completion callback
+    /// Called on MainActor when the current song finishes playing naturally.
+    /// AppState uses this to advance the queue.
+    var onPlaybackFinished: (@Sendable @MainActor () -> Void)?
 
     // NotificationCenter observer token — retained so the listener stays alive.
     private var configChangeObserver: NSObjectProtocol?
@@ -115,16 +183,36 @@ final class AudioEngineManager: ObservableObject {
     private var isRecoveringFromSystemWake = false
     private var wasPlayingBeforeSystemSleep = false
     private var hadMicPathBeforeSystemSleep = false
+    private enum DelayedWorkKey: Hashable {
+        case micSpectrumTapRetry
+        case bufferSizeRestart
+        case inputDeviceRebuild
+        case outputRouteRecovery
+    }
+    private var delayedWorkTasks: [DelayedWorkKey: Task<Void, Never>] = [:]
 
     // MARK: - Visualizer Analysis Tap
     private weak var visualizerAnalyzer: PlaybackVisualizerAnalyzer?
     private var visualizerTapInstalled = false
     private let visualizerTapBufferSize: AVAudioFrameCount = 512
 
+    // MARK: - Mic Spectrum Tap
+    private var micSpectrumTapInstalled = false
+    private let micSpectrumTapBufferSize: AVAudioFrameCount = 1024
+    private var micSpectrumTapBlock: (@Sendable (AVAudioPCMBuffer, AVAudioTime) -> Void)?
+
     /// Saved input device ID requested before the mic path was initialized.
     /// Applied automatically inside initializeMicInput() once the path is live.
     /// Use setPendingInputDevice(_:) to set this without touching engine.avEngine.inputNode.
     private(set) var pendingInputDeviceID: AudioDeviceID?
+
+    private static var diagnosticsEnabled: Bool {
+#if DEBUG
+        ProcessInfo.processInfo.environment["TONO_AUDIO_DEBUG_LOGS"] == "1"
+#else
+        false
+#endif
+    }
 
     /// Queue an input device to be applied when the mic path initializes,
     /// WITHOUT touching engine.avEngine.inputNode (which would prematurely activate
@@ -135,17 +223,42 @@ final class AudioEngineManager: ObservableObject {
 
     // MARK: - Init
     init() {
-        // Wire stem players into their own mixers
-        vocalMixer.addInput(vocalPlayer)
-        instrumentalMixer.addInput(instrumentalPlayer)
+        // Wire: vocalPlayer → vocalTimePitch → vocalMixer
+        //       instrumentalPlayer → instrumentalTimePitch → instrumentalMixer
+        vocalTimePitch = TimePitch(vocalPlayer, overlap: 32.0)
+        instrumentalTimePitch = TimePitch(instrumentalPlayer, overlap: 32.0)
+        vocalMixer.addInput(vocalTimePitch)
+        instrumentalMixer.addInput(instrumentalTimePitch)
 
         // Stem playback stays dry. FX are mic-monitor-only.
         mainMixer.addInput(vocalMixer)
         mainMixer.addInput(instrumentalMixer)
+        reserveMainMixerInputBusesIfNeeded()
 
         visualizerTapMixer.addInput(mainMixer)
         engine.output = visualizerTapMixer
         installPowerStateObservers()
+    }
+
+    deinit {
+        MainActor.assumeIsolated {
+            delayedWorkTasks.values.forEach { $0.cancel() }
+            delayedWorkTasks.removeAll()
+
+            if let observer = configChangeObserver {
+                NotificationCenter.default.removeObserver(observer)
+                configChangeObserver = nil
+            }
+            let center = NSWorkspace.shared.notificationCenter
+            if let observer = systemWillSleepObserver {
+                center.removeObserver(observer)
+                systemWillSleepObserver = nil
+            }
+            if let observer = systemDidWakeObserver {
+                center.removeObserver(observer)
+                systemDidWakeObserver = nil
+            }
+        }
     }
 
     // MARK: - Visualizer
@@ -206,6 +319,46 @@ final class AudioEngineManager: ObservableObject {
 #endif
     }
 
+    func installMicSpectrumTap(block: @escaping @Sendable (AVAudioPCMBuffer, AVAudioTime) -> Void) {
+        micSpectrumTapBlock = block
+        installMicSpectrumTapIfNeeded()
+    }
+
+    func removeMicSpectrumTap() {
+        micSpectrumTapBlock = nil
+        removeMicSpectrumTapIfNeeded()
+    }
+
+    private func installMicSpectrumTapIfNeeded() {
+        guard !micSpectrumTapInstalled, let block = micSpectrumTapBlock else { return }
+        guard let monoMixer = micMonoMixer else { return }
+        let tapNode = monoMixer.avAudioNode
+        // Skip if the node's format hasn't been negotiated yet (sampleRate == 0).
+        // This can happen if called too soon after engine.start(); a retry is
+        // scheduled below via installMicSpectrumTapWithRetry().
+        let fmt = tapNode.outputFormat(forBus: 0)
+        guard fmt.sampleRate > 0, fmt.channelCount > 0 else {
+            installMicSpectrumTapWithRetry()
+            return
+        }
+        tapNode.installTap(onBus: 0, bufferSize: micSpectrumTapBufferSize, format: nil, block: block)
+        micSpectrumTapInstalled = true
+    }
+
+    /// Schedules one deferred retry of `installMicSpectrumTapIfNeeded` to handle
+    /// the case where the node format isn't ready immediately after engine start.
+    private func installMicSpectrumTapWithRetry() {
+        scheduleDelayedWork(.micSpectrumTapRetry, delayNanoseconds: 250_000_000) { [weak self] in
+            self?.installMicSpectrumTapIfNeeded()
+        }
+    }
+
+    private func removeMicSpectrumTapIfNeeded() {
+        guard micSpectrumTapInstalled else { return }
+        micMonoMixer?.avAudioNode.removeTap(onBus: 0)
+        micSpectrumTapInstalled = false
+    }
+
     private func stopEngineForGraphMutation() {
         beginTransitionMuteIfNeeded()
         removeVisualizerTapIfNeeded()
@@ -224,6 +377,43 @@ final class AudioEngineManager: ObservableObject {
         guard transitionMuteDepth > 0 else { return }
         transitionMuteDepth = 0
         mainMixer.volume = transitionMainMixerVolume
+    }
+
+    private func reserveMainMixerInputBusesIfNeeded() {
+        let allowed = mainMixer.resizeInputBussesArray(requiredSize: mainMixerReservedInputBuses)
+        if allowed < mainMixerReservedInputBuses {
+            logDebug(
+                "[AudioEngineManager][DEBUG] mainMixer bus reservation limited: " +
+                "requested=\(mainMixerReservedInputBuses) allowed=\(allowed)"
+            )
+        }
+    }
+
+    private func scheduleDelayedWork(
+        _ key: DelayedWorkKey,
+        delayNanoseconds: UInt64,
+        operation: @escaping @MainActor () async -> Void
+    ) {
+        delayedWorkTasks[key]?.cancel()
+        delayedWorkTasks[key] = Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: delayNanoseconds)
+            guard let self, !Task.isCancelled else { return }
+            await operation()
+            self.delayedWorkTasks[key] = nil
+        }
+    }
+
+    private func logDebug(_ message: @autoclosure () -> String) {
+        guard Self.diagnosticsEnabled else { return }
+        print(message())
+    }
+
+    private var isAppleSiliconBuild: Bool {
+#if arch(arm64)
+        true
+#else
+        false
+#endif
     }
 
     /// AVAudioNode tap callbacks run on a CoreAudio realtime queue.
@@ -321,6 +511,7 @@ final class AudioEngineManager: ObservableObject {
         beginTransitionMuteIfNeeded()
         do {
             removeVisualizerTapIfNeeded()
+            removeMicSpectrumTapIfNeeded()
             if avEngine.isRunning {
                 engine.stop()
             }
@@ -359,6 +550,7 @@ final class AudioEngineManager: ObservableObject {
             }
             debugLogRenderConfig("safeRestart(post)")
             updateVisualizerTapState()
+            installMicSpectrumTapIfNeeded()
             endTransitionMuteIfNeeded()
         } catch {
             endTransitionMuteIfNeeded()
@@ -418,7 +610,7 @@ final class AudioEngineManager: ObservableObject {
         let outputFormat = avEngine.outputNode.outputFormat(forBus: 0)
         let inputDeviceID = getCurrentInputDeviceID() ?? AudioDeviceID(kAudioObjectUnknown)
         let outputDeviceID = getCurrentOutputDeviceID() ?? AudioDeviceID(kAudioObjectUnknown)
-        print(
+        logDebug(
             "[AudioEngineManager][DEBUG] \(context) " +
             "inputDevice=\(inputDeviceID) " +
             "inputSR=\(Int(inputFormat.sampleRate)) " +
@@ -502,11 +694,17 @@ final class AudioEngineManager: ObservableObject {
 
             do {
                 if shouldRebuildMic {
+                    self.removeMicSpectrumTapIfNeeded()
                     self.mic = nil
                     self.micMonoMixer = nil
                     self.micEffects = nil
+
                     self.micMonitorMixer = nil
+                    self.micVocalBusMixer = nil
+                    self.micVocalBusLeftMixer = nil
+                    self.micVocalBusRightMixer = nil
                     self.mainMixer.removeAllInputs()
+                    self.reserveMainMixerInputBusesIfNeeded()
                     self.mainMixer.addInput(self.vocalMixer)
                     self.mainMixer.addInput(self.instrumentalMixer)
                     let avEngine = self.engine.avEngine
@@ -566,15 +764,21 @@ final class AudioEngineManager: ObservableObject {
             // initializeMicInput() builds a fresh path below.
             let micWasActive = mic != nil
             if micWasActive {
+                removeMicSpectrumTapIfNeeded()
                 mic = nil
                 micMonoMixer = nil
                 micEffects = nil
+
                 micMonitorMixer = nil
+                micVocalBusMixer = nil
+                micVocalBusLeftMixer = nil
+                micVocalBusRightMixer = nil
                 // Remove the stale mic branch from the main mixer so AVAudioEngine
                 // doesn't try to render a disconnected node.
                 // AudioKit's Mixer.removeAllInputs is the safest way to do this;
                 // we re-add the two stem branches immediately after.
                 mainMixer.removeAllInputs()
+                reserveMainMixerInputBusesIfNeeded()
                 mainMixer.addInput(vocalMixer)
                 mainMixer.addInput(instrumentalMixer)
             }
@@ -718,9 +922,8 @@ final class AudioEngineManager: ObservableObject {
 
         currentBufferSize = frames
 
-        Task { @MainActor in
-            // Wait for the hardware to acknowledge the new buffer size.
-            try? await Task.sleep(for: .milliseconds(150))
+        scheduleDelayedWork(.bufferSizeRestart, delayNanoseconds: 150_000_000) { [weak self] in
+            guard let self else { return }
             do {
                 try self.safeRestartEngine()
                 if wasPlaying { self.play() }
@@ -739,8 +942,9 @@ final class AudioEngineManager: ObservableObject {
     /// buffer size.
     func setOutputDevice(_ deviceID: AudioDeviceID) {
         let wasRunning = engineIsRunning
+        let requestingSystemDefault = (deviceID == kAudioObjectUnknown)
         let resolvedID: AudioDeviceID
-        if deviceID == kAudioObjectUnknown {
+        if requestingSystemDefault {
             let defaultOutput = getDefaultOutputDevice()
             guard defaultOutput != AudioDeviceID(kAudioObjectUnknown) else {
                 print("[AudioEngineManager] setOutputDevice: failed to resolve default output device")
@@ -795,7 +999,11 @@ final class AudioEngineManager: ObservableObject {
 
         guard let outputUnit = avEngine.outputNode.audioUnit else {
             print("[AudioEngineManager] Cannot get output AudioUnit")
-            recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
+            recoverAfterOutputRoutingFailure(
+                wasRunning: wasRunning,
+                wasPlaying: wasPlaying,
+                preferringOutputDevice: requestingSystemDefault ? nil : savedOutputDeviceID
+            )
             return
         }
 
@@ -816,12 +1024,20 @@ final class AudioEngineManager: ObservableObject {
             let fallbackID = getDefaultOutputDevice()
             guard fallbackID != AudioDeviceID(kAudioObjectUnknown) else {
                 print("[AudioEngineManager] setOutputDevice: no valid fallback output device")
-                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
+                recoverAfterOutputRoutingFailure(
+                    wasRunning: wasRunning,
+                    wasPlaying: wasPlaying,
+                    preferringOutputDevice: requestingSystemDefault ? nil : savedOutputDeviceID
+                )
                 return
             }
             if fallbackID == resolvedID {
                 print("[AudioEngineManager] setOutputDevice fallback skipped: resolved device is already the system default (\(fallbackID))")
-                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
+                recoverAfterOutputRoutingFailure(
+                    wasRunning: wasRunning,
+                    wasPlaying: wasPlaying,
+                    preferringOutputDevice: nil
+                )
                 return
             }
             var fallbackDevID = fallbackID
@@ -835,7 +1051,11 @@ final class AudioEngineManager: ObservableObject {
             )
             guard fallbackErr == noErr else {
                 print("[AudioEngineManager] setOutputDevice fallback failed: \(fallbackErr)")
-                recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
+                recoverAfterOutputRoutingFailure(
+                    wasRunning: wasRunning,
+                    wasPlaying: wasPlaying,
+                    preferringOutputDevice: requestingSystemDefault ? nil : savedOutputDeviceID
+                )
                 return
             }
         }
@@ -847,7 +1067,11 @@ final class AudioEngineManager: ObservableObject {
             if wasPlaying { play() }
         } catch {
             print("[AudioEngineManager] Restart after setOutputDevice failed: \(error)")
-            recoverAfterOutputRoutingFailure(wasRunning: wasRunning, wasPlaying: wasPlaying, preferringOutputDevice: savedOutputDeviceID)
+            recoverAfterOutputRoutingFailure(
+                wasRunning: wasRunning,
+                wasPlaying: wasPlaying,
+                preferringOutputDevice: requestingSystemDefault ? nil : savedOutputDeviceID
+            )
         }
     }
 
@@ -877,13 +1101,26 @@ final class AudioEngineManager: ObservableObject {
             print("[AudioEngineManager] setInputDevice: failed to resolve default input device")
             return
         }
-        print(
+        logDebug(
             "[AudioEngineManager][DEBUG] setInputDevice requested=\(deviceID) " +
             "resolved=\(resolvedID) micActive=\(mic != nil)"
         )
 
+        if mic == nil,
+           let currentInputID = getCurrentInputDeviceID(),
+           currentInputID == resolvedID || deviceIsRelated(currentInputID, resolvedID) {
+            pendingInputDeviceID = nil
+            print("[AudioEngineManager] setInputDevice: mic path not active — input already on requested device (\(currentInputID))")
+            return
+        }
+
         // Always persist the requested device so initializeMicInput() can apply it.
         pendingInputDeviceID = resolvedID
+
+        if isInitializingMicInput {
+            logDebug("[AudioEngineManager][DEBUG] setInputDevice deferred while mic graph is initializing")
+            return
+        }
 
         // Rebuild immediately ONLY when the mic path is already live.
         // The engine can expose inputNode.audioUnit even when our mic chain
@@ -901,7 +1138,7 @@ final class AudioEngineManager: ObservableObject {
             var size = UInt32(MemoryLayout<AudioDeviceID>.size)
             if AudioUnitGetProperty(inputUnit, kAudioOutputUnitProperty_CurrentDevice,
                                     kAudioUnitScope_Global, 0, &currentID, &size) == noErr,
-               currentID == resolvedID {
+               currentID == resolvedID || deviceIsRelated(currentID, resolvedID) {
                 pendingInputDeviceID = nil  // already applied
                 return
             }
@@ -915,11 +1152,16 @@ final class AudioEngineManager: ObservableObject {
         if wasPlaying { pause() }
 
         // Tear down the mic graph exactly as handleConfigurationChange does.
+        removeMicSpectrumTapIfNeeded()
         mic = nil
         micMonoMixer = nil
         micEffects = nil
         micMonitorMixer = nil
+        micVocalBusMixer = nil
+        micVocalBusLeftMixer = nil
+        micVocalBusRightMixer = nil
         mainMixer.removeAllInputs()
+        reserveMainMixerInputBusesIfNeeded()
         mainMixer.addInput(vocalMixer)
         mainMixer.addInput(instrumentalMixer)
 
@@ -946,7 +1188,7 @@ final class AudioEngineManager: ObservableObject {
                 // Clear pending so initializeMicInput doesn't re-try a bad ID.
                 pendingInputDeviceID = nil
             } else {
-                print("[AudioEngineManager][DEBUG] setInputDevice applied to live path device=\(devID)")
+                logDebug("[AudioEngineManager][DEBUG] setInputDevice applied to live path device=\(devID)")
             }
         }
 
@@ -964,11 +1206,14 @@ final class AudioEngineManager: ObservableObject {
         // callback re-applies saved device selections, which would call
         // setInputDevice again and create an infinite loop. The device has
         // already been applied above — only the mic graph needs rebuilding.
-        Task { @MainActor in
-            // Wait for the hardware to acknowledge the buffer size change.
-            try? await Task.sleep(for: .milliseconds(200))
+        scheduleDelayedWork(.inputDeviceRebuild, delayNanoseconds: 200_000_000) { [weak self] in
+            guard let self else { return }
             self.initializeMicInput {
                 if wasPlaying { self.play() }
+                // Re-apply the saved output device so monitoring routes correctly.
+                // Cannot use onEngineRestarted here — it would call setInputDevice
+                // again and create an infinite loop.
+                self.onInputDeviceApplied?()
             }
         }
     }
@@ -1034,8 +1279,8 @@ final class AudioEngineManager: ObservableObject {
         guard wasRunning else { return }
         // Brief delay: give the HAL a moment to finish any in-progress device
         // transition before we re-query and restart.
-        Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(200))
+        scheduleDelayedWork(.outputRouteRecovery, delayNanoseconds: 200_000_000) { [weak self] in
+            guard let self else { return }
             do {
                 // Pass the previous device so safeRestartEngine can restore it
                 // after avEngine.reset() clears the AUHAL device pointer.
@@ -1099,7 +1344,7 @@ final class AudioEngineManager: ObservableObject {
             if postSetErr == noErr,
                postSetID != AudioDeviceID(kAudioObjectUnknown),
                deviceHasOutputChannels(postSetID) {
-                print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart set failed (\(setErr)) but output route is valid (\(postSetID)); continuing")
+                logDebug("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart set failed (\(setErr)) but output route is valid (\(postSetID)); continuing")
                 return
             }
             if setErr == kAudioUnitErr_InvalidPropertyValue {
@@ -1121,10 +1366,10 @@ final class AudioEngineManager: ObservableObject {
                 if currentPostFailErr == noErr,
                    currentPostFailID != AudioDeviceID(kAudioObjectUnknown),
                    deviceHasOutputChannels(currentPostFailID) {
-                    print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route (\(currentPostFailID)) is valid, continuing")
+                    logDebug("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route (\(currentPostFailID)) is valid, continuing")
                     return
                 }
-                print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route is also invalid (device=\(currentPostFailID)), throwing")
+                logDebug("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart received InvalidPropertyValue for fallback device=\(fallbackID); current route is also invalid (device=\(currentPostFailID)), throwing")
                 throw AudioRoutingError.outputDeviceStillInvalid
             }
             throw AudioRoutingError.setOutputDeviceFailed(setErr)
@@ -1145,7 +1390,7 @@ final class AudioEngineManager: ObservableObject {
               deviceHasOutputChannels(verifiedID) else {
             throw AudioRoutingError.outputDeviceStillInvalid
         }
-        print("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart applied fallback output device=\(verifiedID)")
+        logDebug("[AudioEngineManager][DEBUG] ensureValidOutputRouteBeforeStart applied fallback output device=\(verifiedID)")
     }
 
     /// Ensure input AudioUnit is bound to a valid concrete input device before engine.start().
@@ -1185,7 +1430,7 @@ final class AudioEngineManager: ObservableObject {
             print("[AudioEngineManager] ensureValidInputRouteBeforeStart set failed: \(setErr)")
             return
         }
-        print("[AudioEngineManager][DEBUG] ensureValidInputRouteBeforeStart applied fallback input device=\(devID)")
+        logDebug("[AudioEngineManager][DEBUG] ensureValidInputRouteBeforeStart applied fallback input device=\(devID)")
     }
 
     private func deviceHasOutputChannels(_ deviceID: AudioDeviceID) -> Bool {
@@ -1257,7 +1502,7 @@ final class AudioEngineManager: ObservableObject {
     /// Safe to call multiple times — no-ops if the mic is already initialized.
     func setupMicrophone(onReady: (@MainActor @Sendable () -> Void)? = nil) {
         let pendingID = pendingInputDeviceID ?? AudioDeviceID(kAudioObjectUnknown)
-        print(
+        logDebug(
             "[AudioEngineManager][DEBUG] setupMicrophone requested " +
             "micExists=\(mic != nil) " +
             "monitoring=\(isMicMonitoring) " +
@@ -1270,9 +1515,12 @@ final class AudioEngineManager: ObservableObject {
             if let outputID = getCurrentOutputDeviceID(), deviceHasInputChannels(outputID) {
                 // Prefer matching output+input USB interfaces (e.g. MOTU M2)
                 // when no explicit input is currently selected.
-                setInputDevice(outputID)
+                setPendingInputDevice(outputID)
             } else {
-                setInputDevice(AudioDeviceID(kAudioObjectUnknown))
+                let defaultInputID = getDefaultInputDevice()
+                if defaultInputID != AudioDeviceID(kAudioObjectUnknown) {
+                    setPendingInputDevice(defaultInputID)
+                }
             }
         }
 
@@ -1281,182 +1529,78 @@ final class AudioEngineManager: ObservableObject {
             return
         }
 
+        if let onReady {
+            pendingMicReadyCallbacks.append(onReady)
+        }
+        if isInitializingMicInput {
+            logDebug("[AudioEngineManager][DEBUG] setupMicrophone coalesced into active initialization")
+            return
+        }
+
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
         case .authorized:
-            initializeMicInput(onReady: onReady)
+            initializeMicInput()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .audio) { [weak self] granted in
                 Task { @MainActor in
                     guard let self else { return }
                     if granted {
-                        self.initializeMicInput(onReady: onReady)
+                        self.initializeMicInput()
                     } else {
                         self.isMicrophoneAuthorized = false
-                        onReady?()
+                        self.flushPendingMicReadyCallbacks()
                     }
                 }
             }
         default:
             isMicrophoneAuthorized = false
-            onReady?()
+            flushPendingMicReadyCallbacks()
         }
     }
 
+    // MONITORING SNAPSHOT (2026-03-18):
+    // Keep this initialization order stable unless a dedicated routing regression pass is run.
+    // See Docs/MonitoringRoutingSnapshot.md for invariants and failure signatures.
     private func initializeMicInput(onReady: (@MainActor @Sendable () -> Void)? = nil) {
-        // Capture playback state BEFORE stopping the engine — we restore it after restart.
-        let wasPlaying = isPlaying
-
-        // If a specific input device was requested (e.g. MOTU M2 chosen in Settings
-        // before the mic path was live), apply it BEFORE accessing engine.input.
-        //
-        // CRITICAL FIX: The old code accessed engine.input first (which connects the
-        // inputNode using the DEFAULT device), started the engine, then changed the
-        // device and restarted. This left stale mMaxFramesPerSlice values from the
-        // default device's buffer size (e.g. 512) on internal AU nodes, even after
-        // the device was changed to one with a different buffer (e.g. MOTU M2 at 480).
-        //
-        // The fix: apply the pending device to the input AudioUnit BEFORE the engine
-        // starts, so AVAudioEngine negotiates everything against the correct device.
-        if let pendingID = pendingInputDeviceID, pendingID != kAudioObjectUnknown {
-            pendingInputDeviceID = nil   // consume so we don't re-apply on next init
-            print("[AudioEngineManager][DEBUG] initializeMicInput pending device=\(pendingID)")
-
-            // Stop the engine and reset so the input node gets a clean slate.
-            let wasRunning = engineIsRunning
-            if wasRunning {
-                if wasPlaying { pause() }
-                stopEngineForGraphMutation()
-            }
-            let avEngine = engine.avEngine
-            avEngine.reset()
-
-            // Apply the pending device BEFORE connecting engine.input whenever possible.
-            // This avoids connecting AudioKit's input mixer against the wrong hardware format.
-            var appliedPendingDevice = false
-            if let inputUnit = avEngine.inputNode.audioUnit {
-                var devID = pendingID
-                let err = AudioUnitSetProperty(
-                    inputUnit,
-                    kAudioOutputUnitProperty_CurrentDevice,
-                    kAudioUnitScope_Global,
-                    0,
-                    &devID,
-                    UInt32(MemoryLayout<AudioDeviceID>.size)
-                )
-                if err != noErr {
-                    print("[AudioEngineManager] initializeMicInput: apply pendingInputDevice error: \(err)")
-                } else {
-                    appliedPendingDevice = true
-                    print("[AudioEngineManager][DEBUG] initializeMicInput: applied pending input device before engine.input (\(devID))")
-                }
-            } else {
-                print("[AudioEngineManager][DEBUG] initializeMicInput: inputUnit unavailable before engine.input")
-            }
-
-            // Access engine.input to trigger inputNode connection (AudioKit lazy-connects).
-            guard let input = engine.input else {
-                print("[AudioEngineManager] engine.input is nil; microphone not available yet")
-                Task { @MainActor in
-                    try? await Task.sleep(for: .milliseconds(150))
-                    onReady?()
-                }
-                return
-            }
-
-            // Fallback: if the input unit wasn't available pre-connect, apply now.
-            if !appliedPendingDevice, let inputUnit = avEngine.inputNode.audioUnit {
-                var devID = pendingID
-                let err = AudioUnitSetProperty(
-                    inputUnit,
-                    kAudioOutputUnitProperty_CurrentDevice,
-                    kAudioUnitScope_Global,
-                    0,
-                    &devID,
-                    UInt32(MemoryLayout<AudioDeviceID>.size)
-                )
-                if err != noErr {
-                    print("[AudioEngineManager] initializeMicInput: apply pendingInputDevice (post-connect) error: \(err)")
-                } else {
-                    print("[AudioEngineManager][DEBUG] initializeMicInput: applied pending input device after engine.input (\(devID))")
-                }
-            } else if !appliedPendingDevice {
-                print("[AudioEngineManager][DEBUG] initializeMicInput: inputUnit unavailable after engine.input")
-            }
-
-            // Build the mic effects chain.
-            // Force the mic input to mono so a single-channel source (e.g. left-only
-            // input on MOTU M2) is centered in both ears when up-mixed to stereo.
-            mic = input
-            isMicrophoneAuthorized = true
-            let mono = createMonoMixer(for: input)
-            micMonoMixer = mono
-            let fx = EffectsProcessor(input: mono)
-            micEffects = fx
-            onMicEffectsReady?(fx)
-            let monitor = Mixer(fx.output)
-            monitor.volume = isMicMonitoring ? 1 : 0
-            micMonitorMixer = monitor
-            mainMixer.addInput(monitor)
-            let inFmt = input.avAudioNode.outputFormat(forBus: 0)
-            print(
-                "[AudioEngineManager][DEBUG] initializeMicInput pending path " +
-                "input sr=\(Int(inFmt.sampleRate)) ch=\(inFmt.channelCount) " +
-                "monoOut sr=\(Int(mono.outputFormat.sampleRate)) ch=\(mono.outputFormat.channelCount)"
-            )
-            fx.debugDumpNodeFormats(context: "pending-path(pre-start)")
-
-            // Sync mMaxFramesPerSlice on all nodes NOW — including the freshly created
-            // EffectsProcessor nodes that were born with AudioKit's default value (512).
-            // This runs synchronously before the async gap, so nodes are consistent
-            // before engine.start() is called in the Task below.
-            syncMaxFramesPerSlice()
-
-            // Start the engine with correct mMaxFramesPerSlice from the start.
-            Task { @MainActor in
-                // Wait for the hardware to acknowledge buffer size changes.
-                try? await Task.sleep(for: .milliseconds(200))
-                self.beginTransitionMuteIfNeeded()
-                do {
-                    self.debugLogRenderConfig("initializeMicInput(pre-start, pending device)")
-                    self.micEffects?.debugDumpNodeFormats(context: "pending-path(pre-start, post-sync)")
-                    // startEngineWithRetry handles syncMaxFramesPerSlice on each attempt
-                    // and retries on kAudioUnitErr_FailedInitialization (-10875) so a
-                    // not-yet-ready HAL doesn't permanently silence playback.
-                    try await self.startEngineWithRetry()
-                    self.engineIsRunning = true
-                    if let deviceID = self.getCurrentOutputDeviceID(),
-                       let frames = AudioDeviceManager.currentBufferFrameSize(for: deviceID) {
-                        self.currentBufferSize = frames
-                    }
-                    self.debugLogRenderConfig("initializeMicInput(post-start, pending device)")
-                    self.updateVisualizerTapState()
-                    self.endTransitionMuteIfNeeded()
-                    if wasPlaying { self.play() }
-                } catch {
-                    self.endTransitionMuteIfNeeded()
-                    print("[AudioEngineManager] Restart after applying pending input device failed after retries: \(error)")
-                }
-                try? await Task.sleep(for: .milliseconds(150))
-                onReady?()
-            }
+        if let onReady {
+            pendingMicReadyCallbacks.append(onReady)
+        }
+        guard !isInitializingMicInput else {
+            logDebug("[AudioEngineManager][DEBUG] initializeMicInput ignored (already initializing)")
             return
         }
+        isInitializingMicInput = true
 
-        // No pending device — standard mic initialization.
-        //
-        // CRITICAL: Stop the engine BEFORE accessing engine.input. Accessing
-        // engine.input on a running engine triggers the HAL to activate full-duplex
-        // I/O, which can renegotiate the buffer size (e.g. MOTU M2: 480 → 512).
-        // If we build the mic graph while running, the render thread may pull
-        // through newly attached nodes before syncMaxFramesPerSlice() runs.
-        //
-        // When called from setInputDevice(), the engine is already stopped
-        // (engineIsRunning == false) so the stop() below is a harmless no-op.
-        // This avoids the old double stop/start that caused the mic icon to flash.
-        if engineIsRunning {
-            if wasPlaying { pause() }
-            stopEngineForGraphMutation()
+        let finishMicInitialization: @MainActor () -> Void = {
+            self.isInitializingMicInput = false
+            self.flushPendingMicReadyCallbacks()
         }
+
+        // Capture playback state BEFORE stopping the engine — we restore it after restart.
+        let wasPlaying = isPlaying
+        let requestedPendingInputID = consumePendingInputDeviceRequest()
+        let hadPendingInputRequest = requestedPendingInputID != nil
+        if wasPlaying {
+            pause()
+        }
+
+        // Always mutate the graph while stopped. Dynamic addInput() on a running
+        // graph has caused AVAudioEngine assertions on some macOS/Apple Silicon routes.
+        if engineIsRunning {
+            stopEngineForGraphMutation()
+            engine.avEngine.reset()
+        }
+
+        // Always rebuild from a known baseline to avoid duplicate/stale mic branches.
+        removeMicSpectrumTapIfNeeded()
+        mic = nil
+        micMonoMixer = nil
+        micEffects = nil
+        micMonitorMixer = nil
+        mainMixer.removeAllInputs()
+        reserveMainMixerInputBusesIfNeeded()
+        mainMixer.addInput(vocalMixer)
+        mainMixer.addInput(instrumentalMixer)
 
         guard let input = engine.input else {
             print("[AudioEngineManager] engine.input is nil; microphone not available yet")
@@ -1466,30 +1610,48 @@ final class AudioEngineManager: ObservableObject {
             } catch {
                 print("[AudioEngineManager] Engine restart failed: \(error)")
             }
+            finishMicInitialization()
             return
         }
         mic = input
         isMicrophoneAuthorized = true
 
-        // Route mic through mono downmix -> effects chain -> monitor mixer -> main output.
-        // The mono mixer forces single-channel input (e.g. MOTU M2 left-only) to be
-        // centered in both ears when downstream nodes up-mix back to stereo.
+        // Route mic through mono downmix → effects → vocal bus → monitor → main output.
         let mono = createMonoMixer(for: input)
         micMonoMixer = mono
-        let fx = EffectsProcessor(input: mono)
-        micEffects = fx
-        onMicEffectsReady?(fx)
-        let monitor = Mixer(fx.output)
+        let effects = EffectsProcessor(input: mono)
+        micEffects = effects
+        onMicEffectsReady?(effects)
+        let monitorSource: Node = effects.output
+
+        let leftMixer = Mixer(monitorSource)
+        let rightMixer = Mixer(monitorSource)
+        micVocalBusLeftMixer = leftMixer
+        micVocalBusRightMixer = rightMixer
+        applyMicVocalBusGains()
+        if let leftNode = leftMixer.avAudioNode as? AVAudioMixerNode {
+            leftNode.pan = -1.0
+        }
+        if let rightNode = rightMixer.avAudioNode as? AVAudioMixerNode {
+            rightNode.pan = 1.0
+        }
+        let vocalBus = Mixer(leftMixer, rightMixer)
+        micVocalBusMixer = vocalBus
+        let monitor = Mixer(vocalBus)
         monitor.volume = isMicMonitoring ? 1 : 0
         micMonitorMixer = monitor
+        reserveMainMixerInputBusesIfNeeded()
         mainMixer.addInput(monitor)
         let inFmt = input.avAudioNode.outputFormat(forBus: 0)
-        print(
-            "[AudioEngineManager][DEBUG] initializeMicInput standard path " +
+        logDebug(
+            "[AudioEngineManager][DEBUG] initializeMicInput " +
+            "\(hadPendingInputRequest ? "pending" : "standard") path " +
             "input sr=\(Int(inFmt.sampleRate)) ch=\(inFmt.channelCount) " +
             "monoOut sr=\(Int(mono.outputFormat.sampleRate)) ch=\(mono.outputFormat.channelCount)"
         )
-        fx.debugDumpNodeFormats(context: "standard-path(pre-start)")
+        effects.debugDumpNodeFormats(
+            context: hadPendingInputRequest ? "pending-path(pre-start)" : "standard-path(pre-start)"
+        )
 
         // Sync mMaxFramesPerSlice (fixed 4096 upper bound) on all nodes —
         // including the freshly created EffectsProcessor nodes.
@@ -1501,26 +1663,113 @@ final class AudioEngineManager: ObservableObject {
         beginTransitionMuteIfNeeded()
         Task { @MainActor in
             do {
-                self.debugLogRenderConfig("initializeMicInput(pre-start)")
+                self.debugLogRenderConfig(
+                    hadPendingInputRequest
+                        ? "initializeMicInput(pre-start, pending device)"
+                        : "initializeMicInput(pre-start)"
+                )
                 try await self.startEngineWithRetry()
                 self.engineIsRunning = true
                 if let deviceID = self.getCurrentOutputDeviceID(),
                    let frames = AudioDeviceManager.currentBufferFrameSize(for: deviceID) {
                     self.currentBufferSize = frames
                 }
-                self.debugLogRenderConfig("initializeMicInput(post-start)")
+                self.debugLogRenderConfig(
+                    hadPendingInputRequest
+                        ? "initializeMicInput(post-start, pending device)"
+                        : "initializeMicInput(post-start)"
+                )
+                self.applyInputLeftToStereoDuplicationIfSupported()
                 self.updateVisualizerTapState()
+                self.installMicSpectrumTapIfNeeded()
                 self.endTransitionMuteIfNeeded()
+                if let pendingID = requestedPendingInputID {
+                    if let currentInputID = self.getCurrentInputDeviceID(),
+                       currentInputID == pendingID || self.deviceIsRelated(currentInputID, pendingID) {
+                        self.logDebug("[AudioEngineManager][DEBUG] initializeMicInput: pending input already active (\(currentInputID))")
+                        self.onInputDeviceApplied?()
+                    } else {
+                        self.logDebug("[AudioEngineManager][DEBUG] initializeMicInput: deferring pending input switch to live path (\(pendingID))")
+                        self.setInputDevice(pendingID)
+                    }
+                }
                 if wasPlaying { self.play() }
             } catch {
                 self.endTransitionMuteIfNeeded()
                 print("[AudioEngineManager] Failed to start engine with mic after retries: \(error)")
             }
-            // Defer onReady so AVAudioEngine finishes hardware reconfiguration
+            // Defer callbacks so AVAudioEngine finishes hardware reconfiguration
             // before PitchTap.start() is called.
             try? await Task.sleep(for: .milliseconds(150))
-            onReady?()
+            finishMicInitialization()
         }
+    }
+
+    private func flushPendingMicReadyCallbacks() {
+        guard !pendingMicReadyCallbacks.isEmpty else { return }
+        let callbacks = pendingMicReadyCallbacks
+        pendingMicReadyCallbacks.removeAll()
+        callbacks.forEach { $0() }
+    }
+
+    private func applyMicVocalBusGains() {
+        let left = AUValue(clampMicBusGain(micBusLeftGain))
+        let right = AUValue(clampMicBusGain(micBusRightGain))
+        micVocalBusLeftMixer?.volume = left
+        micVocalBusRightMixer?.volume = right
+    }
+
+    private func clampMicBusGain(_ value: Double) -> Double {
+        min(max(value, 0.0), 1.5)
+    }
+
+    /// Attempt to map left input channel to both channels on the input unit itself.
+    /// This is safer than forcing mixer output formats and avoids -10868 format drift.
+    private func applyInputLeftToStereoDuplicationIfSupported() {
+        guard let inputUnit = engine.avEngine.inputNode.audioUnit else { return }
+        var channelMap: [Int32] = [0, 0]
+        let size = UInt32(channelMap.count * MemoryLayout<Int32>.size)
+
+        // AUHAL input is commonly exposed on output scope / element 1.
+        let primary = AudioUnitSetProperty(
+            inputUnit,
+            kAudioOutputUnitProperty_ChannelMap,
+            kAudioUnitScope_Output,
+            1,
+            &channelMap,
+            size
+        )
+        if primary == noErr {
+            logDebug("[AudioEngineManager][DEBUG] input channel map applied on scope=output element=1 [0,0]")
+            return
+        }
+
+        // Fallback for devices exposing mapping on element 0.
+        let fallback = AudioUnitSetProperty(
+            inputUnit,
+            kAudioOutputUnitProperty_ChannelMap,
+            kAudioUnitScope_Output,
+            0,
+            &channelMap,
+            size
+        )
+        if fallback == noErr {
+            logDebug("[AudioEngineManager][DEBUG] input channel map applied on scope=output element=0 [0,0]")
+        } else {
+            logDebug("[AudioEngineManager][DEBUG] input channel map unsupported primary=\(primary) fallback=\(fallback)")
+        }
+    }
+
+    /// Consume and clear a queued pending input device request for mic setup.
+    private func consumePendingInputDeviceRequest() -> AudioDeviceID? {
+        guard let pendingID = pendingInputDeviceID,
+              pendingID != AudioDeviceID(kAudioObjectUnknown) else {
+            pendingInputDeviceID = nil
+            return nil
+        }
+        pendingInputDeviceID = nil
+        logDebug("[AudioEngineManager][DEBUG] initializeMicInput pending device=\(pendingID)")
+        return pendingID
     }
 
     // MARK: - Mono Downmix Helper
@@ -1530,11 +1779,9 @@ final class AudioEngineManager: ObservableObject {
     /// AVAudioEngine automatically up-mixes mono → stereo at the next stereo node.
     private func createMonoMixer(for input: Node) -> Mixer {
         let mono = Mixer(input)
-        // NOTE:
-        // Forcing mono here can produce format-negotiation failures on some hardware
-        // (seen as kAudioUnitErr_InvalidElement / kAudioUnitErr_FormatNotSupported
-        // during graph initialization). Keep this mixer in the engine's native format
-        // for stability; we'll add a safer mono-centering strategy separately.
+        // Do not force outputFormat here. On some routes this negotiates to 44.1 kHz
+        // while the graph is at 48 kHz, causing AVAudioEngine start failure (-10868).
+        // Channel duplication must be handled downstream without altering startup formats.
         return mono
     }
 
@@ -1555,6 +1802,12 @@ final class AudioEngineManager: ObservableObject {
                 try self.instrumentalPlayer.load(file: instrumentalFile, buffered: false)
             } catch {
                 loadError = error
+            }
+            // Use instrumentalPlayer as the authoritative completion source
+            // (both stems have matching duration from the same source file).
+            self.instrumentalPlayer.completionHandler = { [weak self] in
+                guard let self else { return }
+                Task { @MainActor in self.onPlaybackFinished?() }
             }
         }
 
@@ -1579,6 +1832,10 @@ final class AudioEngineManager: ObservableObject {
                 try self.instrumentalPlayer.load(file: file, buffered: false)
             } catch {
                 loadError = error
+            }
+            self.instrumentalPlayer.completionHandler = { [weak self] in
+                guard let self else { return }
+                Task { @MainActor in self.onPlaybackFinished?() }
             }
         }
 

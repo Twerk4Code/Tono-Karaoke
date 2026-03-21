@@ -13,7 +13,8 @@ final class PlaybackVisualizerAnalyzer: @unchecked Sendable {
     private let stateLock = NSLock()
     private let analysisQueue = DispatchQueue(label: "com.tono.visualizer.analysis", qos: .userInitiated)
     private let analysisGate = DispatchSemaphore(value: 1)
-    private let publishInterval: CFTimeInterval = 1.0 / 120.0
+    private let publishInterval: CFTimeInterval = 1.0 / 60.0
+    private let publishEpsilon: Float = 0.0015
 
     private var realtimeEnabled = false
     private var realtimeIntensity: Float = 0.45
@@ -26,6 +27,11 @@ final class PlaybackVisualizerAnalyzer: @unchecked Sendable {
     private let halfN: Int
     private let window: [Float]
     private let fftSetup: FFTSetup?
+    private var frameScratch: [Float]
+    private var windowedScratch: [Float]
+    private var splitRealScratch: [Float]
+    private var splitImagScratch: [Float]
+    private var spectrumScratch: [Float]
 
     private var previousSpectrum: [Float]
     private var smoothedBands = SIMD3<Float>(repeating: 0)
@@ -52,6 +58,11 @@ final class PlaybackVisualizerAnalyzer: @unchecked Sendable {
         if fftSetup == nil {
             print("[PlaybackVisualizerAnalyzer] FFT setup unavailable for n=\(nFFT); visualizer analysis will remain idle")
         }
+        self.frameScratch = [Float](repeating: 0, count: nFFT)
+        self.windowedScratch = [Float](repeating: 0, count: nFFT)
+        self.splitRealScratch = [Float](repeating: 0, count: halfN)
+        self.splitImagScratch = [Float](repeating: 0, count: halfN)
+        self.spectrumScratch = [Float](repeating: 0, count: halfN + 1)
         self.previousSpectrum = [Float](repeating: 0, count: halfN + 1)
     }
 
@@ -184,6 +195,7 @@ final class PlaybackVisualizerAnalyzer: @unchecked Sendable {
                 let enabledOnMain = self.realtimeEnabled
                 self.stateLock.unlock()
                 guard enabledOnMain else { return }
+                guard self.hasMeaningfulDelta(from: self.features, to: next) else { return }
                 self.features = next
 #if DEBUG
                 self.debugLogCadence(features: next)
@@ -211,60 +223,55 @@ final class PlaybackVisualizerAnalyzer: @unchecked Sendable {
             )
         }
 
-        var frame = [Float](repeating: 0, count: nFFT)
+        vDSP_vclr(&frameScratch, 1, vDSP_Length(nFFT))
         if monoSamples.count >= nFFT {
             let start = monoSamples.count - nFFT
             for i in 0..<nFFT {
-                frame[i] = monoSamples[start + i]
+                frameScratch[i] = monoSamples[start + i]
             }
         } else {
             let start = nFFT - monoSamples.count
             for i in 0..<monoSamples.count {
-                frame[start + i] = monoSamples[i]
+                frameScratch[start + i] = monoSamples[i]
             }
         }
 
-        var windowed = [Float](repeating: 0, count: nFFT)
-        vDSP_vmul(frame, 1, window, 1, &windowed, 1, vDSP_Length(nFFT))
-
-        var splitReal = [Float](repeating: 0, count: halfN)
-        var splitImag = [Float](repeating: 0, count: halfN)
+        vDSP_vmul(frameScratch, 1, window, 1, &windowedScratch, 1, vDSP_Length(nFFT))
 
         for i in 0..<halfN {
-            splitReal[i] = windowed[2 * i]
-            splitImag[i] = windowed[2 * i + 1]
+            splitRealScratch[i] = windowedScratch[2 * i]
+            splitImagScratch[i] = windowedScratch[2 * i + 1]
         }
 
-        splitReal.withUnsafeMutableBufferPointer { realBuf in
-            splitImag.withUnsafeMutableBufferPointer { imagBuf in
+        splitRealScratch.withUnsafeMutableBufferPointer { realBuf in
+            splitImagScratch.withUnsafeMutableBufferPointer { imagBuf in
                 var split = DSPSplitComplex(realp: realBuf.baseAddress!, imagp: imagBuf.baseAddress!)
                 vDSP_fft_zrip(fftSetup, &split, 1, log2n, FFTDirection(kFFTDirection_Forward))
             }
         }
 
-        var spectrum = [Float](repeating: 0, count: halfN + 1)
         let scale = 1.0 / Float(nFFT)
-        spectrum[0] = abs(splitReal[0]) * scale
+        spectrumScratch[0] = abs(splitRealScratch[0]) * scale
         for k in 1..<halfN {
-            spectrum[k] = hypotf(splitReal[k], splitImag[k]) * scale
+            spectrumScratch[k] = hypotf(splitRealScratch[k], splitImagScratch[k]) * scale
         }
-        spectrum[halfN] = abs(splitImag[0]) * scale
+        spectrumScratch[halfN] = abs(splitImagScratch[0]) * scale
 
-        let bandEnergy = computeBandEnergy(spectrum: spectrum, sampleRate: sampleRate)
+        let bandEnergy = computeBandEnergy(spectrum: spectrumScratch, sampleRate: sampleRate)
         let bass = bandEnergy.bass
         let mid = bandEnergy.mid
         let treble = bandEnergy.treble
         let overall = bandEnergy.overall
 
         var rawFlux: Float = 0
-        for i in 0..<spectrum.count {
-            let diff = spectrum[i] - previousSpectrum[i]
+        for i in 0..<spectrumScratch.count {
+            let diff = spectrumScratch[i] - previousSpectrum[i]
             if diff > 0 {
                 rawFlux += diff
             }
-            previousSpectrum[i] = spectrum[i]
+            previousSpectrum[i] = spectrumScratch[i]
         }
-        rawFlux /= Float(spectrum.count)
+        rawFlux /= Float(spectrumScratch.count)
 
         let bassNorm = compress(bass, gain: 80)
         let midNorm = compress(mid, gain: 60)
@@ -434,6 +441,21 @@ final class PlaybackVisualizerAnalyzer: @unchecked Sendable {
             isSilent: f < 0.02 || snapshot.isSilent
         )
         return decayed
+    }
+
+    private func hasMeaningfulDelta(
+        from current: PlaybackVisualizerFeatures,
+        to next: PlaybackVisualizerFeatures
+    ) -> Bool {
+        if current.isSilent != next.isSilent { return true }
+        if abs(current.overallEnergy - next.overallEnergy) >= publishEpsilon { return true }
+        if abs(current.bassEnergy - next.bassEnergy) >= publishEpsilon { return true }
+        if abs(current.midEnergy - next.midEnergy) >= publishEpsilon { return true }
+        if abs(current.trebleEnergy - next.trebleEnergy) >= publishEpsilon { return true }
+        if abs(current.beatImpulse - next.beatImpulse) >= publishEpsilon { return true }
+        if abs(current.spectralFlux - next.spectralFlux) >= publishEpsilon { return true }
+        if abs(current.stereoWidth - next.stereoWidth) >= publishEpsilon { return true }
+        return false
     }
 
 #if DEBUG

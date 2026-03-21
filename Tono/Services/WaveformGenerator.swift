@@ -13,49 +13,64 @@ enum WaveformGenerator {
     static func generate(from url: URL, targetSamples: Int = 300) async throws -> [Float] {
         let file = try AVAudioFile(forReading: url)
         let format = file.processingFormat
-        let totalFrames = AVAudioFrameCount(file.length)
+        let totalFrames = Int(file.length)
 
         guard totalFrames > 0 else { return [] }
+        let safeTargetSampleCount = max(1, targetSamples)
+        let samplesPerBin = max(1, totalFrames / safeTargetSampleCount)
+        let actualBins = Int(ceil(Double(totalFrames) / Double(samplesPerBin)))
+        guard actualBins > 0 else { return [] }
 
-        let samplesPerBin = max(1, Int(totalFrames) / targetSamples)
-        let actualBins = Int(totalFrames) / samplesPerBin
+        var sumSquares = [Float](repeating: 0, count: actualBins)
+        var counts = [Int](repeating: 0, count: actualBins)
 
-        guard actualBins > 0,
-              let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: totalFrames) else {
+        let chunkFrameCapacity = AVAudioFrameCount(max(4096, min(32768, samplesPerBin * 4)))
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: chunkFrameCapacity) else {
             return []
         }
-
-        try file.read(into: buffer)
-
         guard let channelData = buffer.floatChannelData else { return [] }
 
-        // Mix to mono if stereo
-        let frameCount = Int(buffer.frameLength)
-        var monoSamples = [Float](repeating: 0, count: frameCount)
+        let channelCount = Int(format.channelCount)
+        var processedFrames = 0
 
-        if format.channelCount == 1 {
-            monoSamples = Array(UnsafeBufferPointer(start: channelData[0], count: frameCount))
-        } else {
-            let left = UnsafeBufferPointer(start: channelData[0], count: frameCount)
-            let right = UnsafeBufferPointer(start: channelData[1], count: frameCount)
-            vDSP_vadd(left.baseAddress!, 1, right.baseAddress!, 1, &monoSamples, 1, vDSP_Length(frameCount))
-            var half: Float = 0.5
-            vDSP_vsmul(monoSamples, 1, &half, &monoSamples, 1, vDSP_Length(frameCount))
+        while processedFrames < totalFrames {
+            let remaining = totalFrames - processedFrames
+            let frameCountToRead = AVAudioFrameCount(min(remaining, Int(chunkFrameCapacity)))
+            buffer.frameLength = 0
+            try file.read(into: buffer, frameCount: frameCountToRead)
+
+            let frameCount = Int(buffer.frameLength)
+            if frameCount == 0 { break }
+
+            if channelCount == 1 {
+                let mono = channelData[0]
+                for frameIndex in 0..<frameCount {
+                    let globalFrameIndex = processedFrames + frameIndex
+                    let bin = min(globalFrameIndex / samplesPerBin, actualBins - 1)
+                    let sample = mono[frameIndex]
+                    sumSquares[bin] += sample * sample
+                    counts[bin] += 1
+                }
+            } else {
+                let left = channelData[0]
+                let right = channelData[1]
+                for frameIndex in 0..<frameCount {
+                    let globalFrameIndex = processedFrames + frameIndex
+                    let bin = min(globalFrameIndex / samplesPerBin, actualBins - 1)
+                    let sample = 0.5 * (left[frameIndex] + right[frameIndex])
+                    sumSquares[bin] += sample * sample
+                    counts[bin] += 1
+                }
+            }
+
+            processedFrames += frameCount
         }
 
-        // Compute RMS per bin using Accelerate
+        // Compute RMS per bin.
         var waveform = [Float](repeating: 0, count: actualBins)
-
         for i in 0..<actualBins {
-            let start = i * samplesPerBin
-            let count = min(samplesPerBin, frameCount - start)
-            guard count > 0 else { continue }
-
-            var sumSquares: Float = 0
-            monoSamples.withUnsafeBufferPointer { ptr in
-                vDSP_svesq(ptr.baseAddress! + start, 1, &sumSquares, vDSP_Length(count))
-            }
-            waveform[i] = sqrtf(sumSquares / Float(count))
+            guard counts[i] > 0 else { continue }
+            waveform[i] = sqrtf(sumSquares[i] / Float(counts[i]))
         }
 
         // Normalize to 0...1

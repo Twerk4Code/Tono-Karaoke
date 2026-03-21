@@ -278,6 +278,12 @@ struct LibraryView: View {
                             appState.selectSong(song)
                         }
                         .contextMenu {
+                            Button {
+                                appState.addToQueue(song)
+                            } label: {
+                                Label("Add to Queue", systemImage: "text.badge.plus")
+                            }
+                            Divider()
                             Menu("Move to Folder") {
                                 Button {
                                     vm.moveSong(song, to: nil)

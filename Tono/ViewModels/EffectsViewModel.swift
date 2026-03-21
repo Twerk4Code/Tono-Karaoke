@@ -52,6 +52,43 @@ final class EffectsViewModel {
         }
     }
 
+    var tunerEnabled: Bool = EffectsDefaults.tunerEnabled {
+        didSet {
+            micFx?.tunerEnabled = tunerEnabled
+            persist { settings.tunerEnabled = tunerEnabled }
+        }
+    }
+
+    var tunerKey: TunerKey = EffectsDefaults.tunerKey {
+        didSet {
+            micFx?.tunerKey = tunerKey
+            persist { settings.tunerKey = tunerKey.rawValue }
+        }
+    }
+
+    var tunerScale: TunerScale = EffectsDefaults.tunerScale {
+        didSet {
+            micFx?.tunerScale = tunerScale
+            persist { settings.tunerScale = tunerScale.rawValue }
+        }
+    }
+
+    var tunerAmount: Double = Double(EffectsDefaults.tunerAmount) {
+        didSet {
+            let clampedAmount = clamp(Float(tunerAmount), 0, 1)
+            micFx?.tunerAmount = clampedAmount
+            persist { settings.tunerAmount = clampedAmount }
+        }
+    }
+
+    var tunerSpeed: Double = Double(EffectsDefaults.tunerSpeed) {
+        didSet {
+            let clampedSpeed = clamp(Float(tunerSpeed), 0, 1)
+            micFx?.tunerSpeed = clampedSpeed
+            persist { settings.tunerSpeed = clampedSpeed }
+        }
+    }
+
     var delayEnabled: Bool = EffectsDefaults.delayEnabled {
         didSet {
             micFx?.delayEnabled = delayEnabled
@@ -259,13 +296,14 @@ final class EffectsViewModel {
     // MARK: - Convenience
 
     var isAnyEffectActive: Bool {
-        gateEnabled || eqEnabled || compressorEnabled || delayEnabled || reverbEnabled
+        gateEnabled || eqEnabled || compressorEnabled || tunerEnabled || delayEnabled || reverbEnabled
     }
 
     func resetAll() {
         gateEnabled = EffectsDefaults.gateEnabled
         eqEnabled = EffectsDefaults.eqEnabled
         compressorEnabled = EffectsDefaults.compressorEnabled
+        tunerEnabled = EffectsDefaults.tunerEnabled
         delayEnabled = EffectsDefaults.delayEnabled
         reverbEnabled = EffectsDefaults.reverbEnabled
 
@@ -291,6 +329,11 @@ final class EffectsViewModel {
             compressorMakeupGain = Double(EffectsDefaults.compressorMakeupGain)
         }
 
+        tunerKey = EffectsDefaults.tunerKey
+        tunerScale = EffectsDefaults.tunerScale
+        tunerAmount = Double(EffectsDefaults.tunerAmount)
+        tunerSpeed = Double(EffectsDefaults.tunerSpeed)
+
         delayMode = .standard
         delayMix = Double(EffectsDefaults.delayMix(for: .standard))
         delayTime = Double(EffectsDefaults.delayTime(for: .standard))
@@ -313,6 +356,11 @@ final class EffectsViewModel {
         gatePreset = GatePreset(rawValue: settings.gatePreset) ?? .manual
         eqPreset = EQPreset(rawValue: settings.eqPreset) ?? .manual
         compressorPreset = CompressorPreset(rawValue: settings.compressorPreset) ?? .manual
+        tunerKey = TunerKey(rawValue: settings.tunerKey) ?? EffectsDefaults.tunerKey
+        tunerScale = TunerScale(rawValue: settings.tunerScale) ?? EffectsDefaults.tunerScale
+        tunerAmount = Double(settings.tunerAmount)
+        tunerSpeed = Double(settings.tunerSpeed)
+        tunerEnabled = settings.tunerEnabled
 
         gateThreshold = Double(settings.gateThreshold)
         gateRatio = Double(settings.gateRatio)
@@ -359,6 +407,11 @@ final class EffectsViewModel {
         fx.compressorThreshold = Float(compressorThreshold)
         fx.compressorRatio = Float(compressorRatio)
         fx.compressorMakeupGain = Float(compressorMakeupGain)
+        fx.tunerKey = tunerKey
+        fx.tunerScale = tunerScale
+        fx.tunerAmount = Float(tunerAmount)
+        fx.tunerSpeed = Float(tunerSpeed)
+        fx.tunerEnabled = tunerEnabled
 
         fx.delayMode = delayMode
         fx.delayMix = Float(delayMix)

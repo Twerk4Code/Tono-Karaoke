@@ -18,11 +18,19 @@ final class AppState {
     let vocalSeparator = VocalSeparator()
     let pitchTracker = PitchTracker()
     let playbackVisualizer = PlaybackVisualizerAnalyzer(nFFT: 512)
+    let micSpectrumAnalyzer = MicSpectrumAnalyzer()
     let settings = AppSettings.load()
     let lyricsService = LyricsService.shared
 
     // MARK: - Navigation
     var selectedSong: Song?
+
+    // MARK: - Queue (session-only, not persisted)
+    var songQueue: [Song] = []
+    var userDidStop = false
+
+    // MARK: - Gig Mode
+    var isGigModeActive = false
 
     // MARK: - Import State
     var importProgress: Double = 0
@@ -41,6 +49,8 @@ final class AppState {
 
     // MARK: - Init
     init() {
+        setPitchConfidenceThreshold(settings.pitchConfidenceThreshold)
+
         if !Self.isVisualizerStabilityMigrationApplied() {
             Self.setVisualizerStabilityMigrationApplied(true)
             if settings.visualizer.isEnabled {
@@ -99,6 +109,10 @@ final class AppState {
         // relying on whatever AVAudioEngine currently reports as implicit default.
         applyInputDevice(settings.selectedInputDeviceID)
 
+        // Restore persisted playback rate and pitch shift.
+        audioEngine.playbackRate = settings.playbackRate
+        audioEngine.pitchShiftSemitones = settings.pitchShiftSemitones
+
         audioEngine.configureVisualizerAnalyzer(playbackVisualizer)
         playbackVisualizer.setIntensity(Float(settings.visualizer.intensity))
         playbackVisualizer.setEnabled(settings.visualizer.isEnabled)
@@ -106,6 +120,10 @@ final class AppState {
             armVisualizerCrashGuardWindow()
         }
         audioEngine.refreshVisualizerTapState()
+
+        audioEngine.installMicSpectrumTap { [weak micSpectrumAnalyzer] buffer, _ in
+            micSpectrumAnalyzer?.processSampleBuffer(buffer)
+        }
 
         // Re-attach PitchTracker and restore device selection after the engine
         // recovers from a hardware change (e.g. device plug/unplug, sample-rate change).
@@ -119,11 +137,27 @@ final class AppState {
             }
             self.applyInputDevice(self.settings.selectedInputDeviceID)
             self.audioEngine.refreshVisualizerTapState()
-            // Only re-attach if pitch tracking was actively running before the restart.
+            // Re-attach pitch tracking if it was active.
             guard self.pitchTracker.isTracking else { return }
             self.pitchTracker.stopTracking()
-            guard let mic = self.audioEngine.mic else { return }
-            self.pitchTracker.start(microphone: mic)
+            guard let trackingNode = self.audioEngine.pitchTrackingNode else { return }
+            let started = self.pitchTracker.start(inputNode: trackingNode)
+            if !started {
+                print("[AppState] onEngineRestarted: pitchTracker.start() returned false")
+            }
+        }
+
+        audioEngine.onPlaybackFinished = { [weak self] in
+            self?.handlePlaybackFinished()
+        }
+
+        // Re-apply the saved output device after setInputDevice rebuilds the mic path.
+        // Uses a dedicated callback to avoid the onEngineRestarted → setInputDevice loop.
+        audioEngine.onInputDeviceApplied = { [weak self] in
+            guard let self else { return }
+            if let savedOutputUID = self.settings.selectedOutputDeviceID, !savedOutputUID.isEmpty {
+                self.applyOutputDevice(savedOutputUID)
+            }
         }
     }
 
@@ -152,6 +186,14 @@ final class AppState {
             deviceID = AudioDeviceID(kAudioObjectUnknown)
         }
         audioEngine.setInputDevice(deviceID)
+    }
+
+    // MARK: - Pitch Tracking
+
+    func setPitchConfidenceThreshold(_ value: Float) {
+        let clamped = max(0.01, min(0.2, value))
+        settings.pitchConfidenceThreshold = clamped
+        pitchTracker.setConfidenceThreshold(clamped)
     }
 
     // MARK: - Visualizer
@@ -396,6 +438,7 @@ final class AppState {
     // MARK: - Song Selection
 
     func selectSong(_ song: Song) {
+        userDidStop = false
         // Stop pitch tracking before switching songs — prevents CoreAudio deadlock
         let wasTracking = pitchTracker.isTracking
         if wasTracking {
@@ -403,6 +446,8 @@ final class AppState {
         }
         audioEngine.stopAndWait()
         selectedSong = song
+        audioEngine.pitchShiftSemitones = 0
+        settings.pitchShiftSemitones = 0
 
         if song.importMode == .raw {
             // Raw mode: load original file directly, no stems needed
@@ -452,9 +497,50 @@ final class AppState {
         }
 
         // Re-attach pitch tracker if it was running before the song switch
-        if wasTracking, let mic = audioEngine.mic {
-            pitchTracker.start(microphone: mic)
+        if wasTracking, let trackingNode = audioEngine.pitchTrackingNode {
+            let started = pitchTracker.start(inputNode: trackingNode)
+            if !started {
+                print("[AppState] selectSong: pitchTracker.start() returned false after song switch")
+            }
         }
+    }
+
+    // MARK: - Queue Management
+
+    func addToQueue(_ song: Song) {
+        songQueue.append(song)
+    }
+
+    func removeFromQueue(at offsets: IndexSet) {
+        songQueue.remove(atOffsets: offsets)
+    }
+
+    func moveQueueItems(from source: IndexSet, to destination: Int) {
+        songQueue.move(fromOffsets: source, toOffset: destination)
+    }
+
+    func clearQueue() {
+        songQueue.removeAll()
+    }
+
+    func enterGigMode() {
+        guard !songQueue.isEmpty || selectedSong != nil else { return }
+        isGigModeActive = true
+    }
+
+    func exitGigMode() {
+        isGigModeActive = false
+    }
+
+    func advanceQueue() {
+        guard !songQueue.isEmpty else { return }
+        let next = songQueue.removeFirst()
+        selectSong(next)
+    }
+
+    private func handlePlaybackFinished() {
+        guard !userDidStop, !songQueue.isEmpty else { return }
+        advanceQueue()
     }
 
     // MARK: - Lyrics Fetching
@@ -522,6 +608,18 @@ final class AppState {
         }
         if selectedSong?.id == songID {
             selectedSong?.lrcURL = lrcURL
+        }
+    }
+
+    // MARK: - Metadata Editing
+
+    func updateSongMetadata(id: UUID, title: String, artist: String) {
+        guard var song = library.song(for: id) else { return }
+        song.title = title
+        song.artist = artist
+        library.updateSong(song)
+        if selectedSong?.id == id {
+            selectedSong = song
         }
     }
 

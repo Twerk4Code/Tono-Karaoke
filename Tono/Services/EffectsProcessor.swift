@@ -1,5 +1,80 @@
 import AVFoundation
 import AudioKit
+import SoundpipeAudioKit
+import Foundation
+
+enum TunerKey: String, Codable, CaseIterable {
+    case cKey = "C"
+    case cSharp = "C#"
+    case dKey = "D"
+    case dSharp = "D#"
+    case eKey = "E"
+    case fKey = "F"
+    case fSharp = "F#"
+    case gKey = "G"
+    case gSharp = "G#"
+    case aKey = "A"
+    case aSharp = "A#"
+    case bKey = "B"
+
+    var title: String { rawValue }
+
+    var semitoneOffset: Int {
+        switch self {
+        case .cKey: return 0
+        case .cSharp: return 1
+        case .dKey: return 2
+        case .dSharp: return 3
+        case .eKey: return 4
+        case .fKey: return 5
+        case .fSharp: return 6
+        case .gKey: return 7
+        case .gSharp: return 8
+        case .aKey: return 9
+        case .aSharp: return 10
+        case .bKey: return 11
+        }
+    }
+}
+
+enum TunerScale: String, Codable, CaseIterable {
+    case major
+    case minor
+    case chromatic
+
+    var title: String {
+        switch self {
+        case .major: return "Major"
+        case .minor: return "Minor"
+        case .chromatic: return "Chromatic"
+        }
+    }
+
+    private var intervals: Set<Int> {
+        switch self {
+        case .major: return [0, 2, 4, 5, 7, 9, 11]
+        case .minor: return [0, 2, 3, 5, 7, 8, 10]
+        case .chromatic: return Set(0...11)
+        }
+    }
+
+    func frequencies(for key: TunerKey, minFrequency: Float, maxFrequency: Float) -> [Float] {
+        var frequencies: [Float] = []
+        for midiNote in 0...127 {
+            let scaleDegree = ((midiNote % 12) - key.semitoneOffset + 12) % 12
+            guard intervals.contains(scaleDegree) else { continue }
+            let frequency = Self.frequency(forMIDINote: midiNote)
+            guard frequency >= minFrequency, frequency <= maxFrequency else { continue }
+            frequencies.append(frequency)
+        }
+        return frequencies
+    }
+
+    private static func frequency(forMIDINote midiNote: Int) -> Float {
+        let exponent = (Double(midiNote) - 69.0) / 12.0
+        return Float(440.0 * pow(2.0, exponent))
+    }
+}
 
 enum DelayMode: String, Codable, CaseIterable {
     case standard
@@ -58,6 +133,7 @@ enum EffectsDefaults {
     static let gateEnabled = false
     static let eqEnabled = true
     static let compressorEnabled = true
+    static let tunerEnabled = false
     static let delayEnabled = false
     static let reverbEnabled = false
 
@@ -68,6 +144,10 @@ enum EffectsDefaults {
     static let compressorThreshold: Float = -18
     static let compressorRatio: Float = 3
     static let compressorMakeupGain: Float = 0
+    static let tunerKey: TunerKey = .cKey
+    static let tunerScale: TunerScale = .chromatic
+    static let tunerAmount: Float = 0.75
+    static let tunerSpeed: Float = 0.55
 
     static let reverbMix: Float = 0
     static let lowGain: Float = 0
@@ -143,7 +223,7 @@ enum EffectsDefaults {
 /// Mic monitoring effects chain.
 ///
 /// Ordered chain:
-///   Gate -> EQ -> Compressor -> Delay(Standard | Slapback Ping-Pong) -> Reverb
+///   Gate -> EQ -> Compressor -> Tuner -> Delay(Standard | Slapback Ping-Pong) -> Reverb
 ///
 /// The implementation uses a strictly linear audio graph to avoid format
 /// negotiation failures on live AVAudioEngine graphs.
@@ -155,11 +235,21 @@ final class EffectsProcessor {
     private let gate: Expander
     private let eq: ThreeBandEQ
     private let compressor: Compressor
+    private let pitchCorrect: PitchCorrect
     private let delay: Delay
     private let reverb: Reverb
+    private static var diagnosticsEnabled: Bool {
+#if DEBUG
+        ProcessInfo.processInfo.environment["TONO_AUDIO_DEBUG_LOGS"] == "1"
+#else
+        false
+#endif
+    }
 
     /// Connect this node to downstream mixer(s).
     var output: Node { reverb }
+    /// Preferred source for pitch tracking taps (pre-tuner).
+    var pitchTrackingOutput: Node { compressor }
 
     // MARK: - Effect Enable Flags
 
@@ -179,6 +269,26 @@ final class EffectsProcessor {
         didSet {
             if compressorEnabled { compressor.start() } else { compressor.stop() }
         }
+    }
+
+    var tunerEnabled: Bool = EffectsDefaults.tunerEnabled {
+        didSet { refreshTunerState() }
+    }
+
+    var tunerKey: TunerKey = EffectsDefaults.tunerKey {
+        didSet { applyTunerScaleFrequencies() }
+    }
+
+    var tunerScale: TunerScale = EffectsDefaults.tunerScale {
+        didSet { applyTunerScaleFrequencies() }
+    }
+
+    var tunerAmount: Float = EffectsDefaults.tunerAmount {
+        didSet { applyTunerAmount() }
+    }
+
+    var tunerSpeed: Float = EffectsDefaults.tunerSpeed {
+        didSet { applyTunerSpeed() }
     }
 
     var delayEnabled: Bool = EffectsDefaults.delayEnabled {
@@ -244,16 +354,23 @@ final class EffectsProcessor {
             masterGain: EffectsDefaults.compressorMakeupGain
         )
 
-        // 4) Delay
-        delay = Delay(
+        // 4) Tuner
+        pitchCorrect = PitchCorrect(
             compressor,
+            speed: EffectsDefaults.tunerSpeed,
+            amount: EffectsDefaults.tunerAmount
+        )
+
+        // 5) Delay
+        delay = Delay(
+            pitchCorrect,
             time: EffectsDefaults.delayTime(for: .standard),
             feedback: EffectsDefaults.delayFeedback(for: .standard) * 100,
             lowPassCutoff: 15_000,
             dryWetMix: 0
         )
 
-        // 5) Reverb
+        // 6) Reverb
         reverb = Reverb(delay)
         reverb.dryWetMix = EffectsDefaults.reverbMix
         reverb.stop()
@@ -262,6 +379,10 @@ final class EffectsProcessor {
         if gateEnabled { gate.start() } else { gate.stop() }
         if eqEnabled { eq.start() } else { eq.stop() }
         if compressorEnabled { compressor.start() } else { compressor.stop() }
+        applyTunerScaleFrequencies()
+        applyTunerAmount()
+        applyTunerSpeed()
+        refreshTunerState()
         if reverbEnabled { reverb.start() } else { reverb.stop() }
         applyDelayTime()
         applyDelayFeedback()
@@ -315,6 +436,11 @@ final class EffectsProcessor {
         set { compressor.masterGain = clamp(newValue, -12, 24) }
     }
 
+    // MARK: - Tuner
+
+    private let minTunerFrequency: Float = 20
+    private let maxTunerFrequency: Float = 3_000
+
     // MARK: - 3-Band EQ (−12 ... +12 dB)
 
     var lowGain: Float {
@@ -355,6 +481,32 @@ final class EffectsProcessor {
         delay.feedback = fb
     }
 
+    private func refreshTunerState() {
+        if tunerEnabled {
+            pitchCorrect.start()
+        } else {
+            pitchCorrect.stop()
+        }
+    }
+
+    private func applyTunerScaleFrequencies() {
+        let frequencies = tunerScale.frequencies(
+            for: tunerKey,
+            minFrequency: minTunerFrequency,
+            maxFrequency: maxTunerFrequency
+        )
+        guard !frequencies.isEmpty else { return }
+        pitchCorrect.setScaleFrequencies(frequencies)
+    }
+
+    private func applyTunerAmount() {
+        pitchCorrect.amount = clamp(tunerAmount, 0, 1)
+    }
+
+    private func applyTunerSpeed() {
+        pitchCorrect.speed = clamp(tunerSpeed, 0, 1)
+    }
+
     private static func ratioToHeadroom(_ ratio: Float) -> Float {
         // Higher ratio => lower headroom => stronger compression.
         clampStatic(40 / max(ratio, 1), 0.1, 40)
@@ -375,14 +527,17 @@ final class EffectsProcessor {
     }
 
     private func debugLog(_ message: String) {
+        guard Self.diagnosticsEnabled else { return }
         print("[EffectsProcessor][DEBUG] \(message)")
     }
 
     func debugDumpNodeFormats(context: String) {
+        guard Self.diagnosticsEnabled else { return }
         let nodes: [(String, AVAudioNode)] = [
             ("gate", gate.avAudioNode),
             ("eq", eq.avAudioNode),
             ("compressor", compressor.avAudioNode),
+            ("tuner", pitchCorrect.avAudioNode),
             ("delay", delay.avAudioNode),
             ("reverb", reverb.avAudioNode)
         ]

@@ -3,9 +3,12 @@ import SwiftUI
 struct MixerPanel: View {
     @Binding var vocalVolume: Double
     @Binding var instrumentalVolume: Double
+    @Binding var micBusLeftGain: Double
+    @Binding var micBusRightGain: Double
     @Binding var showEffects: Bool
     var effectsActive: Bool
     var isRawMode: Bool = false
+    var isMicMonitoring: Bool = false
 
     var body: some View {
         VStack(spacing: 16) {
@@ -54,6 +57,10 @@ struct MixerPanel: View {
                 color: TonoColors.purple,
                 value: $instrumentalVolume
             )
+
+            if isMicMonitoring {
+                vocalBusChannel
+            }
         }
         .padding(20)
         .background(
@@ -93,5 +100,46 @@ struct MixerPanel: View {
                     .tint(color)
             }
         }
+    }
+
+    private var vocalBusChannel: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Vocal Bus L/R")
+                    .font(.system(.caption, design: .rounded, weight: .semibold))
+                    .foregroundStyle(TonoColors.textSecondary)
+                Spacer()
+                Text("L \(Int(micBusLeftGain * 100))%  R \(Int(micBusRightGain * 100))%")
+                    .font(.system(.caption2, design: .monospaced, weight: .bold))
+                    .foregroundStyle(TonoColors.cyan)
+            }
+
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Left")
+                        .font(.system(.caption2, design: .rounded, weight: .medium))
+                        .foregroundStyle(TonoColors.textTertiary)
+                    Slider(value: $micBusLeftGain, in: 0...1.5)
+                        .tint(TonoColors.cyan)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Right")
+                        .font(.system(.caption2, design: .rounded, weight: .medium))
+                        .foregroundStyle(TonoColors.textTertiary)
+                    Slider(value: $micBusRightGain, in: 0...1.5)
+                        .tint(TonoColors.cyan)
+                }
+            }
+        }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: TonoRadius.medium, style: .continuous)
+                .fill(Color.white.opacity(0.03))
+                .overlay(
+                    RoundedRectangle(cornerRadius: TonoRadius.medium, style: .continuous)
+                        .strokeBorder(Color.white.opacity(0.06), lineWidth: 1)
+                )
+        )
     }
 }

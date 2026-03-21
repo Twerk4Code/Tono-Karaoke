@@ -11,6 +11,8 @@ struct PerformanceView: View {
     @State private var showEffects = false
     @State private var showHeadphoneWarning = false
     @State private var isLyricsSearchFocused = false
+    @State private var showQueue = false
+    @State private var showEditMetadata = false
 
     var body: some View {
         ZStack {
@@ -100,7 +102,64 @@ struct PerformanceView: View {
                                 .font(.system(.subheadline, design: .rounded))
                                 .foregroundStyle(TonoColors.textSecondary)
                         }
+
+                        Button {
+                            showEditMetadata = true
+                        } label: {
+                            Image(systemName: "pencil")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(TonoColors.textTertiary)
+                                .padding(6)
+                                .background(Color.white.opacity(0.06), in: Circle())
+                        }
+                        .buttonStyle(.plain)
+                        .help("Edit song info")
+                        .sheet(isPresented: $showEditMetadata) {
+                            EditSongMetadataSheet(song: song) { newTitle, newArtist in
+                                appState.updateSongMetadata(id: song.id, title: newTitle, artist: newArtist)
+                            }
+                        }
+
                         Spacer()
+
+                        // Gig Mode button — visible when a song is loaded
+                        Button {
+                            appState.enterGigMode()
+                        } label: {
+                            Image(systemName: "theatermasks.fill")
+                                .font(.system(size: 17, weight: .medium))
+                                .foregroundStyle(TonoColors.cyan)
+                        }
+                        .buttonStyle(.plain)
+                        .help("Gig Mode")
+                        .opacity(appState.selectedSong != nil ? 1 : 0)
+                        .allowsHitTesting(appState.selectedSong != nil)
+
+                        // Queue button
+                        Button {
+                            showQueue = true
+                        } label: {
+                            ZStack(alignment: .topTrailing) {
+                                Image(systemName: "list.bullet")
+                                    .font(.system(size: 17, weight: .medium))
+                                    .foregroundStyle(appState.songQueue.isEmpty ? TonoColors.textSecondary : TonoColors.cyan)
+                                if !appState.songQueue.isEmpty {
+                                    Text("\(appState.songQueue.count)")
+                                        .font(.system(size: 9, weight: .bold))
+                                        .foregroundStyle(.black)
+                                        .padding(.horizontal, 3)
+                                        .padding(.vertical, 1)
+                                        .background(TonoColors.cyan, in: Capsule())
+                                        .offset(x: 8, y: -6)
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .help("Queue")
+                        .sheet(isPresented: $showQueue) {
+                            QueueView()
+                                .environment(appState)
+                        }
                     }
                     .padding(.horizontal, 32)
                     .padding(.top, 28)
@@ -155,7 +214,45 @@ struct PerformanceView: View {
                         }
                     }
                 )
-                .padding(.bottom, 36)
+                .padding(.bottom, 8)
+
+                // Up Next label
+                if let nextSong = appState.songQueue.first {
+                    HStack(spacing: 6) {
+                        Image(systemName: "text.line.first.and.arrowtriangle.forward")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(TonoColors.cyan.opacity(0.7))
+                        Text("Up Next:")
+                            .font(.system(.caption2, design: .rounded, weight: .semibold))
+                            .foregroundStyle(TonoColors.textSecondary)
+                        Text(nextSong.title)
+                            .font(.system(.caption2, design: .rounded))
+                            .foregroundStyle(TonoColors.textSecondary)
+                            .lineLimit(1)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 32)
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                }
+
+                // Playback speed control
+                PlaybackSpeedControl(
+                    playbackRate: Binding(
+                        get: { player.playbackRate },
+                        set: { player.playbackRate = $0 }
+                    )
+                )
+                .padding(.bottom, 8)
+
+                // Key transposition control
+                KeyTransposeControl(
+                    semitones: Binding(
+                        get: { player.pitchShiftSemitones },
+                        set: { player.pitchShiftSemitones = $0 }
+                    )
+                )
+                .padding(.bottom, 24)
                 .alert("Use Headphones", isPresented: $showHeadphoneWarning) {
                     Button("Enable Monitoring") {
                         audioEngine.setupMicrophone {
@@ -187,16 +284,25 @@ struct PerformanceView: View {
                         get: { player.instrumentalVolume },
                         set: { player.instrumentalVolume = $0 }
                     ),
+                    micBusLeftGain: Binding(
+                        get: { audioEngine.micBusLeftGain },
+                        set: { audioEngine.micBusLeftGain = $0 }
+                    ),
+                    micBusRightGain: Binding(
+                        get: { audioEngine.micBusRightGain },
+                        set: { audioEngine.micBusRightGain = $0 }
+                    ),
                     showEffects: $showEffects,
                     effectsActive: effects.isAnyEffectActive,
-                    isRawMode: appState.audioEngine.isRawMode
+                    isRawMode: appState.audioEngine.isRawMode,
+                    isMicMonitoring: audioEngine.isMicMonitoring
                 )
                 .padding(.horizontal, 32)
                 .padding(.bottom, 12)
 
                 // Effects panel — slides in below mixer when FX is toggled
                 if showEffects {
-                    EffectsPanel(vm: effects)
+                    EffectsPanel(vm: effects, micSpectrumAnalyzer: appState.micSpectrumAnalyzer)
                         .padding(.horizontal, 32)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }

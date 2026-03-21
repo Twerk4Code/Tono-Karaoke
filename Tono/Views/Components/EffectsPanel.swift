@@ -1,9 +1,11 @@
 import SwiftUI
 
 /// Mic FX chain panel in processing order:
-/// Gate -> EQ -> Compressor -> Delay -> Reverb.
+/// Gate -> EQ -> Compressor -> Tuner -> Delay -> Reverb.
 struct EffectsPanel: View {
+    @Environment(AppState.self) private var appState
     @Bindable var vm: EffectsViewModel
+    let micSpectrumAnalyzer: MicSpectrumAnalyzer
 
     var body: some View {
         VStack(spacing: 20) {
@@ -12,6 +14,8 @@ struct EffectsPanel: View {
             eqSection
             Divider().background(Color.white.opacity(0.08))
             compressorSection
+            Divider().background(Color.white.opacity(0.08))
+            tunerSection
             Divider().background(Color.white.opacity(0.08))
             delaySection
             Divider().background(Color.white.opacity(0.08))
@@ -91,6 +95,7 @@ struct EffectsPanel: View {
                 color: TonoColors.green,
                 isEnabled: Binding(get: { vm.eqEnabled }, set: { vm.eqEnabled = $0 })
             )
+            EQSpectrumView(analyzer: micSpectrumAnalyzer)
             Group {
                 presetPicker(
                     title: "EQ Preset",
@@ -169,12 +174,87 @@ struct EffectsPanel: View {
         }
     }
 
+    // MARK: - Tuner
+
+    private var tunerSection: some View {
+        VStack(spacing: 12) {
+            sectionHeader(
+                "4 · TUNER",
+                icon: "tuningfork",
+                color: TonoColors.green,
+                isEnabled: Binding(get: { vm.tunerEnabled }, set: { vm.tunerEnabled = $0 })
+            )
+            Text("Corrects monitored mic pitch to your selected key and scale. The pitch display still shows your raw voice.")
+                .font(.system(.caption2, design: .rounded))
+                .foregroundStyle(TonoColors.textSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Group {
+                presetPicker(
+                    title: "Tuner Key",
+                    caption: "Key",
+                    helpText: "Pick the song key so correction nudges toward musical target notes.",
+                    selection: Binding(get: { vm.tunerKey }, set: { vm.tunerKey = $0 }),
+                    values: Array(TunerKey.allCases),
+                    label: { $0.title }
+                )
+                tunerScalePicker
+                effectRow(
+                    label: "Amount",
+                    valueText: percentText(vm.tunerAmount),
+                    color: TonoColors.green,
+                    value: Binding(get: { vm.tunerAmount }, set: { vm.tunerAmount = $0 }),
+                    range: 0...1
+                )
+                .help("How strongly notes are pulled to the selected scale.")
+                effectRow(
+                    label: "Speed",
+                    valueText: percentText(vm.tunerSpeed),
+                    color: TonoColors.green,
+                    value: Binding(get: { vm.tunerSpeed }, set: { vm.tunerSpeed = $0 }),
+                    range: 0...1
+                )
+                .help("How quickly pitch snaps to target notes. Higher values sound tighter.")
+                tunerResponseSummary
+            }
+            .opacity(vm.tunerEnabled ? 1 : 0.45)
+            .disabled(!vm.tunerEnabled)
+        }
+        .help("Live mic-only correction. Playback stems are never pitch-corrected.")
+    }
+
+    private var tunerScalePicker: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Scale")
+                .font(.system(.caption, design: .rounded, weight: .medium))
+                .foregroundStyle(TonoColors.textSecondary)
+
+            Picker("Tuner Scale", selection: Binding(get: { vm.tunerScale }, set: { vm.tunerScale = $0 })) {
+                ForEach(TunerScale.allCases, id: \.self) { scale in
+                    Text(scale.title).tag(scale)
+                }
+            }
+            .pickerStyle(.segmented)
+            .help("Choose note set: Chromatic (all notes), Major, or Minor.")
+        }
+    }
+
+    private var tunerResponseSummary: some View {
+        HStack(spacing: 8) {
+            Text("Feel: \(tunerAmountDescriptor)")
+            Text("Snap: \(tunerSpeedDescriptor)")
+            Spacer()
+            Text("Default 75% / 55%")
+        }
+        .font(.system(.caption2, design: .rounded, weight: .medium))
+        .foregroundStyle(TonoColors.textSecondary)
+    }
+
     // MARK: - Delay
 
     private var delaySection: some View {
         VStack(spacing: 12) {
             sectionHeader(
-                "4 · DELAY",
+                "5 · DELAY",
                 icon: "repeat",
                 color: TonoColors.purple,
                 isEnabled: Binding(get: { vm.delayEnabled }, set: { vm.delayEnabled = $0 })
@@ -227,7 +307,7 @@ struct EffectsPanel: View {
     private var reverbSection: some View {
         VStack(spacing: 12) {
             sectionHeader(
-                "5 · REVERB",
+                "6 · REVERB",
                 icon: "waveform.path.ecg",
                 color: TonoColors.cyan,
                 isEnabled: Binding(get: { vm.reverbEnabled }, set: { vm.reverbEnabled = $0 })
@@ -314,12 +394,14 @@ struct EffectsPanel: View {
 
     private func presetPicker<P: Hashable>(
         title: String,
+        caption: String = "Preset",
+        helpText: String? = nil,
         selection: Binding<P>,
         values: [P],
         label: @escaping (P) -> String
     ) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Preset")
+            Text(caption)
                 .font(.system(.caption, design: .rounded, weight: .medium))
                 .foregroundStyle(TonoColors.textSecondary)
             Picker(title, selection: selection) {
@@ -328,6 +410,11 @@ struct EffectsPanel: View {
                 }
             }
             .pickerStyle(.menu)
+            if let helpText {
+                Text(helpText)
+                    .font(.system(.caption2, design: .rounded))
+                    .foregroundStyle(TonoColors.textSecondary)
+            }
         }
     }
 
@@ -356,5 +443,21 @@ struct EffectsPanel: View {
     private func gainColor(_ v: Double) -> Color {
         if abs(v) < 0.5 { return TonoColors.textSecondary }
         return v > 0 ? TonoColors.green : TonoColors.red
+    }
+
+    private var tunerAmountDescriptor: String {
+        switch vm.tunerAmount {
+        case ..<0.35: return "Subtle"
+        case ..<0.70: return "Balanced"
+        default: return "Strong"
+        }
+    }
+
+    private var tunerSpeedDescriptor: String {
+        switch vm.tunerSpeed {
+        case ..<0.35: return "Natural"
+        case ..<0.70: return "Tight"
+        default: return "Hard Tune"
+        }
     }
 }

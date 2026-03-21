@@ -6,6 +6,7 @@ import SwiftUI
 final class PitchViewModel {
 
     private let appState: AppState
+    private var enableRequestToken = UUID()
 
     var isEnabled = false
     var currentReading: PitchReading { appState.pitchTracker.currentReading }
@@ -24,21 +25,27 @@ final class PitchViewModel {
     }
 
     private func enable() {
+        guard !isEnabled else { return }
         isEnabled = true
+        let token = UUID()
+        enableRequestToken = token
+
         appState.audioEngine.setupMicrophone { @MainActor [weak self] in
             guard let self else { return }
-            guard let mic = self.appState.audioEngine.mic else {
-                print("[PitchViewModel] Microphone not available after setup.")
+            guard self.isEnabled, self.enableRequestToken == token else { return }
+            guard let trackingNode = self.appState.audioEngine.pitchTrackingNode else {
                 self.isEnabled = false
                 return
             }
-            self.appState.pitchTracker.start(microphone: mic)
+            self.appState.pitchTracker.start(inputNode: trackingNode)
         }
     }
 
     func disable() {
-        // CRITICAL: always stop tap before disabling — prevents CoreAudio deadlock
-        appState.pitchTracker.stopTracking()
+        guard isEnabled else { return }
         isEnabled = false
+        // Invalidate any pending setup callback from a prior enable() call.
+        enableRequestToken = UUID()
+        appState.pitchTracker.stopTracking()
     }
 }

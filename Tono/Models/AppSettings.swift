@@ -20,6 +20,12 @@ final class AppSettings: Codable {
     var defaultInstrumentalVolume: Double = 1.0 {
         didSet { autosave() }
     }
+    var playbackRate: Double = 1.0 {
+        didSet { autosave() }
+    }
+    var pitchShiftSemitones: Int = 0 {
+        didSet { autosave() }
+    }
     var visualizer: VisualizerSettings = .init() {
         didSet { autosave() }
     }
@@ -47,6 +53,21 @@ final class AppSettings: Codable {
         didSet { autosave() }
     }
     var compressorPreset: String = EffectsDefaults.compressorPreset.rawValue {
+        didSet { autosave() }
+    }
+    var tunerEnabled: Bool = EffectsDefaults.tunerEnabled {
+        didSet { autosave() }
+    }
+    var tunerKey: String = EffectsDefaults.tunerKey.rawValue {
+        didSet { autosave() }
+    }
+    var tunerScale: String = EffectsDefaults.tunerScale.rawValue {
+        didSet { autosave() }
+    }
+    var tunerAmount: Float = EffectsDefaults.tunerAmount {
+        didSet { autosave() }
+    }
+    var tunerSpeed: Float = EffectsDefaults.tunerSpeed {
         didSet { autosave() }
     }
     var reverbMix: Float = EffectsDefaults.reverbMix {
@@ -95,6 +116,10 @@ final class AppSettings: Codable {
         didSet { autosave() }
     }
 
+    private static let persistenceKey = "com.tono.settings"
+    private static let autosaveDebounceSeconds: TimeInterval = 0.35
+    private var pendingAutosaveWorkItem: DispatchWorkItem?
+
     enum CodingKeys: String, CodingKey {
         case selectedInputDeviceID
         case selectedOutputDeviceID
@@ -102,11 +127,14 @@ final class AppSettings: Codable {
         case pitchConfidenceThreshold
         case defaultVocalVolume
         case defaultInstrumentalVolume
+        case playbackRate
+        case pitchShiftSemitones
         case visualizer
         case visualizerEnabled
         case visualizerIntensity
         case gateEnabled, gateThreshold, gateRatio, gateAttack, gateRelease, gatePreset
         case eqPreset, compressorPreset
+        case tunerEnabled, tunerKey, tunerScale, tunerAmount, tunerSpeed
         case reverbMix, delayMix, delayTime, delayFeedback, delayMode
         case eqEnabled, compressorEnabled, delayEnabled, reverbEnabled
         case compressorThreshold, compressorRatio, compressorMakeupGain
@@ -117,12 +145,17 @@ final class AppSettings: Codable {
 
     init() {}
 
+    deinit {
+        pendingAutosaveWorkItem?.cancel()
+    }
+
     static func load() -> AppSettings {
         let url = settingsURL()
         guard let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode(AppSettings.self, from: data) else {
             return AppSettings()
         }
+        FileWriteDeduper.shared.seedLastWrittenData(data, forKey: persistenceKey)
         return decoded
     }
 
@@ -134,6 +167,8 @@ final class AppSettings: Codable {
         pitchConfidenceThreshold  = try c.decodeIfPresent(Float.self,   forKey: .pitchConfidenceThreshold) ?? 0.05
         defaultVocalVolume        = try c.decodeIfPresent(Double.self, forKey: .defaultVocalVolume)        ?? 1.0
         defaultInstrumentalVolume = try c.decodeIfPresent(Double.self, forKey: .defaultInstrumentalVolume) ?? 1.0
+        playbackRate              = try c.decodeIfPresent(Double.self, forKey: .playbackRate)              ?? 1.0
+        pitchShiftSemitones       = try c.decodeIfPresent(Int.self,    forKey: .pitchShiftSemitones)       ?? 0
         if let decodedVisualizer = try c.decodeIfPresent(VisualizerSettings.self, forKey: .visualizer) {
             visualizer = Self.sanitizedVisualizerSettings(decodedVisualizer)
         } else {
@@ -160,6 +195,13 @@ final class AppSettings: Codable {
         let decodedCompressorPreset =
             try c.decodeIfPresent(String.self, forKey: .compressorPreset) ?? CompressorPreset.manual.rawValue
         compressorPreset = CompressorPreset(rawValue: decodedCompressorPreset)?.rawValue ?? CompressorPreset.manual.rawValue
+        tunerEnabled = try c.decodeIfPresent(Bool.self, forKey: .tunerEnabled) ?? EffectsDefaults.tunerEnabled
+        let decodedTunerKey = try c.decodeIfPresent(String.self, forKey: .tunerKey) ?? EffectsDefaults.tunerKey.rawValue
+        tunerKey = TunerKey(rawValue: decodedTunerKey)?.rawValue ?? EffectsDefaults.tunerKey.rawValue
+        let decodedTunerScale = try c.decodeIfPresent(String.self, forKey: .tunerScale) ?? EffectsDefaults.tunerScale.rawValue
+        tunerScale = TunerScale(rawValue: decodedTunerScale)?.rawValue ?? EffectsDefaults.tunerScale.rawValue
+        tunerAmount = try c.decodeIfPresent(Float.self, forKey: .tunerAmount) ?? EffectsDefaults.tunerAmount
+        tunerSpeed = try c.decodeIfPresent(Float.self, forKey: .tunerSpeed) ?? EffectsDefaults.tunerSpeed
 
         let decodedDelayModeRaw = try c.decodeIfPresent(String.self, forKey: .delayMode) ?? DelayMode.standard.rawValue
         let decodedDelayMode = DelayMode(rawValue: decodedDelayModeRaw) ?? .standard
@@ -191,6 +233,7 @@ final class AppSettings: Codable {
         lowGain = try c.decodeIfPresent(Float.self, forKey: .lowGain) ?? EffectsDefaults.lowGain
         midGain = try c.decodeIfPresent(Float.self, forKey: .midGain) ?? EffectsDefaults.midGain
         highGain = try c.decodeIfPresent(Float.self, forKey: .highGain) ?? EffectsDefaults.highGain
+
     }
 
     func encode(to encoder: Encoder) throws {
@@ -201,6 +244,8 @@ final class AppSettings: Codable {
         try c.encode(pitchConfidenceThreshold,         forKey: .pitchConfidenceThreshold)
         try c.encode(defaultVocalVolume,        forKey: .defaultVocalVolume)
         try c.encode(defaultInstrumentalVolume, forKey: .defaultInstrumentalVolume)
+        try c.encode(playbackRate,              forKey: .playbackRate)
+        try c.encode(pitchShiftSemitones,       forKey: .pitchShiftSemitones)
         try c.encode(visualizer, forKey: .visualizer)
         try c.encode(gateEnabled, forKey: .gateEnabled)
         try c.encode(gateThreshold, forKey: .gateThreshold)
@@ -210,6 +255,11 @@ final class AppSettings: Codable {
         try c.encode(gatePreset, forKey: .gatePreset)
         try c.encode(eqPreset, forKey: .eqPreset)
         try c.encode(compressorPreset, forKey: .compressorPreset)
+        try c.encode(tunerEnabled, forKey: .tunerEnabled)
+        try c.encode(tunerKey, forKey: .tunerKey)
+        try c.encode(tunerScale, forKey: .tunerScale)
+        try c.encode(tunerAmount, forKey: .tunerAmount)
+        try c.encode(tunerSpeed, forKey: .tunerSpeed)
         try c.encode(reverbMix,    forKey: .reverbMix)
         try c.encode(delayMix,      forKey: .delayMix)
         try c.encode(delayTime,     forKey: .delayTime)
@@ -236,9 +286,22 @@ final class AppSettings: Codable {
     }
 
     private func autosave() {
+        pendingAutosaveWorkItem?.cancel()
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.persistSnapshot()
+        }
+        pendingAutosaveWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.autosaveDebounceSeconds, execute: workItem)
+    }
+
+    private func persistSnapshot() {
         let url = Self.settingsURL()
         guard let data = try? JSONEncoder().encode(self) else { return }
-        try? data.write(to: url, options: .atomic)
+        FileWriteDeduper.shared.writeIfChanged(
+            data,
+            to: url,
+            key: Self.persistenceKey
+        )
     }
 
     private static func sanitizedVisualizerIntensity(_ value: Double) -> Double {
@@ -259,5 +322,46 @@ final class AppSettings: Codable {
             style: settings.style,
             readabilityScrim: sanitizedVisualizerReadabilityScrim(settings.readabilityScrim)
         )
+    }
+}
+
+final class FileWriteDeduper: @unchecked Sendable {
+    static let shared = FileWriteDeduper()
+
+    private struct Signature: Equatable {
+        let byteCount: Int
+        let hash: UInt64
+    }
+
+    private let queue = DispatchQueue(label: "com.tono.fileWriteDeduper", qos: .utility)
+    private var lastWrittenSignatures: [String: Signature] = [:]
+
+    func seedLastWrittenData(_ data: Data, forKey key: String) {
+        let signature = Self.signature(for: data)
+        queue.async { [self] in
+            lastWrittenSignatures[key] = signature
+        }
+    }
+
+    func writeIfChanged(_ data: Data, to url: URL, key: String) {
+        let nextSignature = Self.signature(for: data)
+        queue.async { [self] in
+            guard lastWrittenSignatures[key] != nextSignature else { return }
+            do {
+                try data.write(to: url, options: .atomic)
+                lastWrittenSignatures[key] = nextSignature
+            } catch {
+                // Best-effort persistence; ignore disk write errors to avoid UI regressions.
+            }
+        }
+    }
+
+    private static func signature(for data: Data) -> Signature {
+        var hash: UInt64 = 14_695_981_039_346_656_037
+        for byte in data {
+            hash ^= UInt64(byte)
+            hash &*= 1_099_511_628_211
+        }
+        return Signature(byteCount: data.count, hash: hash)
     }
 }

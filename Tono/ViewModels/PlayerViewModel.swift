@@ -17,6 +17,22 @@ final class PlayerViewModel {
         set { appState.audioEngine.instrumentalVolume = newValue }
     }
 
+    var playbackRate: Double {
+        get { appState.audioEngine.playbackRate }
+        set {
+            appState.audioEngine.playbackRate = newValue
+            appState.settings.playbackRate = newValue
+        }
+    }
+
+    var pitchShiftSemitones: Int {
+        get { appState.audioEngine.pitchShiftSemitones }
+        set {
+            appState.audioEngine.pitchShiftSemitones = newValue
+            appState.settings.pitchShiftSemitones = newValue
+        }
+    }
+
     // Stored properties so @Observable tracks changes and drives UI updates.
     // A timer polls the audio engine and writes here at ~30 fps while playing.
     private(set) var isPlaying: Bool = false
@@ -35,7 +51,9 @@ final class PlayerViewModel {
     private var waveformSongID: UUID?
 
     // MARK: - Playback Timer
-    private var playbackTimer: Timer?
+    private var playbackLoopTask: Task<Void, Never>?
+    private static let activeTickInterval: Duration = .milliseconds(33)
+    private static let idleTickInterval: Duration = .milliseconds(120)
 
     // When the user seeks, the engine seek is dispatched asynchronously.
     // We hold the target time here and ignore engine-reported currentTime
@@ -45,27 +63,27 @@ final class PlayerViewModel {
 
     init(appState: AppState) {
         self.appState = appState
-        startTimer()
+        startPlaybackLoop()
     }
 
     deinit {
-        // PlayerViewModel is always created/destroyed on the main thread via @State,
-        // so assumeIsolated is safe for timer cleanup.
         MainActor.assumeIsolated {
-            playbackTimer?.invalidate()
+            playbackLoopTask?.cancel()
             waveformTask?.cancel()
         }
     }
 
-    // Poll the audio engine at ~30 fps so the waveform cursor and time labels
-    // update smoothly without relying on any other observable side-effects.
-    private func startTimer() {
-        playbackTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
-            Task { @MainActor [weak self] in
-                await self?.tick()
+    // Keep a single polling task alive instead of spawning one Task per timer fire.
+    private func startPlaybackLoop() {
+        playbackLoopTask?.cancel()
+        playbackLoopTask = Task { [weak self] in
+            guard let self else { return }
+            while !Task.isCancelled {
+                await self.tick()
+                let interval = self.isPlaying ? Self.activeTickInterval : Self.idleTickInterval
+                try? await Task.sleep(for: interval)
             }
         }
-        playbackTimer?.tolerance = 0.005
     }
 
     private func tick() async {
@@ -93,7 +111,10 @@ final class PlayerViewModel {
 
     func play() { appState.audioEngine.play() }
     func pause() { appState.audioEngine.pause() }
-    func stop() { appState.audioEngine.stop() }
+    func stop() {
+        appState.userDidStop = true
+        appState.audioEngine.stop()
+    }
 
     func togglePlayPause() {
         if isPlaying { pause() } else { play() }

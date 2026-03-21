@@ -20,6 +20,17 @@ struct ContentView: View {
             .animation(.easeInOut(duration: 0.25), value: appState.selectedSong?.id)
         }
         .background(Color(hex: "#050515"))
+        // Gig Mode full-window overlay
+        .overlay {
+            if appState.isGigModeActive {
+                GigModeView()
+                    .environment(appState)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+                    .zIndex(100)
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: appState.isGigModeActive)
         // Error toast overlay
         .overlay(alignment: .bottom) {
             if let error = appState.currentError {

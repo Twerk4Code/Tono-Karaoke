@@ -208,7 +208,7 @@ struct SettingsView: View {
                     HStack(spacing: 8) {
                         Slider(value: Binding(
                             get: { Double(appState.settings.pitchConfidenceThreshold) },
-                            set: { appState.settings.pitchConfidenceThreshold = Float($0) }
+                            set: { appState.setPitchConfidenceThreshold(Float($0)) }
                         ), in: 0.01...0.2, step: 0.01)
                         .frame(width: 180)
                         Text(String(format: "%.2f", appState.settings.pitchConfidenceThreshold))

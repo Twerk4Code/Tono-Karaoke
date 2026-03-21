@@ -1,0 +1,38 @@
+included:
+  - Tono
+
+excluded:
+  - .build
+  - libtorch
+  - scripts
+  - design
+  - Tono.xcodeproj
+
+# Keep safety/perf checks strong while gradually cleaning stylistic debt.
+disabled_rules:
+  - identifier_name
+  - line_length
+  - comma
+  - colon
+  - file_length
+  - type_body_length
+  - function_body_length
+  - cyclomatic_complexity
+  - function_parameter_count
+  - large_tuple
+  - trailing_comma
+  - vertical_parameter_alignment
+  - opening_brace
+  - implicit_optional_initialization
+  - for_where
+
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - first_where
+  - redundant_nil_coalescing
+  - explicit_init
+
+reporter: xcode

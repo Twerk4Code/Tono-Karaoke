@@ -7,7 +7,9 @@ struct SongCard: View {
     let onRevealFiles: () -> Void
     let onDelete: () -> Void
 
+    @Environment(AppState.self) private var appState
     @State private var isHovered = false
+    @State private var showEditSheet = false
 
     var body: some View {
         HStack(spacing: 12) {
@@ -113,5 +115,17 @@ struct SongCard: View {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: isSelected)
+        .contextMenu {
+            Button {
+                showEditSheet = true
+            } label: {
+                Label("Edit Info...", systemImage: "pencil")
+            }
+        }
+        .sheet(isPresented: $showEditSheet) {
+            EditSongMetadataSheet(song: song) { newTitle, newArtist in
+                appState.updateSongMetadata(id: song.id, title: newTitle, artist: newArtist)
+            }
+        }
     }
 }

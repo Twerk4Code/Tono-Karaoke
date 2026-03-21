@@ -136,6 +136,10 @@ final class VocalSeparator: @unchecked Sendable {
                     var vocalL    = [Float](repeating: 0, count: paddedLen)
                     var vocalR    = [Float](repeating: 0, count: paddedLen)
                     var weightSum = [Float](repeating: 0, count: paddedLen)
+                    var chunkInputL = [Float](repeating: 0, count: C)
+                    var chunkInputR = [Float](repeating: 0, count: C)
+                    var chunkVocalL = [Float](repeating: 0, count: C)
+                    var chunkVocalR = [Float](repeating: 0, count: C)
 
                     // ── Process each chunk ──
                     var i = 0
@@ -145,30 +149,29 @@ final class VocalSeparator: @unchecked Sendable {
                         let remaining = paddedLen - i
                         let partLen = min(C, remaining)
 
-                        var cL = [Float](repeating: 0, count: C)
-                        var cR = [Float](repeating: 0, count: C)
-                        cL.replaceSubrange(0..<partLen, with: paddedL[i..<(i + partLen)])
-                        cR.replaceSubrange(0..<partLen, with: paddedR[i..<(i + partLen)])
+                        chunkInputL.replaceSubrange(0..<partLen, with: paddedL[i..<(i + partLen)])
+                        chunkInputR.replaceSubrange(0..<partLen, with: paddedR[i..<(i + partLen)])
 
                         // Pad short chunks via reflection or zero-fill
                         if partLen < C {
+                            for j in partLen..<C {
+                                chunkInputL[j] = 0
+                                chunkInputR[j] = 0
+                            }
                             if partLen > C / 2 + 1 {
                                 for j in 0..<(C - partLen) {
                                     let srcIdx = partLen - 1 - j
-                                    cL[partLen + j] = cL[max(0, srcIdx)]
-                                    cR[partLen + j] = cR[max(0, srcIdx)]
+                                    chunkInputL[partLen + j] = chunkInputL[max(0, srcIdx)]
+                                    chunkInputR[partLen + j] = chunkInputR[max(0, srcIdx)]
                                 }
                             }
                         }
 
                         // libtorch inference: L/R float arrays → model → vocal L/R
-                        var vcL = [Float](repeating: 0, count: C)
-                        var vcR = [Float](repeating: 0, count: C)
-
-                        let success = cL.withUnsafeBufferPointer { leftBuf in
-                            cR.withUnsafeBufferPointer { rightBuf in
-                                vcL.withUnsafeMutableBufferPointer { outLeftBuf in
-                                    vcR.withUnsafeMutableBufferPointer { outRightBuf in
+                        let success = chunkInputL.withUnsafeBufferPointer { leftBuf in
+                            chunkInputR.withUnsafeBufferPointer { rightBuf in
+                                chunkVocalL.withUnsafeMutableBufferPointer { outLeftBuf in
+                                    chunkVocalR.withUnsafeMutableBufferPointer { outRightBuf in
                                         module.predict(
                                             left: leftBuf.baseAddress!,
                                             right: rightBuf.baseAddress!,
@@ -190,7 +193,7 @@ final class VocalSeparator: @unchecked Sendable {
                         let isLast = (i + C >= paddedLen)
 
                         self.metalProcessor.overlapAdd(
-                            chunkL: vcL, chunkR: vcR,
+                            chunkL: chunkVocalL, chunkR: chunkVocalR,
                             accumL: &vocalL, accumR: &vocalR,
                             weightSum: &weightSum,
                             chunkOffset: i, chunkLength: min(partLen, C),
