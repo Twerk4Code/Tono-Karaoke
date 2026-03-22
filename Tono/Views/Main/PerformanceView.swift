@@ -122,44 +122,53 @@ struct PerformanceView: View {
 
                         Spacer()
 
-                        // Gig Mode button — visible when a song is loaded
-                        Button {
-                            appState.enterGigMode()
-                        } label: {
-                            Image(systemName: "theatermasks.fill")
-                                .font(.system(size: 17, weight: .medium))
-                                .foregroundStyle(TonoColors.cyan)
-                        }
-                        .buttonStyle(.plain)
-                        .help("Gig Mode")
-                        .opacity(appState.selectedSong != nil ? 1 : 0)
-                        .allowsHitTesting(appState.selectedSong != nil)
+                        HStack(spacing: 10) {
+                            // Gig Mode button — visible when a song is loaded
+                            Button {
+                                appState.enterGigMode()
+                            } label: {
+                                Image(systemName: "theatermasks.fill")
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundStyle(TonoColors.cyan)
+                                    .frame(width: 32, height: 32)
+                                    .background(Color.white.opacity(0.06), in: Circle())
+                                    .contentShape(Circle())
+                            }
+                            .buttonStyle(.plain)
+                            .help("Gig Mode")
+                            .opacity(appState.selectedSong != nil ? 1 : 0)
+                            .disabled(appState.selectedSong == nil)
 
-                        // Queue button
-                        Button {
-                            showQueue = true
-                        } label: {
-                            ZStack(alignment: .topTrailing) {
-                                Image(systemName: "list.bullet")
-                                    .font(.system(size: 17, weight: .medium))
-                                    .foregroundStyle(appState.songQueue.isEmpty ? TonoColors.textSecondary : TonoColors.cyan)
-                                if !appState.songQueue.isEmpty {
-                                    Text("\(appState.songQueue.count)")
-                                        .font(.system(size: 9, weight: .bold))
-                                        .foregroundStyle(.black)
-                                        .padding(.horizontal, 3)
-                                        .padding(.vertical, 1)
-                                        .background(TonoColors.cyan, in: Capsule())
-                                        .offset(x: 8, y: -6)
+                            // Queue button
+                            Button {
+                                showQueue = true
+                            } label: {
+                                ZStack(alignment: .topTrailing) {
+                                    Image(systemName: "list.bullet")
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundStyle(appState.songQueue.isEmpty ? TonoColors.textSecondary : TonoColors.cyan)
+                                        .frame(width: 32, height: 32)
+                                        .background(Color.white.opacity(0.06), in: Circle())
+                                        .contentShape(Circle())
+                                    if !appState.songQueue.isEmpty {
+                                        Text("\(appState.songQueue.count)")
+                                            .font(.system(size: 9, weight: .bold))
+                                            .foregroundStyle(.black)
+                                            .padding(.horizontal, 3)
+                                            .padding(.vertical, 1)
+                                            .background(TonoColors.cyan, in: Capsule())
+                                            .offset(x: 8, y: -4)
+                                    }
                                 }
                             }
+                            .buttonStyle(.plain)
+                            .help("Queue")
+                            .sheet(isPresented: $showQueue) {
+                                QueueView()
+                                    .environment(appState)
+                            }
                         }
-                        .buttonStyle(.plain)
-                        .help("Queue")
-                        .sheet(isPresented: $showQueue) {
-                            QueueView()
-                                .environment(appState)
-                        }
+                        .padding(.trailing, 4)
                     }
                     .padding(.horizontal, 32)
                     .padding(.top, 28)
