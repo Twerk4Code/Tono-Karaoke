@@ -55,6 +55,15 @@ final class VocalSeparator: @unchecked Sendable {
 
     var isModelLoaded: Bool { Self.cachedModule != nil }
 
+    /// Releases the cached TorchScript model to free memory.
+    /// Call after separation completes if the model is not needed imminently.
+    func releaseModel() {
+        Self.modelLock.lock()
+        defer { Self.modelLock.unlock() }
+        Self.cachedModule = nil
+        print("[VocalSeparator] Model released from memory.")
+    }
+
     private func loadModelIfNeeded() throws -> TorchModule {
         Self.modelLock.lock()
         defer { Self.modelLock.unlock() }
@@ -142,69 +151,76 @@ final class VocalSeparator: @unchecked Sendable {
                     var chunkVocalR = [Float](repeating: 0, count: C)
 
                     // ── Process each chunk ──
+                    // NOTE: Each iteration is wrapped in autoreleasepool to ensure
+                    // Metal buffers and libtorch Obj-C bridge objects are freed
+                    // promptly. Without this, Task.detached has no deterministic
+                    // autorelease boundaries and temporaries from ALL chunks
+                    // accumulate until the Task completes — causing massive memory growth.
                     var i = 0
                     var chunkIdx = 0
                     while i < paddedLen {
-                        // Extract chunk, pad if shorter than chunkSize
-                        let remaining = paddedLen - i
-                        let partLen = min(C, remaining)
+                        try autoreleasepool {
+                            // Extract chunk, pad if shorter than chunkSize
+                            let remaining = paddedLen - i
+                            let partLen = min(C, remaining)
 
-                        chunkInputL.replaceSubrange(0..<partLen, with: paddedL[i..<(i + partLen)])
-                        chunkInputR.replaceSubrange(0..<partLen, with: paddedR[i..<(i + partLen)])
+                            chunkInputL.replaceSubrange(0..<partLen, with: paddedL[i..<(i + partLen)])
+                            chunkInputR.replaceSubrange(0..<partLen, with: paddedR[i..<(i + partLen)])
 
-                        // Pad short chunks via reflection or zero-fill
-                        if partLen < C {
-                            for j in partLen..<C {
-                                chunkInputL[j] = 0
-                                chunkInputR[j] = 0
-                            }
-                            if partLen > C / 2 + 1 {
-                                for j in 0..<(C - partLen) {
-                                    let srcIdx = partLen - 1 - j
-                                    chunkInputL[partLen + j] = chunkInputL[max(0, srcIdx)]
-                                    chunkInputR[partLen + j] = chunkInputR[max(0, srcIdx)]
+                            // Pad short chunks via reflection or zero-fill
+                            if partLen < C {
+                                for j in partLen..<C {
+                                    chunkInputL[j] = 0
+                                    chunkInputR[j] = 0
                                 }
-                            }
-                        }
-
-                        // libtorch inference: L/R float arrays → model → vocal L/R
-                        let success = chunkInputL.withUnsafeBufferPointer { leftBuf in
-                            chunkInputR.withUnsafeBufferPointer { rightBuf in
-                                chunkVocalL.withUnsafeMutableBufferPointer { outLeftBuf in
-                                    chunkVocalR.withUnsafeMutableBufferPointer { outRightBuf in
-                                        module.predict(
-                                            left: leftBuf.baseAddress!,
-                                            right: rightBuf.baseAddress!,
-                                            length: Int32(C),
-                                            outputLeft: outLeftBuf.baseAddress!,
-                                            outputRight: outRightBuf.baseAddress!
-                                        )
+                                if partLen > C / 2 + 1 {
+                                    for j in 0..<(C - partLen) {
+                                        let srcIdx = partLen - 1 - j
+                                        chunkInputL[partLen + j] = chunkInputL[max(0, srcIdx)]
+                                        chunkInputR[partLen + j] = chunkInputR[max(0, srcIdx)]
                                     }
                                 }
                             }
+
+                            // libtorch inference: L/R float arrays → model → vocal L/R
+                            let success = chunkInputL.withUnsafeBufferPointer { leftBuf in
+                                chunkInputR.withUnsafeBufferPointer { rightBuf in
+                                    chunkVocalL.withUnsafeMutableBufferPointer { outLeftBuf in
+                                        chunkVocalR.withUnsafeMutableBufferPointer { outRightBuf in
+                                            module.predict(
+                                                left: leftBuf.baseAddress!,
+                                                right: rightBuf.baseAddress!,
+                                                length: Int32(C),
+                                                outputLeft: outLeftBuf.baseAddress!,
+                                                outputRight: outRightBuf.baseAddress!
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+
+                            if !success {
+                                throw SeparationError.inferenceError("libtorch inference failed on chunk \(chunkIdx)")
+                            }
+
+                            // GPU-accelerated overlap-add with trapezoidal fade
+                            let isFirst = (i == 0)
+                            let isLast = (i + C >= paddedLen)
+
+                            self.metalProcessor.overlapAdd(
+                                chunkL: chunkVocalL, chunkR: chunkVocalR,
+                                accumL: &vocalL, accumR: &vocalR,
+                                weightSum: &weightSum,
+                                chunkOffset: i, chunkLength: min(partLen, C),
+                                chunkSize: C, fadeSize: fadeSize,
+                                isFirst: isFirst, isLast: isLast
+                            )
+
+                            i += step
+                            chunkIdx += 1
+                            let progress = 0.10 + 0.75 * Double(chunkIdx) / Double(nChunks)
+                            continuation.yield(min(progress, 0.85))
                         }
-
-                        if !success {
-                            throw SeparationError.inferenceError("libtorch inference failed on chunk \(chunkIdx)")
-                        }
-
-                        // GPU-accelerated overlap-add with trapezoidal fade
-                        let isFirst = (i == 0)
-                        let isLast = (i + C >= paddedLen)
-
-                        self.metalProcessor.overlapAdd(
-                            chunkL: chunkVocalL, chunkR: chunkVocalR,
-                            accumL: &vocalL, accumR: &vocalR,
-                            weightSum: &weightSum,
-                            chunkOffset: i, chunkLength: min(partLen, C),
-                            chunkSize: C, fadeSize: fadeSize,
-                            isFirst: isFirst, isLast: isLast
-                        )
-
-                        i += step
-                        chunkIdx += 1
-                        let progress = 0.10 + 0.75 * Double(chunkIdx) / Double(nChunks)
-                        continuation.yield(min(progress, 0.85))
                     }
 
                     // ── Normalize by window weights (GPU) ──
@@ -235,9 +251,16 @@ final class VocalSeparator: @unchecked Sendable {
                     let instrR = self.metalProcessor.subtract(original: audioR, vocals: finalVocalR)
                     try self.writeStereoWAV(L: instrL, R: instrR, frameCount: totalFrames, to: instrumentalURL)
 
+                    // Release the model to free hundreds of MB of weight tensors
+                    // and flush libtorch's internal memory caches.
+                    self.releaseModel()
+                    self.metalProcessor.releaseReusableBuffers()
+
                     continuation.yield(1.0)
                     continuation.finish()
                 } catch {
+                    self.releaseModel()
+                    self.metalProcessor.releaseReusableBuffers()
                     continuation.finish(throwing: error)
                 }
             }

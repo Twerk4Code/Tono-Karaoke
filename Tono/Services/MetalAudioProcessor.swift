@@ -23,6 +23,17 @@ final class MetalAudioProcessor: @unchecked Sendable {
     /// True if all Metal pipelines compiled successfully.
     let isGPUAvailable: Bool
 
+    // MARK: - Reusable Buffers (overlap-add)
+    // Pre-allocated to avoid creating new Metal buffers on every chunk,
+    // which caused massive memory growth when autoreleasepool wasn't draining.
+
+    private var reusableChunkBuf: MTLBuffer?
+    private var reusableAccumLBuf: MTLBuffer?
+    private var reusableAccumRBuf: MTLBuffer?
+    private var reusableWeightBuf: MTLBuffer?
+    private var reusableParamsBuf: MTLBuffer?
+    private var reusableBufferCapacity: Int = 0
+
     // MARK: - Init
 
     init() {
@@ -121,6 +132,30 @@ final class MetalAudioProcessor: @unchecked Sendable {
         }
     }
 
+    /// Ensures reusable Metal buffers are large enough for `capacity` samples.
+    private func ensureReusableBuffers(capacity: Int) {
+        guard let device else { return }
+        guard capacity > reusableBufferCapacity else { return }
+
+        let floatStride = MemoryLayout<Float>.stride
+        reusableChunkBuf = device.makeBuffer(length: capacity * 2 * floatStride, options: .storageModeShared)
+        reusableAccumLBuf = device.makeBuffer(length: capacity * floatStride, options: .storageModeShared)
+        reusableAccumRBuf = device.makeBuffer(length: capacity * floatStride, options: .storageModeShared)
+        reusableWeightBuf = device.makeBuffer(length: capacity * floatStride, options: .storageModeShared)
+        reusableParamsBuf = device.makeBuffer(length: MemoryLayout<UInt32>.stride * 6, options: .storageModeShared)
+        reusableBufferCapacity = capacity
+    }
+
+    /// Releases pre-allocated reusable buffers to free GPU memory after separation.
+    func releaseReusableBuffers() {
+        reusableChunkBuf = nil
+        reusableAccumLBuf = nil
+        reusableAccumRBuf = nil
+        reusableWeightBuf = nil
+        reusableParamsBuf = nil
+        reusableBufferCapacity = 0
+    }
+
     private func overlapAddGPU(
         chunkL: [Float], chunkR: [Float],
         accumL: inout [Float], accumR: inout [Float],
@@ -129,55 +164,44 @@ final class MetalAudioProcessor: @unchecked Sendable {
         chunkSize: Int, fadeSize: Int,
         isFirst: Bool, isLast: Bool
     ) {
-        guard let device, let queue = commandQueue, let pipeline = overlapAddPipeline else { return }
+        guard device != nil, let queue = commandQueue, let pipeline = overlapAddPipeline else { return }
 
-        // Interleave L/R for the GPU kernel
-        var interleaved = [Float](repeating: 0, count: chunkLength * 2)
+        // Ensure reusable buffers are large enough
+        ensureReusableBuffers(capacity: chunkLength)
+
+        guard let chunkBuf = reusableChunkBuf,
+              let accumLBuf = reusableAccumLBuf,
+              let accumRBuf = reusableAccumRBuf,
+              let weightBuf = reusableWeightBuf,
+              let paramsBuf = reusableParamsBuf else { return }
+
+        // Interleave L/R into the reusable chunk buffer
+        let chunkPtr = chunkBuf.contents().bindMemory(to: Float.self, capacity: chunkLength * 2)
         for i in 0..<chunkLength {
-            interleaved[i * 2]     = chunkL[i]
-            interleaved[i * 2 + 1] = chunkR[i]
+            chunkPtr[i * 2]     = chunkL[i]
+            chunkPtr[i * 2 + 1] = chunkR[i]
         }
 
-        // Create GPU buffers
-        let chunkBuf = device.makeBuffer(
-            bytes: interleaved, length: interleaved.count * MemoryLayout<Float>.stride,
-            options: .storageModeShared
-        )!
-
-        // For accumulator buffers, we need to copy the relevant slice, process, and copy back.
-        // Using shared mode so CPU and GPU can both access.
+        // Copy accumulator slices into reusable buffers
         let sliceLen = chunkLength
-        let accumLSlice = Array(accumL[chunkOffset..<(chunkOffset + sliceLen)])
-        let accumRSlice = Array(accumR[chunkOffset..<(chunkOffset + sliceLen)])
-        let weightSlice = Array(weightSum[chunkOffset..<(chunkOffset + sliceLen)])
+        let accumLPtr = accumLBuf.contents().bindMemory(to: Float.self, capacity: sliceLen)
+        let accumRPtr = accumRBuf.contents().bindMemory(to: Float.self, capacity: sliceLen)
+        let weightPtr = weightBuf.contents().bindMemory(to: Float.self, capacity: sliceLen)
 
-        let accumLBuf = device.makeBuffer(
-            bytes: accumLSlice, length: sliceLen * MemoryLayout<Float>.stride,
-            options: .storageModeShared
-        )!
-        let accumRBuf = device.makeBuffer(
-            bytes: accumRSlice, length: sliceLen * MemoryLayout<Float>.stride,
-            options: .storageModeShared
-        )!
-        let weightBuf = device.makeBuffer(
-            bytes: weightSlice, length: sliceLen * MemoryLayout<Float>.stride,
-            options: .storageModeShared
-        )!
+        for i in 0..<sliceLen {
+            accumLPtr[i] = accumL[chunkOffset + i]
+            accumRPtr[i] = accumR[chunkOffset + i]
+            weightPtr[i] = weightSum[chunkOffset + i]
+        }
 
         // Parameters struct — must match AudioSeparation.metal OverlapAddParams layout
-        var params = (
-            UInt32(0),                          // chunk_offset = 0 (working on slice)
-            UInt32(chunkLength),                 // chunk_length
-            UInt32(chunkSize),                   // chunk_size
-            UInt32(fadeSize),                    // fade_size
-            UInt32(isFirst ? 1 : 0),             // is_first_chunk
-            UInt32(isLast ? 1 : 0)               // is_last_chunk
-        )
-
-        let paramsBuf = device.makeBuffer(
-            bytes: &params, length: MemoryLayout.size(ofValue: params),
-            options: .storageModeShared
-        )!
+        let paramsPtr = paramsBuf.contents().bindMemory(to: UInt32.self, capacity: 6)
+        paramsPtr[0] = UInt32(0)                          // chunk_offset = 0 (working on slice)
+        paramsPtr[1] = UInt32(chunkLength)                 // chunk_length
+        paramsPtr[2] = UInt32(chunkSize)                   // chunk_size
+        paramsPtr[3] = UInt32(fadeSize)                    // fade_size
+        paramsPtr[4] = UInt32(isFirst ? 1 : 0)             // is_first_chunk
+        paramsPtr[5] = UInt32(isLast ? 1 : 0)              // is_last_chunk
 
         // Encode and dispatch
         guard let cmdBuf = queue.makeCommandBuffer(),
@@ -200,10 +224,6 @@ final class MetalAudioProcessor: @unchecked Sendable {
         cmdBuf.waitUntilCompleted()
 
         // Copy results back from GPU buffers
-        let accumLPtr = accumLBuf.contents().bindMemory(to: Float.self, capacity: sliceLen)
-        let accumRPtr = accumRBuf.contents().bindMemory(to: Float.self, capacity: sliceLen)
-        let weightPtr = weightBuf.contents().bindMemory(to: Float.self, capacity: sliceLen)
-
         for i in 0..<sliceLen {
             accumL[chunkOffset + i] = accumLPtr[i]
             accumR[chunkOffset + i] = accumRPtr[i]
